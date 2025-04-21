@@ -1,0 +1,14 @@
+Building path patterns for parquet files...
+Indexed 1185 fields
+Path patterns built in 0.82 seconds
+Using 1 workers
+Found 1 CSV files to process
+[1/1] Starting field_806_vs.csv
+[1/1] field_806_vs.csv: Loaded 28150 stars, 13.82 MB
+Grouped stars into 64 CCD/quad combinations
+[1/1] field_806_vs.csv: Finished processing 28150 stars in 104.83s, found 53721 matches, 0.35% of light curves have proper motion
+Saving the dataset (0/2 shards):   0%|          | 0/53721 [00:00<?, ? examples/s]Saving the dataset (0/2 shards):  35%|███▌      | 19000/53721 [00:00<00:00, 152974.82 examples/s]Saving the dataset (1/2 shards):  50%|█████     | 26861/53721 [00:00<00:00, 152974.82 examples/s]Saving the dataset (1/2 shards):  85%|████████▌ | 45861/53721 [00:00<00:00, 172020.50 examples/s]Saving the dataset (2/2 shards): 100%|██████████| 53721/53721 [00:00<00:00, 172020.50 examples/s]Saving the dataset (2/2 shards): 100%|██████████| 53721/53721 [00:00<00:00, 172037.67 examples/s]
+[1/1] saved shard: /projects/p32795/weijian/queried_scope_from_ztf/matched_data_full2/shard_806
+Total processing time: 113.48 seconds
+Total light curves found: 70341
+No matches found.

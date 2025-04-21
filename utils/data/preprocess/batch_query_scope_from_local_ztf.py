@@ -12,6 +12,17 @@ from datasets import Dataset, concatenate_datasets
 from functools import partial
 import multiprocessing
 import traceback
+from datasets import Dataset, Features, Value, Sequence
+import gc
+from multiprocessing import Pool
+
+"""
+This script is to batch query the variable light curves identified through automatic labeling by the scope project from the local full ZTF dataset. It takes about 5 minutes to process 10 fiedls of scope data (200 fields in total) to generate 1.4m light curves of all bands.
+
+The queried light curves are saved as a huggingface dataset. They are the raw data for the later fine-tuning phase of the universal forecaster.
+"""
+
+
 class ZTFCatalogSearcher:
     def __init__(self, parquet_base_dir, verbose=True):
         """
@@ -21,6 +32,43 @@ class ZTFCatalogSearcher:
         self.verbose = verbose
         self.field_pattern_map = {}
         self._build_path_patterns()
+        # 1) First define the schema for each per‐band “match_dict”
+        match_schema = Features({
+            # derived fields
+            "avg_mag":        Value("float64"),
+            "avg_magerr":     Value("float64"),
+            "band":           Value("string"),
+            # the original LST columns from parquet:
+            "catflags":       Sequence(feature=Value("int32")),
+            "clrcoeff":       Sequence(feature=Value("float64")),
+            "fieldid":        Value("int16"),
+            "filterid":       Value("int8"),
+            "hmjd":           Sequence(feature=Value("float64")),
+            "mag":            Sequence(feature=Value("float64")),
+            "magerr":         Sequence(feature=Value("float64")),
+            "nepochs":        Value("int64"),
+            "objectid":       Value("int64"),
+            "objra":          Value("float32"),
+            "objdec":         Value("float32"),
+            "rcid":           Value("int8"),
+            # the extra columns from scope:
+            "separation_arcsec": Value("float64"),
+            "scope_id":          Value("int64"),
+            "scope_period":         Value("float64")
+        })
+
+        # 2) Now build the top‐level schema, including a nested dict for your g/r/i bands
+        self.schema = Features({
+            "objectid":    Value("int64"),
+            "bands_data":  {
+                "g": match_schema,
+                "r": match_schema,
+                "i": match_schema,
+            },
+            "avg_magerr":  Value("float64"),
+            "avg_mag":     Value("float64"),
+        })
+        
     
     def _build_path_patterns(self):
         """Build path patterns for efficiently finding parquet files"""
@@ -93,7 +141,7 @@ class ZTFCatalogSearcher:
         """
         Process a single CSV file containing star coordinates
         """
-        csv_path, radius_arcsec, csv_index, total_csvs = args
+        csv_path, radius_arcsec, csv_index, total_csvs, output_dir = args
         
         # Print start message
         print(f"[{csv_index + 1}/{total_csvs}] Starting {os.path.basename(csv_path)}")
@@ -108,7 +156,9 @@ class ZTFCatalogSearcher:
         # Read star coordinates from CSV
         try:
             stars_df = pd.read_csv(csv_path)
-            print(f"[{csv_index + 1}/{total_csvs}] {os.path.basename(csv_path)}: Loaded {len(stars_df)} stars")
+            size_bytes = os.path.getsize(csv_path)
+            size_mb = size_bytes / (1024 * 1024)
+            print(f"[{csv_index + 1}/{total_csvs}] {os.path.basename(csv_path)}: Loaded {len(stars_df)} stars, {size_mb:.2f} MB")
         except Exception as e:
             print(f"[{csv_index + 1}/{total_csvs}] Error reading {csv_path}: {e}")
             return None
@@ -128,10 +178,11 @@ class ZTFCatalogSearcher:
         print(f"Grouped stars into {len(groups)} CCD/quad combinations")
 
         proper_motion_cnt = 0
+        lc_cnt = 0
         
         # Process each group
         for (ccd_id, quad_id), group_df in groups:
-            print(f"Processing group with CCD={ccd_id}, quad={quad_id}, containing {len(group_df)} stars")
+            # print(f"Processing group with CCD={ccd_id}, quad={quad_id}, containing {len(group_df)} stars")
             
             # Get parquet files for this group (only once)
             parquet_files = self._get_parquet_path(csv_field_id, ccd_id, quad_id)
@@ -143,6 +194,7 @@ class ZTFCatalogSearcher:
                                 dec=group_df['dec'].values*u.degree)
             
             # Process each parquet file
+            obj_curves = {} # key is the object id, value is a dict with band as key and data as dict as value
             for parquet_file in parquet_files:
                 try:
                     # print(f"Reading parquet file: {os.path.basename(parquet_file)}")
@@ -151,6 +203,11 @@ class ZTFCatalogSearcher:
                     
                     # Read parquet file (once for all stars in this group)
                     df = pd.read_parquet(parquet_file)
+                    
+
+                    if df.empty:
+                        print(f"[WARN] parquet {parquet_file} is empty—skipping")
+                        continue
                     
                     # Create catalog coordinates once
                     catalog_coords = SkyCoord(ra=df['objra'].values*u.degree, 
@@ -163,6 +220,8 @@ class ZTFCatalogSearcher:
                     within_radius = sep2d < (radius_arcsec * u.arcsec)
 
                     proper_motion_cnt += (len(group_df) - sum(within_radius))
+
+                    lc_cnt += sum(within_radius)
                     
                     # Process matches
                     for i, (is_match, star_idx, separation) in enumerate(zip(within_radius, idx, sep2d)):
@@ -172,30 +231,78 @@ class ZTFCatalogSearcher:
                             
                             # Get the matching catalog entry
                             match_dict = df.iloc[star_idx].to_dict()
+
+                            # good_idx = np.where(np.array(match_dict['catflags'])==0)[0]
+                            # match_dict['hmjd'] = match_dict['hmjd'][good_idx]
+                            # match_dict['mag'] = match_dict['mag'][good_idx]
+                            # match_dict['magerr'] = match_dict['magerr'][good_idx]
+                            # match_dict['clrcoeff'] = match_dict['clrcoeff'][good_idx]
+                            # # remove catflags
+                            # del match_dict['catflags']
+
+                            if len(match_dict['mag']) == 0:
+                                print(f"[WARN] {i}/{len(group_df)} no good mags for objectid={match_dict['objectid']}, skipping")
+                                continue
+
+                            objectid = match_dict['objectid']
                             
                             # Add separation and source info
                             match_dict['separation_arcsec'] = separation.to(u.arcsec).value
                             # match_dict['catalog_file'] = os.path.basename(parquet_file)
                             match_dict['band'] = band
+
+                            match_dict['avg_magerr'] = np.mean(match_dict['magerr'])
+                            match_dict['avg_mag'] = np.mean(match_dict['mag'])
                             
-                            # Add original CSV data
-                            for col in star_row.index:
-                                match_dict[f'scope_{col}'] = star_row[col]
-                            
-                            all_matches.append(match_dict)
-                    
+                            # # Add original CSV data
+                            # for col in star_row.index:
+                            #     match_dict[f'scope_{col}'] = star_row[col]
+
+                            match_dict['scope_id'] = star_row['_id']
+                            match_dict['scope_period'] = star_row['period']
+
+                            if objectid in obj_curves:
+                                obj_curves[objectid][band] = match_dict
+                            else:
+                                obj_curves[objectid] = {band: match_dict}
+
+
                 except Exception as e:
                     print(f"Error processing parquet file {parquet_file}: {e}")
                     traceback.print_exc()
-        # Convert to DataFrame
-        results_df = pd.DataFrame(all_matches)
+                del df, catalog_coords, idx, sep2d  # drop references
+                gc.collect()                        # force a GC pass
+
+            for objectid, bands_data in obj_curves.items():
+                avg_magerr = np.mean([bands_data[band]['avg_magerr'] for band in bands_data])
+                avg_mag = np.mean([bands_data[band]['avg_mag'] for band in bands_data]) 
+                bands_data_sorted = {}
+                for k in ['g', 'r', 'i']:
+                    if k in bands_data:
+                        bands_data_sorted[k] = bands_data[k]
+                    else:
+                        bands_data_sorted[k] = None
+
+                all_matches.append({'objectid': objectid, 'bands_data': bands_data_sorted, 'avg_magerr': avg_magerr, 'avg_mag': avg_mag})
+
+        all_matches = pd.DataFrame(all_matches)
         
         elapsed_time = time.time() - start_time
         # the number of matches might be less than the number of stars in the query because some stars have "proper motion" between two catalogue snapshots
         motion_percentage = proper_motion_cnt / len(stars_df)
-        print(f"[{csv_index + 1}/{total_csvs}] {os.path.basename(csv_path)}: Finished processing {len(stars_df)} stars in {elapsed_time:.2f}s, found {len(results_df)} matches, {motion_percentage:.2f}% of light curves have proper motion")
+        print(f"[{csv_index + 1}/{total_csvs}] {os.path.basename(csv_path)}: Finished processing {len(stars_df)} stars in {elapsed_time:.2f}s, found {len(all_matches)} matches, {motion_percentage:.2f}% of light curves have proper motion")
         
-        return results_df
+        if len(all_matches) > 0:
+            shard_path = os.path.join(output_dir, f"shard_{csv_field_id}")
+            ds = Dataset.from_pandas(all_matches, features=self.schema)
+            ds.save_to_disk(shard_path)
+            # cleanup
+            del ds, all_matches
+            gc.collect()
+            return shard_path, lc_cnt
+        else:
+            print(f"[{csv_index + 1}/{total_csvs}] {os.path.basename(csv_path)}: No matches found")
+            return None, lc_cnt
     
     def batch_search_from_csvs(self, csv_pattern, radius_arcsec=2.0, output_dir=None, 
                               num_workers=4):
@@ -206,7 +313,7 @@ class ZTFCatalogSearcher:
         if output_dir:
             os.makedirs(output_dir, exist_ok=True)
             # Path for the final dataset
-            dataset_path = os.path.join(output_dir, "ztf_matches_dataset")
+            dataset_path = os.path.join(output_dir, "ztf_matches_dataset_full3")
         
         # Find all CSV files
         csv_files = glob.glob(csv_pattern)
@@ -218,66 +325,66 @@ class ZTFCatalogSearcher:
         
         # Prepare arguments for CSV processing
         total_csvs = len(csv_files)
-        process_args = [(csv_file, radius_arcsec, i, total_csvs) 
+        process_args = [(csv_file, radius_arcsec, i, total_csvs, output_dir) 
                         for i, csv_file in enumerate(csv_files)]
         
         # Track datasets for each chunk
-        chunk_datasets = []
         overall_start_time = time.time()
+        total_csvs = len(process_args)
+        completed = 0
+        tot_lc_cnt = 0
+        chunk_datasets = []
+        shard_paths = []
+
+
         
         # Process CSV files in parallel
-        with ProcessPoolExecutor(max_workers=num_workers) as executor:
-            futures = {executor.submit(self.process_csv_file, arg): arg[0] for arg in process_args}
-            
-            # Process results as they complete
-            completed = 0
-            for future in concurrent.futures.as_completed(futures):
-                csv_file = futures[future]
-                try:
-                    result_df = future.result()
-                    completed += 1
-                    
-                    if result_df is not None and len(result_df) > 0:
-                        # Convert to a dataset chunk
-                        chunk_dataset = Dataset.from_pandas(result_df)
-                        chunk_datasets.append(chunk_dataset)
-                    
-                        # Print overall progress
-                        print(f"Completed {completed}/{total_csvs} CSV files ({completed/total_csvs*100:.1f}%)")
-                    
-                except Exception as e:
-                    completed += 1
-                    print(f"Error processing {csv_file}: {e}")
+        # Use Pool with maxtasksperchild=1
+        with Pool(processes=num_workers, maxtasksperchild=1) as pool:
+            # imap_unordered yields results as soon as they arrive, in any order
+            for shard_path, lc_cnt in pool.imap_unordered(self.process_csv_file, process_args):
+                completed += 1
+                tot_lc_cnt += lc_cnt
+
+                if shard_path:
+                    shard_paths.append(shard_path)
+                    print(f"[{completed}/{total_csvs}] saved shard: {shard_path}")
+                else:
+                    print(f"[{completed}/{total_csvs}] no matches")
+
+        overall_elapsed_time = time.time() - overall_start_time
+        print(f"Total processing time: {overall_elapsed_time:.2f} seconds")
+        print(f"Total light curves found: {tot_lc_cnt}")
         
-        # Combine all chunks into a single dataset
-        if chunk_datasets:
-            print(f"Combining {len(chunk_datasets)} dataset chunks...")
-            final_dataset = concatenate_datasets(chunk_datasets)
+        # # Combine all chunks into a single dataset
+        # if chunk_datasets:
+        #     print(f"Combining {len(chunk_datasets)} dataset chunks...")
+        #     final_dataset = concatenate_datasets(chunk_datasets)
             
-            # Save the final dataset with multiple shards
-            if output_dir:
-                print(f"Saving dataset with {len(final_dataset)} examples to {dataset_path}...")
-                # Save with multiple shards
-                final_dataset.save_to_disk(
-                    dataset_path,
-                    num_proc=min(num_workers, 4),  # Use multiple processes for saving
-                    max_shard_size="100MB"  # Adjust shard size as needed
-                )
+        #     # Save the final dataset with multiple shards
+        #     if output_dir:
+        #         print(f"Saving dataset with {len(final_dataset)} examples to {dataset_path}...")
+        #         # Save with multiple shards
+        #         final_dataset.save_to_disk(
+        #             dataset_path,
+        #             num_proc=min(num_workers, 4),  # Use multiple processes for saving
+        #             max_shard_size="100MB"  # Adjust shard size as needed
+        #         )
             
-            overall_elapsed_time = time.time() - overall_start_time
-            print(f"Total processing time: {overall_elapsed_time:.2f} seconds")
             
-            return final_dataset
-        else:
-            print("No matches found for any stars")
-            return None
+            
+        #     return final_dataset
+        # else:
+        #     print("No matches found for any stars")
+        #     return None
 
 # Example usage
 if __name__ == "__main__":
     # Set parameters
     parquet_dir = "/projects/b1094/stroh/software/catalogs/ztf/lc_dr23/"
-    csv_pattern = "/projects/p32795/weijian/tmps/03_02_xgb_095_vnv/field_*_vs.csv"
-    output_dir = "/projects/p32795/weijian/queried_scope_from_ztf/"
+    # csv_pattern = "/projects/b1094/rehemtulla/SkAI/SCoPe/*/*/field_*_vs.csv"
+    csv_pattern = "/projects/b1094/rehemtulla/SkAI/SCoPe/*/*/field_806_vs.csv"
+    output_dir = "/projects/p32795/weijian/queried_scope_from_ztf/matched_data_full2"
     
     # Initialize the searcher
     searcher = ZTFCatalogSearcher(parquet_dir, verbose=True)
@@ -285,21 +392,14 @@ if __name__ == "__main__":
     # Determine optimal parallelism strategy
     total_cpus = multiprocessing.cpu_count()
     num_workers = max(2, total_cpus - 2)
-    # num_workers = 1
+    num_workers = 1
     
     print(f"Using {num_workers} workers")
     
     # Run the batch search
-    results = searcher.batch_search_from_csvs(
+    searcher.batch_search_from_csvs(
         csv_pattern=csv_pattern,
         radius_arcsec=2.0,
         output_dir=output_dir,
         num_workers=num_workers,
     )
-    
-    # Print summary of results
-    if results is not None:
-        print(f"\nProcessing complete. Found matches for {len(results)} stars")
-        print(f"Dataset features: {results.column_names}")
-    else:
-        print("No matches found.")
