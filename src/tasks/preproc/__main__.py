@@ -1,11 +1,11 @@
 # 2 x 2
 # class 1
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/1/120620174173493992_g.png
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/1/129030693624086743_g.png
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/1/120620174173493992_g.png
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/1/129030693624086743_g.png
 # class 5
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/5/97211305511826371_g.png # 174
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/5/130603207444200557_g.png # 397
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/5/135293431680766623_g.png
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/5/97211305511826371_g.png # 174
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/5/130603207444200557_g.png # 397
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/5/135293431680766623_g.png
 
 import os
 import random
@@ -27,7 +27,7 @@ def seed_everything(seed=42):
     np.random.seed(seed)
     torch.manual_seed(seed)
 
-def get_star_ids(data_path='/home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/combined_lightcurves.csv', 
+def get_star_ids(data_path='/home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/combined_lightcurves.csv', 
                 class_ids=None, stars_per_class=None, band='g'):
     """
     Get star IDs from the combined lightcurves CSV file.
@@ -91,7 +91,7 @@ def get_star_ids(data_path='/home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/combined_
     print(f"Total stars selected: {len(selected_star_ids)}")
     return selected_star_ids
 
-def create_indexed_star_df(star_ids, band, data_path='/home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/combined_lightcurves.csv'):
+def create_indexed_star_df(star_ids, band, data_path='/home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/combined_lightcurves.csv'):
     """
     Create a DataFrame with two-level index (ps1_objid and datetime) for given star IDs.
     

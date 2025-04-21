@@ -121,7 +121,7 @@ def get_ztf_lightcurve(raw_catalog, star, search_radius=2):
     
     return ndf_obj
 
-def plot_lightcurve_by_band(ndf_obj, star, output_dir='data/lsdb'):
+def plot_lightcurve_by_band(ndf_obj, star, output_dir='outputs/lsdb'):
     """
     Plot the light curve by band and save to the appropriate class folder.
     
@@ -283,7 +283,7 @@ def save_merged_csv(df, output_file):
         return {'new_file': len(df)}
 
 def main(varstars_file="./src/tasks/download/catalog/CSDR1_varstars.txt",
-         output_dir="./data/download/lsdb",
+         output_dir="./outputs/download/lsdb",
          output_file_name="combined_lightcurves.csv",
          ztf_source="https://data.lsdb.io/hats/ztf_dr14/ztf_source",
          n=20,
@@ -353,7 +353,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Download and process variable star data")
     parser.add_argument("--varstars-file", default="./src/tasks/download/catalog/CSDR1_varstars.txt", 
                         help="Path to the variable stars catalog file")
-    parser.add_argument("--output-dir", default="./data/download/lsdb", 
+    parser.add_argument("--output-dir", default="./outputs/download/lsdb", 
                         help="Directory to save output files")
     parser.add_argument("--output-file-name", default="lightcurves.csv",
                         help="Name of the output CSV file")

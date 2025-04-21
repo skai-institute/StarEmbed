@@ -1,11 +1,11 @@
 # 2 x 2
 # class 1
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/1/120620174173493992_g.png
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/1/129030693624086743_g.png
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/1/120620174173493992_g.png
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/1/129030693624086743_g.png
 # class 5
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/5/97211305511826371_g.png # 174
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/5/130603207444200557_g.png # 397
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/5/135293431680766623_g.png
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/5/97211305511826371_g.png # 174
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/5/130603207444200557_g.png # 397
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/5/135293431680766623_g.png
 
 import os
 import random
@@ -28,7 +28,7 @@ def seed_everything(seed=42):
     torch.manual_seed(seed)
 
 
-def predict_lightcurve(processed_df, model_name="amazon/chronos-t5-small", context_percent=0.8, split_point=None, fig_dir='./data/debug/eval'):
+def predict_lightcurve(processed_df, model_name="amazon/chronos-t5-small", context_percent=0.8, split_point=None, fig_dir='./outputs/debug/eval'):
     """
     Predict magnitude values for each star in the processed DataFrame
     

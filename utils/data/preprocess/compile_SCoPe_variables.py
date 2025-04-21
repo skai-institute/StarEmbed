@@ -4,10 +4,23 @@ import numpy as np
 import tqdm
 import glob
 import os
+from typing import List
 
 # Note that filepaths won't work here as is - they're written to run within Nabeel's personal directory
 
-def write_vs_csv(field_file):    
+"""
+What does this file do
+
+"""
+
+def write_vs_csv(field_file: List[str]):
+
+    """
+    
+    
+    """
+
+
     file_chunk = field_file[0:5]
     field_num = field_file[-7:-4]
 

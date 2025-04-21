@@ -1,11 +1,11 @@
 # 2 x 2
 # class 1
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/1/120620174173493992_g.png
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/1/129030693624086743_g.png
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/1/120620174173493992_g.png
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/1/129030693624086743_g.png
 # class 5
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/5/97211305511826371_g.png # 174
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/5/130603207444200557_g.png # 397
-# /home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/5/135293431680766623_g.png
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/5/97211305511826371_g.png # 174
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/5/130603207444200557_g.png # 397
+# /home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/5/135293431680766623_g.png
 
 import os
 import random
@@ -28,7 +28,7 @@ def seed_everything(seed=42):
     torch.manual_seed(seed)
 
 
-def get_star_ids(data_path='/home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/combined_lightcurves.csv', 
+def get_star_ids(data_path='/home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/combined_lightcurves.csv', 
                 class_ids=None, stars_per_class=None, band='g'):
     """
     Get star IDs from the combined lightcurves CSV file.
@@ -93,7 +93,7 @@ def get_star_ids(data_path='/home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/combined_
     return selected_star_ids
 
 
-def create_indexed_star_df(star_ids, band, data_path='/home/magics/hdd/sky_ws/ebsim_ws/data/lsdb/combined_lightcurves.csv'):
+def create_indexed_star_df(star_ids, band, data_path='/home/magics/hdd/sky_ws/ebsim_ws/outputs/lsdb/combined_lightcurves.csv'):
     """
     Create a DataFrame with two-level index (ps1_objid and datetime) for given star IDs.
     
@@ -291,7 +291,7 @@ def cluster_embeddings(embeddings, n_clusters=2, random_state=42):
     return labels, kmeans
 
 
-def predict_lightcurve(processed_df, model_name="amazon/chronos-t5-small", context_percent=0.8, split_point=None, fig_dir='./data/debug/eval'):
+def predict_lightcurve(processed_df, model_name="amazon/chronos-t5-small", context_percent=0.8, split_point=None, fig_dir='./outputs/debug/eval'):
     """
     Predict magnitude values for each star in the processed DataFrame
     
@@ -458,7 +458,7 @@ if __name__ == "__main__":
                         help="Path to Chronos model to use")
     parser.add_argument("--data-path", type=str, required=True,
                         help="Path to processed light curve CSV file")
-    parser.add_argument("--output-dir", type=str, default="./data/eval/kmeans",
+    parser.add_argument("--output-dir", type=str, default="./outputs/eval/kmeans",
                         help="Directory to save prediction results and plots")
     
     args = parser.parse_args()
