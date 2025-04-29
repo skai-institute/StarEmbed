@@ -1,4 +1,5 @@
 # You'll need to install `lsdb` package - this is a service which hosts the ZTF data we're grabbing
+import math
 from dask.distributed import Client
 import matplotlib.pyplot as plt
 from lsdb import read_hats
@@ -52,6 +53,9 @@ def select_random_stars(varstars, n=5, class_ids=None, seed=None):
         np.random.seed(seed)
     
     selected_stars_list = []
+
+    if class_ids is None:
+        class_ids = varstars['class'].unique()
     
     if class_ids is not None:
         # Process each class_id in the list
@@ -288,7 +292,8 @@ def main(varstars_file="./src/tasks/download/catalog/CSDR1_varstars.txt",
          ztf_source="https://data.lsdb.io/hats/ztf_dr14/ztf_source",
          n=20,
          class_ids=None,
-         seed=42):
+         seed=42,
+         plot=False):
     """Main function to run the variable star analysis.
     
     Args:
@@ -320,7 +325,7 @@ def main(varstars_file="./src/tasks/download/catalog/CSDR1_varstars.txt",
 
     # Process each star and collect data
     print("Processing selected stars...")
-    combined_lightcurve_data = process_stars(random_stars, raw_catalog, plot_dir=plot_dir)
+    combined_lightcurve_data = process_stars(random_stars, raw_catalog, plot_dir=plot_dir if plot else None)
     
     # Save combined data to CSV
     if not combined_lightcurve_data.empty:
@@ -365,6 +370,8 @@ if __name__ == "__main__":
                         help="List of class IDs to filter by (e.g., --class-ids 1 2 5)")
     parser.add_argument("--seed", type=int, default=123,
                         help="Random seed for star selection")
+    parser.add_argument("--plot", action="store_true", default=False,
+                        help="Plot light curves")
     
     args = parser.parse_args()
     
@@ -375,5 +382,6 @@ if __name__ == "__main__":
         ztf_source=args.ztf_source,
         n=args.n,
         class_ids=args.class_ids,
-        seed=args.seed
+        seed=args.seed,
+        plot=args.plot
     )

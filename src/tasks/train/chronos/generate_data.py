@@ -113,6 +113,8 @@ if __name__ == "__main__":
                         help="Path(s) to input CSV file(s) with processed light curve data")
     parser.add_argument("--output-file", required=True,
                         help="Path to output arrow file")
+    parser.add_argument("--fold", action="store_true",
+                        help="Fold the light curves")
     args = parser.parse_args()
   
     # Container for all light curves
@@ -120,7 +122,10 @@ if __name__ == "__main__":
     for input_file in args.input_files:
         print(f"Processing file: {input_file}")
         processed_df = pd.read_csv(input_file)
-        processed_df.set_index(['ps1_objid', 'phase']).sort_index()
+        if args.fold:
+            processed_df = processed_df.set_index(['ps1_objid', 'phase']).sort_index()
+        else:
+            processed_df = processed_df.set_index(['ps1_objid', 'mjd']).sort_index()
         mag_arrays = processed_df.groupby('ps1_objid')['mag'].apply(np.array).to_dict()
         lc_list = list(mag_arrays.values())
         print(f"  Found {len(lc_list)} light curves")
