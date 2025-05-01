@@ -4,7 +4,7 @@ import tqdm
 import glob
 import os
 
-path_to_SCoPe = "../SCoPe/"
+path_to_SCoPe = "../../../../SCoPe/"
 # Note that filepaths won't work here as is - they're written to run within Nabeel's personal directory
 
 
@@ -33,16 +33,13 @@ def write_cut_catalog(field_file, cuts):
         print(f"  Remaining stars with {col} {model} > {threshold}: {len(cut_field)} ({len(cut_field)/len(field)*100:.2f}%) of original")
 
     full_cut_str = get_cut_str(cuts)
-    field_vs_dir = os.path.join(
-        path_to_SCoPe,
-        field_file.split('/')[2],
+    fields_dir = os.path.join(
+        os.path.dirname(field_file),
         f"{file_chunk}_{full_cut_str}",
     )
-    # print(field_vs_dir)
-    os.makedirs(field_vs_dir, exist_ok=True)
-
-    cut_field.to_csv(os.path.join(path_to_SCoPe, field_vs_dir, f"field_{field_num}_cut.csv"))
-
+    os.makedirs(fields_dir, exist_ok=True)
+    
+    cut_field.to_csv(os.path.join(fields_dir, f"field_{field_num}_cut.csv"))
     print()
 
 
