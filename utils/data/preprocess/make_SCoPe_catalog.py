@@ -6,7 +6,7 @@ import glob
 import os
 
 # TODO: make this general or enforce the SCoPe directory exists at a particular place
-path_to_SCoPe = "../SCoPe/"
+path_to_SCoPe = "../../../../SCoPe/"
 
 
 def get_cut_str(cuts):
@@ -58,15 +58,14 @@ def write_cut_catalog(field_file, cuts):
 
     # Prepare the file path to write the cut field file to and create the directory if necessary
     full_cut_str = get_cut_str(cuts)
-    field_vs_dir = os.path.join(
-        path_to_SCoPe,
-        field_file.split('/')[2],
+    fields_dir = os.path.join(
+        os.path.dirname(field_file),
         f"{file_chunk}_{full_cut_str}",
     )
-    os.makedirs(field_vs_dir, exist_ok=True)
+    os.makedirs(fields_dir, exist_ok=True)
 
     # Write the cut field file to disk as a CSV
-    cut_field.to_csv(os.path.join(path_to_SCoPe, field_vs_dir, f"field_{field_num}_cut.csv"))
+    cut_field.to_csv(os.path.join(fields_dir, f"field_{field_num}_cut.csv"))
     print()
 
 
