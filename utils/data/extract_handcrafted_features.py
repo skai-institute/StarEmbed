@@ -1,7 +1,9 @@
 from datasets import load_from_disk
+from tqdm import tqdm
 import pandas as pd
 import numpy as np
 import light_curve
+import time
 import os
 
 # The master branch of the FATS package is still on Python 2, so I've
@@ -11,6 +13,10 @@ import os
 import sys
 sys.path.append("/projects/b1094/rehemtulla/SkAI/FATS")
 import FATS
+
+# Suppress mathematical warnings from FATS
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 
 FATS_feature_names = [
@@ -61,53 +67,85 @@ LC_extractor = light_curve.Extractor(
 
 
 def calc_FATS_features(lc):
+    """Calculate features using the FATS library for a single light curve."""
+    # Return array of -1 values if light curve data has no observations
     if lc is None:
         return np.full(len(FATS_feature_names), -1)
 
+    # Prepare 2D array with required data for FATS
+    # - magnitude (target)
+    # - time (mjd)
+    # - magnitude uncertainty (past_feat_dynamic_real)
     lc_2darr = np.array([
         lc['target'], lc['mjd'], lc['past_feat_dynamic_real']
     ])
 
+    # Initialize FATS feature extractor with specified feature list
     FATS_feature_extractor = FATS.FeatureSpace(
         Data=['magnitude', 'time', 'error'],
         featureList=FATS_feature_names
     )
+    # Calculate features and return the results
     FATS_feature_extractor = FATS_feature_extractor.calculateFeature(lc_2darr)
     return FATS_feature_extractor.result()
 
 
 def calc_LC_features(lc):
+    """Calculate features using the light_curve library for a single light curve."""
+    # Return array of -1 values if no light curve data or insufficient points
     if lc is None or len(lc['target']) <= 4:
         return np.full(len(LC_extractor.names), -1)
 
+    # Extract and convert light curve data to numpy arrays
     mag = np.array(lc['target'])
     magerr = np.array(lc['past_feat_dynamic_real'])
     mjd = np.array(lc['mjd'])
 
+    # Calculate light curve features, assuming data is already sorted by time
     LC_features = LC_extractor(mjd, mag, magerr, sorted=True, check=False)
     return LC_features
 
 
 def compile_handcrafted_features(data):
+    """Compile all handcrafted features for a dataset of astronomical objects."""
+    # Prepare column names for g and r band FATS features
     FATS_columns = ['g_'+feat_name for feat_name in FATS_feature_names] +\
         ['r_'+feat_name for feat_name in FATS_feature_names]
     FATS_features = pd.DataFrame(columns=FATS_columns)
 
+    # Prepare column names for g and r band light_curve features
     LC_columns = ['g_'+feat_name for feat_name in LC_extractor.names] +\
         ['r_'+feat_name for feat_name in LC_extractor.names]
     LC_features = pd.DataFrame(columns=LC_columns)
 
-    for star_idx in range(len(data)):
+    # Track time spent on feature calculation for performance monitoring
+    total_fats_time = 0
+    total_lc_time = 0
+
+    # Process each astronomical object in the dataset
+    for star_idx in tqdm(range(len(data)), desc="Computing handcrafted features"):
         star = data[star_idx]
 
+        # Calculate FATS features for both g and r bands and track time
+        start_time = time.time()
         g_FATS_feats = calc_FATS_features(star['bands_data']['g'])
         r_FATS_feats = calc_FATS_features(star['bands_data']['r'])
+        total_fats_time += time.time() - start_time
         FATS_features.loc[star_idx, :] = np.concatenate((g_FATS_feats, r_FATS_feats))
 
+        # Calculate light_curve features for both g and r bands and track time
+        start_time = time.time()
         g_LC_feats = calc_LC_features(star['bands_data']['g'])
         r_LC_feats = calc_LC_features(star['bands_data']['r'])
+        total_lc_time += time.time() - start_time
         LC_features.loc[star_idx, :] = np.concatenate((g_LC_feats, r_LC_feats))
 
+    # Report timing information for benchmarking
+    print("\n-- Time spent calculating features --")
+    print(f"FATS features: {total_fats_time/60:.2f} minutes")
+    print(f"LC features:   {total_lc_time/60:.2f} minutes")
+
+    # Combine all features into a single dataframe
     handcrafted_features = pd.concat((FATS_features, LC_features), axis=1)
     return handcrafted_features
 
@@ -117,10 +155,16 @@ if __name__ == "__main__":
     dataset = load_from_disk(dataset_path)
 
     # hc_feats_train = compile_handcrafted_features(dataset['train'])
-    # hc_feats_train.to_csv(f"../../data/hc_feats_train_{os.path.basename(dataset_path)}.csv")
+    # hc_feats_train.to_csv(
+    #     f"../../data/hc_feats_train_{os.path.basename(dataset_path)}.csv", index=None
+    # )
 
     hc_feats_train = compile_handcrafted_features(dataset['validation'])
-    hc_feats_train.to_csv(f"../../data/hc_feats_val_{os.path.basename(dataset_path)}.csv", index=None)
+    hc_feats_train.to_csv(
+        f"../../data/hc_feats_val_{os.path.basename(dataset_path)}.csv", index=None
+    )
 
     # hc_feats_train = compile_handcrafted_features(dataset['test'])
-    # hc_feats_train.to_csv(f"../../data/hc_feats_test_{os.path.basename(dataset_path)}.csv", index=None)
+    # hc_feats_train.to_csv(
+    #     f"../../data/hc_feats_test_{os.path.basename(dataset_path)}.csv", index=None
+    # )
