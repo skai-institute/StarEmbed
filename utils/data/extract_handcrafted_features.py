@@ -3,6 +3,7 @@ from tqdm import tqdm
 import pandas as pd
 import numpy as np
 import light_curve
+import argparse
 import time
 import os
 
@@ -151,20 +152,23 @@ def compile_handcrafted_features(data):
 
 
 if __name__ == "__main__":
+    # Setup command line argument parsing
+    parser = argparse.ArgumentParser(description="Extract handcrafted features from CSDR1")
+    parser.add_argument(
+        '--split', type=str, choices=['train', 'validation', 'test'],
+        required=True, help='Dataset split to process (train, validation, or test)'
+    )
+    args = parser.parse_args()
+
+    # Load dataset
     dataset_path = "/projects/p32795/hongyu/hf_csdr1_multiband_raw_lc_subclass_class_str_v2"
     dataset = load_from_disk(dataset_path)
 
-    # hc_feats_train = compile_handcrafted_features(dataset['train'])
-    # hc_feats_train.to_csv(
-    #     f"../../data/hc_feats_train_{os.path.basename(dataset_path)}.csv", index=None
-    # )
+    # Process the specified split
+    print(f"Processing {args.split} split...")
+    hc_feats = compile_handcrafted_features(dataset[args.split])
 
-    hc_feats_train = compile_handcrafted_features(dataset['validation'])
-    hc_feats_train.to_csv(
-        f"../../data/hc_feats_val_{os.path.basename(dataset_path)}.csv", index=None
-    )
-
-    # hc_feats_train = compile_handcrafted_features(dataset['test'])
-    # hc_feats_train.to_csv(
-    #     f"../../data/hc_feats_test_{os.path.basename(dataset_path)}.csv", index=None
-    # )
+    # Save results
+    output_file = f"../../data/hc_feats_{args.split}_{os.path.basename(dataset_path)}.csv"
+    hc_feats.to_csv(output_file, index=None)
+    print(f"Features saved to {output_file}")
