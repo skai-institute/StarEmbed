@@ -37,6 +37,9 @@ FATS_feature_names = [
     'Freq3_harmonics_rel_phase_2', 'Freq3_harmonics_rel_phase_3',
     'CAR_sigma', 'CAR_tau', 'CAR_mean', 'Con', 'PairSlopeTrend',
 ]
+# Prepare column names for g and r band FATS features
+FATS_columns = ['g_'+feat_name for feat_name in FATS_feature_names] +\
+        ['r_'+feat_name for feat_name in FATS_feature_names]
 
 LC_extractor = light_curve.Extractor(
     light_curve.Amplitude(),
@@ -66,6 +69,9 @@ LC_extractor = light_curve.Extractor(
     light_curve.StetsonK(),
     light_curve.WeightedMean(),
 )
+# Prepare column names for g and r band light_curve features
+LC_columns = ['g_'+feat_name for feat_name in LC_extractor.names] +\
+        ['r_'+feat_name for feat_name in LC_extractor.names]
 
 
 def calc_FATS_features(lc):
@@ -108,66 +114,61 @@ def calc_LC_features(lc):
     return LC_features
 
 
+def process_batch(batch_data, batch_idx, batch_size):
+    """Process a batch of astronomical objects and return their features."""
+    batch_FATS_features = pd.DataFrame(columns=FATS_columns)
+    batch_LC_features = pd.DataFrame(columns=LC_columns)
+
+    batch_fats_time = 0
+    batch_lc_time = 0
+
+    for i, star in enumerate(batch_data['bands_data']):
+        # Calculate index in the original dataset
+        star_idx = batch_idx * batch_size + i
+
+        # Calculate FATS features for both bands
+        start_time = time.time()
+        try:
+            g_FATS_feats = calc_FATS_features(star['g'])
+        except ValueError:
+            g_FATS_feats = np.full(len(FATS_feature_names), -2)
+
+        try:
+            r_FATS_feats = calc_FATS_features(star['r'])
+        except ValueError:
+            r_FATS_feats = np.full(len(FATS_feature_names), -2)
+        batch_fats_time += time.time() - start_time
+        batch_FATS_features.loc[star_idx, :] = np.concatenate((g_FATS_feats, r_FATS_feats))
+
+        # Calculate light_curve features for both bands
+        start_time = time.time()
+        try:
+            g_LC_feats = calc_LC_features(star['g'])
+        except ValueError:
+            g_LC_feats = np.full(len(LC_extractor.names), -2)
+
+        try:
+            r_LC_feats = calc_LC_features(star['r'])
+        except ValueError:
+            r_LC_feats = np.full(len(LC_extractor.names), -2)
+        batch_lc_time += time.time() - start_time
+        batch_LC_features.loc[star_idx, :] = np.concatenate((g_LC_feats, r_LC_feats))
+
+    print("Finished", batch_idx)
+    return batch_FATS_features, batch_LC_features, batch_fats_time, batch_lc_time
+
+
 def compile_handcrafted_features(data):
     """Compile all handcrafted features for a dataset of astronomical objects."""
-    # Prepare column names for g and r band FATS features
-    FATS_columns = ['g_'+feat_name for feat_name in FATS_feature_names] +\
-        ['r_'+feat_name for feat_name in FATS_feature_names]
     FATS_features = pd.DataFrame(columns=FATS_columns)
-
-    # Prepare column names for g and r band light_curve features
-    LC_columns = ['g_'+feat_name for feat_name in LC_extractor.names] +\
-        ['r_'+feat_name for feat_name in LC_extractor.names]
     LC_features = pd.DataFrame(columns=LC_columns)
 
     # Track time spent on feature calculation for performance monitoring
     total_fats_time = 0
     total_lc_time = 0
 
-    def process_batch(batch_data, batch_idx, batch_size):
-        """Process a batch of astronomical objects and return their features."""
-        batch_FATS_features = pd.DataFrame(columns=FATS_columns)
-        batch_LC_features = pd.DataFrame(columns=LC_columns)
-
-        batch_fats_time = 0
-        batch_lc_time = 0
-
-        for i, star in enumerate(batch_data):
-            # Calculate index in the original dataset
-            star_idx = batch_idx * batch_size + i
-
-            # Calculate FATS features for both bands
-            start_time = time.time()
-            try:
-                g_FATS_feats = calc_FATS_features(star['bands_data']['g'])
-            except ValueError:
-                g_FATS_feats = np.full(len(FATS_feature_names), -2)
-
-            try:
-                r_FATS_feats = calc_FATS_features(star['bands_data']['r'])
-            except ValueError:
-                r_FATS_feats = np.full(len(FATS_feature_names), -2)
-            batch_fats_time += time.time() - start_time
-            batch_FATS_features.loc[star_idx, :] = np.concatenate((g_FATS_feats, r_FATS_feats))
-
-            # Calculate light_curve features for both bands
-            start_time = time.time()
-            try:
-                g_LC_feats = calc_LC_features(star['bands_data']['g'])
-            except ValueError:
-                g_LC_feats = np.full(len(LC_extractor.names), -2)
-
-            try:
-                r_LC_feats = calc_LC_features(star['bands_data']['r'])
-            except ValueError:
-                r_LC_feats = np.full(len(LC_extractor.names), -2)
-            batch_lc_time += time.time() - start_time
-            batch_LC_features.loc[star_idx, :] = np.concatenate((g_LC_feats, r_LC_feats))
-
-        return batch_FATS_features, batch_LC_features, batch_fats_time, batch_lc_time
-
     # Set up multiprocessing parameters
-    num_workers = mp.cpu_count() - 1  # Leave one CPU free
+    num_workers = 14 - 1  # Leave one CPU free
     batch_size = max(1, len(data) // (num_workers * 2))  # make 2*num_workers batches
 
     # Create batches
@@ -229,6 +230,6 @@ if __name__ == "__main__":
     hc_feats = compile_handcrafted_features(dataset[args.split])
 
     # Save results
-    output_file = f"../../data/hc_feats_{args.split}_{os.path.basename(dataset_path)}.csv"
+    output_file = f"../../data/hc_feats_{args.split}_{os.path.basename(dataset_path)}_mp.csv"
     hc_feats.to_csv(output_file, index=None)
     print(f"Features saved to {output_file}")
