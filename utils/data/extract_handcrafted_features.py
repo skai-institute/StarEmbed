@@ -88,7 +88,7 @@ def calc_LC_features(lc):
     return LC_features
 
 
-def compile_handcrafted_features(data_split, out_path):
+def compile_handcrafted_features(data):
     FATS_columns = ['g_'+feat_name for feat_name in FATS_feature_names] +\
         ['r_'+feat_name for feat_name in FATS_feature_names]
     FATS_features = pd.DataFrame(columns=FATS_columns)
@@ -98,7 +98,7 @@ def compile_handcrafted_features(data_split, out_path):
     LC_features = pd.DataFrame(columns=LC_columns)
 
     for star_idx in range(2):
-        star = dataset['train'][star_idx]
+        star = data[star_idx]
 
         g_FATS_feats = calc_FATS_features(star['bands_data']['g'])
         r_FATS_feats = calc_FATS_features(star['bands_data']['r'])
