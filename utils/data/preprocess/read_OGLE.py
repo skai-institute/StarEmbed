@@ -2,7 +2,7 @@ import pandas as pd
 import re
 
 
-def read_OGLE_catalogs(region, parent_type, sub_type):
+def load_catalog(region, parent_type, sub_type):
     """
     Read in an OGLE catalog for a specific region, parent-type, and sub-type and
     return a dataframe with the catalog data.
@@ -107,5 +107,42 @@ def merge_remarks(region, parent_type, sub_type, subtype_df):
     return subtype_df
 
 
-def merge_IDs(region, parent_type, sub_type, subtype_df):
+def merge_ident(region, parent_type, sub_type, subtype_df):
+    region = region.upper()
+    parent_type = parent_type.upper()
+    region_class_dir = f"../../../data/ogle4_raw/OCVS/{region.lower()}/{parent_type.lower()}/"
+
+    # Define the column widths based on the data format
+    colspecs = [
+        (0, 16),    # Star ID
+        (17, 25),   # Type
+        (27, 38),   # Right Ascension
+        (39, 50),   # Declination
+        (52, 68),   # OGLE-IV
+        (69, 84),   # OGLE-III
+        (85, 100),   # OGLE-II
+        (101, 110)   # Additional identifiers
+    ]
+
+    # Read the data
+    ident = pd.read_fwf(
+        region_class_dir + "ident.dat", colspecs=colspecs,
+        names=['ID', 'type', 'RA', 'Dec', 'OGLE-IV', 'OGLE-III', 'OGLE-II', 'OtherID']
+    )
+    # ['ID', 'type', 'RAh', 'RAm', 'RAs', 'DE-', 'DEd', 'DEm', 'DEs',
+    #  'OGLE-IV', 'OGLE-III', 'OGLE-II', 'OtherID']
+
+    # Clean up the data
+    ident = ident.apply(lambda x: x.str.strip() if x.dtype == "object" else x)  # Strip whitespace
+
+    # Create a mapping from ID to the columns we want to copy
+    cols_to_copy = ['RA', 'Dec', 'OGLE-IV', 'OGLE-III', 'OGLE-II', 'OtherID']
+    id_to_cols = ident.set_index('ID')[cols_to_copy]
+
+    # For each row in subtype_df, look up the corresponding columns from ident using the ID
+    for idx, row in subtype_df.iterrows():
+        if row['ID'] in id_to_cols.index:
+            # Convert columns to string type before assignment to avoid dtype incompatibility
+            subtype_df.loc[idx, cols_to_copy] = id_to_cols.loc[row['ID']]
+
     return subtype_df

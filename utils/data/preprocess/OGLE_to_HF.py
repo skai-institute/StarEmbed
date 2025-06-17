@@ -2,7 +2,7 @@ from datasets import Dataset, Features, Value, Sequence
 from tqdm import tqdm
 import datasets
 
-from utils.data.preprocess.read_OGLE_catalogs import read_OGLE_catalogs, merge_remarks, merge_IDs
+from utils.data.preprocess.read_OGLE import load_catalog, merge_remarks, merge_ident
 
 if __name__ == "__main__":
 
@@ -12,9 +12,9 @@ if __name__ == "__main__":
     ]
 
     for catalog_to_process in catalogs_to_process:
-        cat = read_OGLE_catalogs(*catalog_to_process)
+        cat = load_catalog(*catalog_to_process)
         cat = merge_remarks(*catalog_to_process, cat)
-        cat = merge_IDs(*catalog_to_process, cat)
+        cat = merge_ident(*catalog_to_process, cat)
 
     # Read in lightcurves
     # Set up schema
