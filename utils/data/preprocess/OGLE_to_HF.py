@@ -8,7 +8,7 @@ if __name__ == "__main__":
 
     catalogs_to_process = [
         # region, parent_type, sub_type
-        ("blg", "cep", "1O"),
+        ("blg", "cep", "cep1O"),
     ]
 
     for catalog_to_process in catalogs_to_process:

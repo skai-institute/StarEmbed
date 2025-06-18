@@ -29,7 +29,7 @@ def load_catalog(region, parent_type, sub_type):
         The sub-type of the OGLE catalog to read in.
         Valid inputs are:
             TODO: Remove invalid types
-            For cep: 1O, 1O2O, 1O2O3O, 2O3O, F, F1O
+            For cep: cep1O, cep1O2O, cep1O2O3O, cep2O3O, cepF, cepF1O
             For dsct: dsct, dsctspecconf
             For dpv: DPV
             For lpv: Miras
@@ -74,19 +74,42 @@ def load_catalog(region, parent_type, sub_type):
 
 
 def merge_remarks(region, parent_type, sub_type, subtype_df):
+    """
+    Merge the remarks from the remarks.txt file into the corresponding entry in
+    the subtype_df dataframe.
+
+    Parameters
+    ----------
+    region : str
+    parent_type : str
+    sub_type : str
+        Same as load_catalog
+    subtype_df : pd.DataFrame
+        A dataframe with the catalog information on the stars in the specified
+        region of the specified parent-type and sub-type.
+
+    Returns
+    -------
+    subtype_df : pd.DataFrame
+        The input dataframe with a new 'remarks' column
+        Example remarks:
+            "OGLE-BLG-CEP-067 double Cepheid P1 = 2.610678 d, P2 = 1.692387 d
+            "OGLE-BLG-CEP-097 variable period"
+    """
     region = region.upper()
     parent_type = parent_type.upper()
     region_class_dir = f"../../../data/ogle4_raw/OCVS/{region.lower()}/{parent_type.lower()}/"
 
+    # Open the remarks.txt file and loop over its lines
     with open(region_class_dir + "remarks.txt", 'r') as f:
         for remark in f:
             remark = remark[:-1]  # Remove newline character at the end
+
+            # Find each OGLE star mentioned in this remark, and iterate over them
             OGLE_IDs = re.findall(r'\S*OGLE-BLG-CEP\S*', remark)
             for OGLE_ID in OGLE_IDs:
-
-                # Remark is for a star in a different catalog
+                # Skip if remark is for a star in a different catalog
                 if OGLE_ID not in subtype_df['ID'].values:
-                    # print("OGLE_ID not in df:", OGLE_ID)
                     continue
 
                 # Get remarks for this OGLE_ID, starts with empty string
@@ -101,13 +124,32 @@ def merge_remarks(region, parent_type, sub_type, subtype_df):
                 if existing_remarks[0] != "":
                     existing_remarks += " | "
 
-                # Add the new remark into the dataframe
+                # Add the new (concatenated) remark into the dataframe
                 subtype_df.loc[subtype_df['ID'] == OGLE_ID, 'remarks'] = existing_remarks + remark
 
+    # Return the updated dataframe
     return subtype_df
 
 
 def merge_ident(region, parent_type, sub_type, subtype_df):
+    """
+    Merge the ident.dat file into the corresponding entry in the subtype_df
+    dataframe.
+
+    Parameters
+    ----------
+    region : str
+    parent_type : str
+    sub_type : str
+    subtype_df : pd.DataFrame
+        Same as load_catalog and merge_remarks
+
+    Returns
+    -------
+    subtype_df : pd.DataFrame
+        The input dataframe with a new 'RA', 'Dec', 'OGLE-IV', 'OGLE-III',
+        'OGLE-II', 'OtherID' columns
+    """
     region = region.upper()
     parent_type = parent_type.upper()
     region_class_dir = f"../../../data/ogle4_raw/OCVS/{region.lower()}/{parent_type.lower()}/"
@@ -132,8 +174,8 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
     # ['ID', 'type', 'RAh', 'RAm', 'RAs', 'DE-', 'DEd', 'DEm', 'DEs',
     #  'OGLE-IV', 'OGLE-III', 'OGLE-II', 'OtherID']
 
-    # Clean up the data
-    ident = ident.apply(lambda x: x.str.strip() if x.dtype == "object" else x)  # Strip whitespace
+    # Clean up any whitespace
+    ident = ident.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
 
     # Create a mapping from ID to the columns we want to copy
     cols_to_copy = ['RA', 'Dec', 'OGLE-IV', 'OGLE-III', 'OGLE-II', 'OtherID']
@@ -142,7 +184,8 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
     # For each row in subtype_df, look up the corresponding columns from ident using the ID
     for idx, row in subtype_df.iterrows():
         if row['ID'] in id_to_cols.index:
-            # Convert columns to string type before assignment to avoid dtype incompatibility
+            # Add the new columns into the appropriate row in the dataframe
             subtype_df.loc[idx, cols_to_copy] = id_to_cols.loc[row['ID']]
 
+    # Return the updated dataframe
     return subtype_df
