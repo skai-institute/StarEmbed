@@ -70,12 +70,12 @@ def load_catalog(region, parent_type, sub_type):
     parent_type = parent_type.lower()
     region_class_dir = f"../../../data/ogle4_raw/OCVS/{region}/{parent_type}/"
 
-    if sub_type in ["cep1O", "cepF", "cepF1O", "cep1O2O", "cep2O3O", "cep1O2O3O"]:
+    if parent_type == "cep":
         if sub_type in ["cep1O", "cepF"]:
             num_periods = 1
         elif sub_type in ["cepF1O", "cep1O2O", "cep2O3O"]:
             num_periods = 2
-        elif sub_type in ["cep1O2O3O"]:
+        elif sub_type in ["cep1O2O3O", "cepF1O2O"]:
             num_periods = 3
 
         # Catalog files have "-" in place of missing values, so pd.read_csv with
@@ -144,7 +144,7 @@ def merge_remarks(region, parent_type, sub_type, subtype_df):
             remark = remark[:-1]  # Remove newline character at the end
 
             # Find each OGLE star mentioned in this remark, and iterate over them
-            OGLE_IDs = re.findall(r'\S*OGLE-BLG-CEP\S*', remark)
+            OGLE_IDs = re.findall(rf'\S*OGLE-{region.upper()}-{parent_type.upper()}\S*', remark)
             for OGLE_ID in OGLE_IDs:
                 # Skip if remark is for a star in a different catalog
                 if OGLE_ID not in subtype_df['sourceid'].values:
@@ -205,7 +205,7 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
         (52, 68),   # OGLE-IV
         (69, 84),   # OGLE-III
         (85, 100),   # OGLE-II
-        (101, 110)   # Additional identifiers
+        (101, 120)   # Additional identifiers
     ]
 
     # Missing values are represented by whitespace, so read_fwf must be used in place of pd.read_csv
@@ -274,17 +274,25 @@ def read_light_curve(region, parent_type, sub_type, star_ID):
             multiband_lc[band] = None
             continue
 
-        lc = pd.read_csv(lc_files[0], delimiter=' ', names=['hjd_shifted', 'mag', 'magunc'])
+        lc = pd.read_csv(lc_files[0], delimiter=r'\s+', names=['time', 'mag', 'magunc'], dtype=str)
 
-        # unshift then convert to MJD
-        lc['mjd'] = lc['hjd_shifted'].to_numpy() + 2450000 - 2400000.5
+        # The time column in light curve files are inconsistent and unpredictable
+        # Check the length of one time entry to determine its format
+        if len(lc['time'][0]) == 13:  # time is HJD, shift to MJD
+            lc['mjd'] = lc['time'].astype(np.float64) - 2400000.5
+        elif len(lc['time'][0]) == 10:  # time is shifted HJD, shift to MJD
+            lc['mjd'] = lc['time'].astype(np.float64) + 2450000 - 2400000.5
+        else:
+            print(f"Unexpected time format for {star_ID} in band {band}. Expected 10 or 13 digits.")
+            print(f"Found {len(str(lc['time'][0]))} digits in {lc['time'][0]}")
+            exit(1)
 
         # Format as expected by bands_data entry in standardized StarEmbed schema
         multiband_lc[band] = {
             "mjd": lc['mjd'].tolist(),
-            "target": lc['mag'].tolist(),
-            "past_feat_dynamic_real": lc['magunc'].tolist(),
-            "feat_dynamic_real": np.diff(lc['hjd_shifted'].tolist(), prepend=0),
+            "target": lc['mag'].astype(np.float64).tolist(),
+            "past_feat_dynamic_real": lc['magunc'].astype(np.float64).tolist(),
+            "feat_dynamic_real": np.diff(lc['mjd'].tolist(), prepend=0),
             "length": len(lc)
         }
 

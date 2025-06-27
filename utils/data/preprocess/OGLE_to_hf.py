@@ -8,9 +8,9 @@ from read_OGLE import (
 # Standardized StarEmbed schema with some columns unique to Catalina
 band_schema = Features({
     "mjd": Sequence(feature=Value("float64")),
-    "target": Sequence(feature=Value("float64")),
-    "past_feat_dynamic_real": Sequence(feature=Value("float64")),
-    "feat_dynamic_real": Sequence(feature=Value("float64")),
+    "target": Sequence(feature=Value("float64")),  # mag
+    "past_feat_dynamic_real": Sequence(feature=Value("float64")),  # mag unc
+    "feat_dynamic_real": Sequence(feature=Value("float64")),  # delta t between observations
     "length": Value("int64"),
 })
 
@@ -49,8 +49,18 @@ def create_dataset():
         # region, parent_type, sub_type
         ("blg", "cep", "cep1O"),
         ("blg", "cep", "cepF"),
-        # ("blg", "cep", "cep1O2O"),
-        # ("blg", "cep", "cepF1O"),
+        ("blg", "cep", "cep1O2O"),
+        ("blg", "cep", "cepF1O"),
+        ("blg", "cep", "cep2O3O"),
+        ("blg", "cep", "cep1O2O3O"),
+
+        ("gd", "cep", "cep1O"),
+        ("gd", "cep", "cepF"),
+        ("gd", "cep", "cep1O2O"),
+        ("gd", "cep", "cepF1O"),
+        ("gd", "cep", "cep2O3O"),
+        ("gd", "cep", "cep1O2O3O"),
+        ("gd", "cep", "cepF1O2O"),
     ]
 
     # Create empty lists to store dataset entries
