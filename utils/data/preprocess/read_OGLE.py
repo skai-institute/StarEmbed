@@ -70,11 +70,13 @@ def load_catalog(region, parent_type, sub_type):
     parent_type = parent_type.lower()
     region_class_dir = f"../../../data/ogle4_raw/OCVS/{region}/{parent_type}/"
 
-    if sub_type in ["cep1O", "cepF", "cepF1O", "cep1O2O"]:
+    if sub_type in ["cep1O", "cepF", "cepF1O", "cep1O2O", "cep2O3O", "cep1O2O3O"]:
         if sub_type in ["cep1O", "cepF"]:
             num_periods = 1
-        if sub_type in ["cepF1O", "cep1O2O"]:
+        elif sub_type in ["cepF1O", "cep1O2O", "cep2O3O"]:
             num_periods = 2
+        elif sub_type in ["cep1O2O3O"]:
+            num_periods = 3
 
         # Catalog files have "-" in place of missing values, so pd.read_csv with
         # the whitespace delimiter is appropriate
@@ -87,7 +89,8 @@ def load_catalog(region, parent_type, sub_type):
         )
 
     # Add empty columns to catalog for extra periods
-    extra_features = set(get_period_feature_columns(3)) - set(get_period_feature_columns(num_periods))
+    extra_features = set(get_period_feature_columns(3)) - \
+        set(get_period_feature_columns(num_periods))
     for feature in extra_features:
         catalog[feature] = np.nan
 
