@@ -1,8 +1,6 @@
 from datasets import Dataset, Features, Value, Sequence
-from tqdm import tqdm
-import datasets
 
-from utils.data.preprocess.read_OGLE import (
+from read_OGLE import (
     load_catalog, merge_remarks, merge_ident, read_light_curve
 )
 
@@ -16,26 +14,51 @@ band_schema = Features({
 })
 
 schema = Features({
+    # From catalog file
     "sourceid": Value("string"),
-    "numerical_id": Value("string"),
+    "avg_mag_I": Value("float64"),
+    "avg_mag_V": Value("float64"),
+
+    "period": Value("float64"),
+    "period_unc": Value("float64"),
+    "time_of_peak[HJD]": Value("float64"),
+    "amp_I": Value("float64"),
+    "fourier_R21": Value("float64"),
+    "fourier_phi21": Value("float64"),
+    "fourier_R31": Value("float64"),
+    "fourier_phi31": Value("float64"),
+
+    "parent_type": Value("string"),
+    "sub_type": Value("string"),
+    "class_str": Value("string"),
+    "region": Value("string"),
+
+    # From light curve files
     "bands_data": {
         "I": band_schema,
         "V": band_schema,
     },
-    "avg_mag_V": Value("float64"),
-    "period": Value("float64"),
-    "class_str": Value("string"),
-    "class_int": Value("int64"),
-    "ra": Value("float64"),
-    "dec": Value("float64")
+
+    # From remarks file
+    "remarks": Value("string"),
+
+    # From ident file
+    "OGLE_IV_id": Value("string"),
+    "OGLE_III_id": Value("string"),
+    "OGLE_II_id": Value("string"),
+    "other_id": Value("string"),
+    "ra": Value("string"),
+    "dec": Value("string"),
 })
 
 
-if __name__ == "__main__":
-
+def create_dataset():
     catalogs_to_process = [
         # region, parent_type, sub_type
         ("blg", "cep", "cep1O"),
+        ("blg", "cep", "cepF"),
+        # ("blg", "cep", "cep1O2O"),
+        # ("blg", "cep", "cepF1O"),
     ]
 
     # Create empty lists to store dataset entries
@@ -49,25 +72,34 @@ if __name__ == "__main__":
         cat = merge_remarks(*catalog_to_process, cat)
         cat = merge_ident(*catalog_to_process, cat)
 
-        for star_ID in cat['ID']:
+        for star_ID in cat['sourceid']:
+            star_info = cat[cat['sourceid'] == star_ID].to_dict(orient='records')[0]
+
             # Get light curve, create entry
             multiband_lc = read_light_curve(*catalog_to_process, star_ID)
 
             if multiband_lc is None:
-                # print(f"No light curve found for {star_ID}")
                 no_lc_ids.append(star_ID)
                 continue
 
             # Create entry following schema
-            entry = {
-                "sourceid": star_ID,
-                "bands_data": multiband_lc,
-            }
+            entry = star_info | {"bands_data": multiband_lc}
 
-    # Read in lightcurves
-    # Set up schema
-    # Assosciate light curves with catalogs (by ID) and create HF entries
-    # Create HF dataset
-    # Write HF dataset to disk
+            dataset_entries.append(entry)
 
-    # When to concatenate catalogs?
+    # Create HuggingFace dataset
+    dataset = Dataset.from_list(dataset_entries, features=schema)
+
+    print(f"Created dataset with {len(dataset_entries)} entries")
+    print(f"No lightcurve data found for {len(no_lc_ids)} IDs")
+    return dataset
+
+
+if __name__ == "__main__":
+    dataset = create_dataset()
+    dataset.save_to_disk(
+        "../../../data/ogle4_hf",
+        num_proc=4,
+        max_shard_size="100MB"
+    )
+    print("Done writing OGLE data to HF format\n")
