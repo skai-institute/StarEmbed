@@ -86,6 +86,12 @@ def load_catalog(region, parent_type, sub_type):
             ]
         )
 
+    # Add empty columns to catalog for extra periods
+    extra_features = set(get_period_feature_columns(3)) - set(get_period_feature_columns(num_periods))
+    for feature in extra_features:
+        catalog[feature] = np.nan
+
+    # Add class column which is combination of parent_type and sub_type
     catalog['remarks'] = ""
     catalog['region'] = region
 
