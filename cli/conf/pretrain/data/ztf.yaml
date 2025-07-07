@@ -1,0 +1,2 @@
+_target_: uni2ts.data.builder.ztf.ZTFDatasetBuilder
+dataset: dr14_clean_100_partitions2_offset80_5
