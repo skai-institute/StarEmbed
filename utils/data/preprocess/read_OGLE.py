@@ -70,10 +70,10 @@ def load_catalog(region, parent_type, sub_type):
     parent_type = parent_type.lower()
     region_class_dir = f"../../../data/ogle4_raw/OCVS/{region}/{parent_type}/"
 
-    if parent_type == "cep":
-        if sub_type in ["cepF", "cep1O", "cep2O"]:
+    if parent_type in ["cep", "rrlyr"]:
+        if sub_type in ["cepF", "cep1O", "cep2O", "RRab", "RRc"]:
             num_periods = 1
-        elif sub_type in ["cepF1O", "cep1O2O", "cep1O3O", "cep2O3O"]:
+        elif sub_type in ["cepF1O", "cep1O2O", "cep1O3O", "cep2O3O", "RRd"]:
             num_periods = 2
         elif sub_type in ["cepF1O2O", "cep1O2O3O"]:
             num_periods = 3
@@ -89,6 +89,8 @@ def load_catalog(region, parent_type, sub_type):
                 *get_period_feature_columns(num_periods)
             ]
         )
+    else:
+        raise NotImplementedError(f"Parent type {parent_type} not implemented")
 
     # Add empty columns to catalog for extra periods
     extra_features = set(get_period_feature_columns(3)) - \
@@ -109,6 +111,12 @@ def load_catalog(region, parent_type, sub_type):
         catalog['parent_type'] = parent_type
         catalog['sub_type'] = sub_type[3:]
         catalog['class_str'] = sub_type
+    elif parent_type == "rrlyr":
+        catalog['parent_type'] = parent_type
+        catalog['sub_type'] = sub_type[2:]
+        catalog['class_str'] = sub_type
+    else:
+        raise NotImplementedError(f"Parent type {parent_type} not implemented")
 
     return catalog
 
@@ -215,6 +223,17 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
         colspecs = [
             (0, 17),    # Star ID
             (18, 26),   # Type
+            (28, 39),   # Right Ascension
+            (40, 51),   # Declination
+            (53, 69),   # OGLE-IV
+            (70, 85),   # OGLE-III
+            (86, 101),   # OGLE-II
+            (102, 121)   # Additional identifiers
+        ]
+    elif (region in ["BLG"]) & (parent_type == "RRLYR"):
+        colspecs = [
+            (0, 20),    # Star ID
+            (22, 26),   # Type
             (28, 39),   # Right Ascension
             (40, 51),   # Declination
             (53, 69),   # OGLE-IV

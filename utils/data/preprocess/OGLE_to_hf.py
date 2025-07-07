@@ -48,37 +48,7 @@ schema = Features({
 def create_dataset():
     catalogs_to_process = [
         # region, parent_type, sub_type
-        ("blg", "cep", "cepF"),
-        ("blg", "cep", "cep1O"),
-        ("blg", "cep", "cepF1O"),
-        ("blg", "cep", "cep1O2O"),
-        ("blg", "cep", "cep2O3O"),
-        ("blg", "cep", "cep1O2O3O"),
-
-        ("gd", "cep", "cepF"),
-        ("gd", "cep", "cep1O"),
-        ("gd", "cep", "cepF1O"),
-        ("gd", "cep", "cep1O2O"),
-        ("gd", "cep", "cep2O3O"),
-        ("gd", "cep", "cepF1O2O"),
-        ("gd", "cep", "cep1O2O3O"),
-
-        ("lmc", "cep", "cepF"),
-        ("lmc", "cep", "cep1O"),
-        ("lmc", "cep", "cep2O"),
-        ("lmc", "cep", "cepF1O"),
-        ("lmc", "cep", "cep1O2O"),
-        ("lmc", "cep", "cep1O3O"),
-        ("lmc", "cep", "cep2O3O"),
-        ("lmc", "cep", "cepF1O2O"),
-        ("lmc", "cep", "cep1O2O3O"),
-
-        ("smc", "cep", "cepF"),
-        ("smc", "cep", "cep1O"),
-        ("smc", "cep", "cep2O"),
-        ("smc", "cep", "cepF1O"),
-        ("smc", "cep", "cep1O2O"),
-        ("smc", "cep", "cep1O2O3O"),
+        ("blg", "rrlyr", "RRab")
     ]
 
     # Create empty lists to store dataset entries
@@ -87,12 +57,15 @@ def create_dataset():
     # List of IDs that don't have light curves
     no_lc_ids = []
 
-    for catalog_to_process in tqdm(catalogs_to_process, desc="Processing catalogs", unit="catalog"):
+    for catalog_to_process in catalogs_to_process:
         cat = load_catalog(*catalog_to_process)
         cat = merge_remarks(*catalog_to_process, cat)
         cat = merge_ident(*catalog_to_process, cat)
 
-        for star_ID in cat['sourceid']:
+        for star_ID in tqdm(
+            cat['sourceid'],
+            desc=f"Processing {catalog_to_process[0]} {catalog_to_process[2]}"
+        ):
             star_info = cat[cat['sourceid'] == star_ID].to_dict(orient='records')[0]
 
             # Get light curve, create entry
