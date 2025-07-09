@@ -73,7 +73,7 @@ def load_catalog(region, parent_type, sub_type):
     if parent_type in ["cep", "rrlyr"]:
         if sub_type in ["cepF", "cep1O", "cep2O", "RRab", "RRc"]:
             num_periods = 1
-        elif sub_type in ["cepF1O", "cep1O2O", "cep1O3O", "cep2O3O", "RRd"]:
+        elif sub_type in ["cepF1O", "cep1O2O", "cep1O3O", "cep2O3O", "RRd", "aRRd"]:
             num_periods = 2
         elif sub_type in ["cepF1O2O", "cep1O2O3O"]:
             num_periods = 3
@@ -107,13 +107,9 @@ def load_catalog(region, parent_type, sub_type):
 
     # Add class column which is combination of parent_type and sub_type
     # TODO: Formatting depends on type
-    if parent_type == "cep":
+    if parent_type in ["cep", "rrlyr"]:
         catalog['parent_type'] = parent_type
-        catalog['sub_type'] = sub_type[3:]
-        catalog['class_str'] = sub_type
-    elif parent_type == "rrlyr":
-        catalog['parent_type'] = parent_type
-        catalog['sub_type'] = sub_type[2:]
+        catalog['sub_type'] = sub_type
         catalog['class_str'] = sub_type
     else:
         raise NotImplementedError(f"Parent type {parent_type} not implemented")
