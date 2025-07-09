@@ -40,7 +40,7 @@ Download light curve data for variable stars from the ZTF catalog.
 
 ```bash
 python -m src.tasks.download \
-  --output-dir ./data/download/run-0 \
+  --output-dir ./outputs/download/run-0 \
   --n 2 \
   --class-ids 1 2 5
 ```
@@ -53,17 +53,17 @@ This command downloads 2 stars from each of classes 1, 2, and 5. Adjust the para
 - `--class-ids`: List of variable star classes to download (e.g., 1=RR Lyrae ab, 2=RR Lyrae c, 5=Eclipsing binary EW)
 
 **Outputs:**
-- Light curve CSV file at `./data/download/run-0/lightcurves.csv`
+- Light curve CSV file at `./outputs/download/run-0/lightcurves.csv`
 - Plot images of individual light curves in class subdirectories
 
 **Example Visualizations:**
 
 <div align="center">
   <p><b>Sample Downloaded Light Curves:</b></p>
-  <img src="data/demos/download/raw_star_120620174173493992.png" width="400" />
-  <img src="data/demos/download/raw_star_122802196917572800.png" width="400" />
-  <img src="data/demos/download/raw_star_129030693624086743.png" width="400" />
-  <img src="data/demos/download/raw_star_130603207444200557.png" width="400" />
+  <img src="outputs/demos/download/raw_star_120620174173493992.png" width="400" />
+  <img src="outputs/demos/download/raw_star_122802196917572800.png" width="400" />
+  <img src="outputs/demos/download/raw_star_129030693624086743.png" width="400" />
+  <img src="outputs/demos/download/raw_star_130603207444200557.png" width="400" />
 </div>
 
 ### 2. Preprocess Data
@@ -72,8 +72,8 @@ Convert raw light curves into phase-folded, fixed-frequency time series suitable
 
 ```bash
 python -m src.tasks.preproc \
-  --input-file ./data/download/run-0/lightcurves.csv \
-  --output-dir ./data/processed/run-0 \
+  --input-file ./outputs/download/run-0/lightcurves.csv \
+  --output-dir ./outputs/processed/run-0 \
   --stars-per-class 2 \
   --class-ids 1 2 \
   --band g \
@@ -91,17 +91,17 @@ This command processes the downloaded data, keeping 2 stars from classes 1 and 2
 - `--plot`: Generate plots of processed light curves
 
 **Outputs:**
-- Processed CSV file at `./data/processed/run-0/processed_lightcurves.csv`
+- Processed CSV file at `./outputs/processed/run-0/processed_lightcurves.csv`
 - Plot images of processed light curves if `--plot` is specified
 
 **Example Visualizations:**
 
 <div align="center">
   <p><b>Phase-folded Processed Light Curves:</b></p>
-  <img src="data/demos/preproc/star_120620174173493992.png" width="400" />
-  <img src="data/demos/preproc/star_122802196917572800.png" width="400" />
-  <img src="data/demos/preproc/star_129030693624086743.png" width="400" />
-  <img src="data/demos/preproc/star_130603207444200557.png" width="400" />
+  <img src="outputs/demos/preproc/star_120620174173493992.png" width="400" />
+  <img src="outputs/demos/preproc/star_122802196917572800.png" width="400" />
+  <img src="outputs/demos/preproc/star_129030693624086743.png" width="400" />
+  <img src="outputs/demos/preproc/star_130603207444200557.png" width="400" />
 </div>
 
 ### 3. Train Models
@@ -112,8 +112,8 @@ First, convert the processed data to arrow format required by GluonTS/Chronos:
 
 ```bash
 python -m src.tasks.train.chronos.generate_data \
-  --input-files ./data/processed/run-0/processed_lightcurves.csv \
-  --output-file ./data/train/run-0/data/data.arrow
+  --input-files ./outputs/processed/run-0/processed_lightcurves.csv \
+  --output-file ./outputs/train/run-0/data/data.arrow
 ```
 
 Then, train the model using a configuration file:
@@ -134,7 +134,7 @@ python -m src.tasks.train.chronos.train --config src/tasks/train/chronos/configs
   - `--config`: Path to the training configuration YAML file
 
 **Outputs:**
-- Arrow format dataset at `./data/train/run-0/data/data.arrow`
+- Arrow format dataset at `./outputs/train/run-0/data/data.arrow`
 - Trained model checkpoints in the directory specified in the config file
 - Training logs and metrics
 
@@ -142,10 +142,10 @@ python -m src.tasks.train.chronos.train --config src/tasks/train/chronos/configs
 
 <div align="center">
   <p><b>Model Fitting on Training Data:</b></p>
-  <img src="data/demos/train/prediction_85100872050097819.png" width="400" />
-  <img src="data/demos/train/prediction_120620174173493992.png" width="400" />
-  <img src="data/demos/train/prediction_129030693624086743.png" width="400" />
-  <img src="data/demos/train/prediction_130603207444200557.png" width="400" />
+  <img src="outputs/demos/train/prediction_85100872050097819.png" width="400" />
+  <img src="outputs/demos/train/prediction_120620174173493992.png" width="400" />
+  <img src="outputs/demos/train/prediction_129030693624086743.png" width="400" />
+  <img src="outputs/demos/train/prediction_130603207444200557.png" width="400" />
 </div>
 
 ### 4. Forecast Evaluation
@@ -155,8 +155,8 @@ Evaluate the model's ability to forecast future points in light curves.
 ```bash
 python -m src.tasks.eval.forecast.chronos \
   --model-path amazon/chronos-bolt-base \
-  --data-path ./data/processed/run-0/processed_lightcurves.csv \
-  --output-dir ./data/eval/run-0/forecast
+  --data-path ./outputs/processed/run-0/processed_lightcurves.csv \
+  --output-dir ./outputs/eval/run-0/forecast
 ```
 
 This command uses a pre-trained model (or your own trained model) to predict future values in the light curves and generates visualization plots.
@@ -174,10 +174,10 @@ This command uses a pre-trained model (or your own trained model) to predict fut
 
 <div align="center">
   <p><b>Forecasting Light Curve Future Points:</b></p>
-  <img src="data/demos/forecast/prediction_120620174173493992.png" width="400" />
-  <img src="data/demos/forecast/prediction_122802196917572800.png" width="400" />
-  <img src="data/demos/forecast/prediction_129030693624086743.png" width="400" />
-  <img src="data/demos/forecast/prediction_130603207444200557.png" width="400" />
+  <img src="outputs/demos/forecast/prediction_120620174173493992.png" width="400" />
+  <img src="outputs/demos/forecast/prediction_122802196917572800.png" width="400" />
+  <img src="outputs/demos/forecast/prediction_129030693624086743.png" width="400" />
+  <img src="outputs/demos/forecast/prediction_130603207444200557.png" width="400" />
 </div>
 
 ### 5. Clustering Evaluation
@@ -187,8 +187,8 @@ Apply K-means clustering to classify variable stars based on their light curve p
 ```bash
 python -m src.tasks.eval.classification.kmeans \
   --model-path amazon/chronos-bolt-base \
-  --data-path ./data/processed/run-0/processed_lightcurves.csv \
-  --output-dir ./data/eval/run-0/kmeans
+  --data-path ./outputs/processed/run-0/processed_lightcurves.csv \
+  --output-dir ./outputs/eval/run-0/kmeans
 ```
 
 **Parameters:**
@@ -204,7 +204,7 @@ python -m src.tasks.eval.classification.kmeans \
 
 <div align="center">
   <p><b>K-means Clustering Results:</b></p>
-  <img src="data/demos/kmeans/lightcurve.png" width="600" />
+  <img src="outputs/demos/kmeans/lightcurve.png" width="600" />
 </div>
 
 ## Project Structure

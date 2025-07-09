@@ -1,0 +1,9 @@
+_target_: uni2ts.data.builder.ConcatDatasetBuilder
+_args_:
+  _target_: uni2ts.data.builder.simple.generate_eval_builders
+  dataset: dr14_clean_100_partitions2_offset20_6
+  offset: 160
+  eval_length: 16
+  prediction_lengths: [16]
+  context_lengths: [160]
+  patch_sizes: [8, 16]
