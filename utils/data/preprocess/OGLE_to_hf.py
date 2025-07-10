@@ -3,7 +3,6 @@ from multiprocessing import Pool
 from tqdm import tqdm
 import numpy as np
 import argparse
-import random
 import time
 
 from read_OGLE import (
@@ -47,11 +46,6 @@ schema = Features({
     "ra": Value("string"),
     "dec": Value("string"),
 } | {feature: Value("float64") for feature in get_period_feature_columns(3)})
-
-
-def generate_version_hash(n_chars=6):
-    return ''.join(random.choice('abcdefghijklmnopqrstuvwxyz0123456789') for _ in range(n_chars))
-
 
 def create_dataset(num_workers):
     catalogs_to_process = [
@@ -129,8 +123,6 @@ def create_dataset(num_workers):
     start_time = time.time()
     print("\nRegistering all stars in a huggingface dataset")
     dataset = Dataset.from_list(dataset_entries, features=schema)
-    dataset.info.description = generate_version_hash(n_chars=6)
- 
     print(f"Created dataset with {len(dataset_entries)} entries ({time.time() - start_time:.2f}s)")
 
     if len(no_lc_ids) > 0:
