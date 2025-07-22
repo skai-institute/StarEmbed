@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import glob
 import re
+import os
 
 
 def get_period_feature_columns(num_periods):
@@ -125,6 +126,24 @@ def load_catalog(region, parent_type, sub_type):
                 'sourceid', 'avg_mag_I', 'avg_mag_V', *get_period_feature_columns(3)
             ]
         )
+    elif parent_type == "lpv":
+        catalog = pd.read_csv(
+            # Catalog file named "Miras.dat", need to add "s"
+            region_class_dir + f"{sub_type}s.dat", delimiter=r'\s+',
+            names=[
+                'sourceid', 'avg_mag_I', 'avg_mag_V', 'period', 'amp_I'
+            ]
+        )
+
+        # Add empty columns to catalog for extra periods
+        extra_features = set(get_period_feature_columns(3)) - \
+            set(get_period_feature_columns(1))
+        extra_features = list(extra_features) + [
+            'period_unc', 'time_of_peak[HJD]',
+            'fourier_R21', 'fourier_phi21', 'fourier_R31', 'fourier_phi31'
+        ]
+        for feature in extra_features:
+            catalog[feature] = np.nan
     else:
         raise NotImplementedError(f"Parent type {parent_type} not implemented")
 
@@ -145,6 +164,10 @@ def load_catalog(region, parent_type, sub_type):
         # Populated in merge_ident()
         catalog['sub_type'] = ""
         catalog['class_str'] = ""
+    elif parent_type == "lpv":
+        catalog['parent_type'] = parent_type
+        catalog['sub_type'] = sub_type
+        catalog['class_str'] = sub_type
     else:
         raise NotImplementedError(f"Parent type {parent_type} not implemented")
 
@@ -180,8 +203,15 @@ def merge_remarks(region, parent_type, sub_type, subtype_df):
 
     # TODO: Add remark about spec confirmed delta scuti
 
+    # If remarks file does not exist, return the dataframe with empty remarks
+    remarks_file = region_class_dir + "remarks.txt"
+    if not os.path.exists(remarks_file):
+        subtype_df['remarks'] = ""
+        print(f"  No remarks file found for {region} {parent_type} {sub_type}")
+        return subtype_df
+
     # Open the remarks.txt file and loop over its lines
-    with open(region_class_dir + "remarks.txt", 'r') as f:
+    with open(remarks_file, 'r') as f:
         for remark in f:
             remark = remark[:-1]  # Remove newline character at the end
 
@@ -258,7 +288,7 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
             sh = 0
         elif region in ["GD", "SMC"]:
             sh = -1
-        
+
         colspecs = [
             (0, 20 + sh), (22 + sh, 26 + sh), (28 + sh, 39 + sh), (40 + sh, 51 + sh),
             (53 + sh, 69 + sh), (70 + sh, 85 + sh), (86 + sh, 101 + sh), (102 + sh, 121 + sh)
@@ -274,6 +304,16 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
         colspecs = [
             (0, 19 + sh), (21 + sh, 31 + sh), (33 + sh, 44 + sh), (45 + sh, 56 + sh),
             (58 + sh, 74 + sh), (75 + sh, 90 + sh), (91 + sh, 107 + sh), (108 + sh, 130 + sh)
+        ]
+    elif parent_type == "LPV":
+        if region == "BLG":
+            sh = 0
+        elif region == "GD":
+            sh = -1
+
+        colspecs = [
+            (0, 19 + sh), (21 + sh, 25 + sh), (27 + sh, 38 + sh), (39 + sh, 50 + sh),
+            (52 + sh, 68 + sh), (69 + sh, 84 + sh), (85 + sh, 101 + sh), (102 + sh, 130 + sh)
         ]
     else:
         raise NotImplementedError(f"Region {region} and parent type {parent_type} not implemented")
@@ -358,7 +398,7 @@ def read_light_curve(template_lc_glob_path):
         elif len(lc['time'][0]) in [9, 10]:  # time is shifted HJD, shift to MJD
             lc['mjd'] = lc['time'].astype(np.float64) + 2450000 - 2400000.5
         else:
-            print(f"Unexpected time format for {star_ID} in band {band}. Expected 9, 10, or 13 digits.")
+            print(f"Unexpected time format for {star_ID} {band}band. Expected 9, 10, or 13 digits.")
             print(f"Found {len(str(lc['time'][0]))} digits in {lc['time'][0]}")
             exit(1)
 
