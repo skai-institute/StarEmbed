@@ -71,8 +71,8 @@ def load_catalog(region, parent_type, sub_type):
     parent_type = parent_type.lower()
     region_class_dir = f"../../../data/ogle4_raw/OCVS/{region}/{parent_type}/"
 
-    if parent_type in ["cep", "rrlyr", "t2cep"]:
-        if sub_type in ["cepF", "cep1O", "cep2O", "RRab", "RRc", "t2cep"]:
+    if parent_type in ["cep", "rrlyr", "t2cep", "acep"]:
+        if sub_type in ["cepF", "cep1O", "cep2O", "RRab", "RRc", "t2cep", "acepF", "acep1O"]:
             num_periods = 1
         elif sub_type in ["cepF1O", "cep1O2O", "cep1O3O", "cep2O3O", "RRd", "aRRd"]:
             num_periods = 2
@@ -159,7 +159,7 @@ def load_catalog(region, parent_type, sub_type):
         catalog['parent_type'] = parent_type
         catalog['sub_type'] = sub_type
         catalog['class_str'] = sub_type
-    elif parent_type in ["dsct", "t2cep"]:
+    elif parent_type in ["dsct", "t2cep", "acep"]:
         catalog['parent_type'] = parent_type
         # Populated in merge_ident()
         catalog['sub_type'] = ""
@@ -323,6 +323,14 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
             (0, 19 + sh), (21 + sh, 26 + sh), (28 + sh, 39 + sh), (40 + sh, 51 + sh),
             (53 + sh, 69 + sh), (70 + sh, 85 + sh), (86 + sh, 101 + sh), (102 + sh, 130 + sh)
         ]
+    elif parent_type == "ACEP":
+        if region in ["GAL", "LMC", "SMC"]:
+            sh = 0
+
+        colspecs = [
+            (0, 17 + sh), (18 + sh, 21 + sh), (23 + sh, 34 + sh), (35 + sh, 46 + sh),
+            (48 + sh, 64 + sh), (65 + sh, 80 + sh), (81 + sh, 96 + sh), (97 + sh, 130 + sh)
+        ]
     else:
         raise NotImplementedError(f"Region {region} and parent type {parent_type} not implemented")
 
@@ -336,12 +344,10 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
     # Clean up any whitespace
     ident = ident.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
 
-    if parent_type in ["DSCT", "T2CEP"]:
-        subtype_df['sub_type'] = ident['type']
-        subtype_df['class_str'] = parent_type.lower() + "_" + ident['type']
-
     # Create a mapping from ID to the columns we want to copy
     cols_to_copy = ['ra', 'dec', 'OGLE_IV_id', 'OGLE_III_id', 'OGLE_II_id', 'other_id']
+    if parent_type in ["DSCT", "T2CEP", "ACEP"]:
+        cols_to_copy.append('type')
     id_to_cols = ident.set_index('sourceid')[cols_to_copy]
     subtype_df[cols_to_copy] = ""
 
@@ -350,6 +356,12 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
         if row['sourceid'] in id_to_cols.index:
             # Add the new columns into the appropriate row in the dataframe
             subtype_df.loc[idx, cols_to_copy] = id_to_cols.loc[row['sourceid']]
+
+    subtype_df['sub_type'] = subtype_df['type']
+    subtype_df['class_str'] = parent_type.lower() + "_" + subtype_df['type']
+    # Drop the 'type' column if it was added
+    if 'type' in subtype_df.columns:
+        subtype_df.drop(columns=['type'], inplace=True)
 
     # Return the updated dataframe
     return subtype_df
