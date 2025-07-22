@@ -71,8 +71,8 @@ def load_catalog(region, parent_type, sub_type):
     parent_type = parent_type.lower()
     region_class_dir = f"../../../data/ogle4_raw/OCVS/{region}/{parent_type}/"
 
-    if parent_type in ["cep", "rrlyr"]:
-        if sub_type in ["cepF", "cep1O", "cep2O", "RRab", "RRc"]:
+    if parent_type in ["cep", "rrlyr", "t2cep"]:
+        if sub_type in ["cepF", "cep1O", "cep2O", "RRab", "RRc", "t2cep"]:
             num_periods = 1
         elif sub_type in ["cepF1O", "cep1O2O", "cep1O3O", "cep2O3O", "RRd", "aRRd"]:
             num_periods = 2
@@ -155,19 +155,15 @@ def load_catalog(region, parent_type, sub_type):
     catalog['region'] = region
 
     # Add class column which is combination of parent_type and sub_type
-    if parent_type in ["cep", "rrlyr"]:
+    if parent_type in ["cep", "rrlyr", "lpv"]:
         catalog['parent_type'] = parent_type
         catalog['sub_type'] = sub_type
         catalog['class_str'] = sub_type
-    elif parent_type == "dsct":
+    elif parent_type in ["dsct", "t2cep"]:
         catalog['parent_type'] = parent_type
         # Populated in merge_ident()
         catalog['sub_type'] = ""
         catalog['class_str'] = ""
-    elif parent_type == "lpv":
-        catalog['parent_type'] = parent_type
-        catalog['sub_type'] = sub_type
-        catalog['class_str'] = sub_type
     else:
         raise NotImplementedError(f"Parent type {parent_type} not implemented")
 
@@ -315,6 +311,18 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
             (0, 19 + sh), (21 + sh, 25 + sh), (27 + sh, 38 + sh), (39 + sh, 50 + sh),
             (52 + sh, 68 + sh), (69 + sh, 84 + sh), (85 + sh, 101 + sh), (102 + sh, 130 + sh)
         ]
+    elif parent_type == "T2CEP":
+        if region == "BLG":
+            sh = 0
+        elif region in ["GD", "LMC"]:
+            sh = -1
+        elif region == "SMC":
+            sh = -2
+
+        colspecs = [
+            (0, 19 + sh), (21 + sh, 26 + sh), (28 + sh, 39 + sh), (40 + sh, 51 + sh),
+            (53 + sh, 69 + sh), (70 + sh, 85 + sh), (86 + sh, 101 + sh), (102 + sh, 130 + sh)
+        ]
     else:
         raise NotImplementedError(f"Region {region} and parent type {parent_type} not implemented")
 
@@ -328,9 +336,9 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
     # Clean up any whitespace
     ident = ident.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
 
-    if parent_type == "DSCT":
+    if parent_type in ["DSCT", "T2CEP"]:
         subtype_df['sub_type'] = ident['type']
-        subtype_df['class_str'] = "dsct_" + ident['type']
+        subtype_df['class_str'] = parent_type.lower() + "_" + ident['type']
 
     # Create a mapping from ID to the columns we want to copy
     cols_to_copy = ['ra', 'dec', 'OGLE_IV_id', 'OGLE_III_id', 'OGLE_II_id', 'other_id']
