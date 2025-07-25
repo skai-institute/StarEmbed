@@ -357,10 +357,9 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
             # Add the new columns into the appropriate row in the dataframe
             subtype_df.loc[idx, cols_to_copy] = id_to_cols.loc[row['sourceid']]
 
-    subtype_df['sub_type'] = subtype_df['type']
-    subtype_df['class_str'] = parent_type.lower() + "_" + subtype_df['type']
-    # Drop the 'type' column if it was added
-    if 'type' in subtype_df.columns:
+    if parent_type in ["DSCT", "T2CEP", "ACEP"]:
+        subtype_df['sub_type'] = subtype_df['type']
+        subtype_df['class_str'] = parent_type.lower() + "_" + subtype_df['type']
         subtype_df.drop(columns=['type'], inplace=True)
 
     # Return the updated dataframe
