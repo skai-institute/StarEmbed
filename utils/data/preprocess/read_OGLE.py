@@ -53,14 +53,14 @@ def format_coordinate(coord_str, is_dec=False):
         formatted_parts = [
             f"{sign}{abs_deg.zfill(2)}",
             parts[1].zfill(2),
-            parts[2].zfill(5) if '.' in parts[2] else parts[2].zfill(2)
+            parts[2].zfill(4)
         ]
     else:
         # Format: hh:mm:ss.s with leading zeros for right ascension
         formatted_parts = [
             parts[0].zfill(2),
             parts[1].zfill(2),
-            parts[2].zfill(5) if '.' in parts[2] else parts[2].zfill(2)
+            parts[2].zfill(5)
         ]
     
     return ':'.join(formatted_parts)
@@ -188,7 +188,7 @@ def load_catalog(region, parent_type, sub_type):
         for feature in extra_features:
             catalog[feature] = np.nan
     elif parent_type == "hb":
-        if region in ["blg"]:
+        if region in ["blg", "lmc", "smc"]:
             sh = 0
         else:
             raise NotImplementedError(f"HB {region} not implemented")
@@ -419,7 +419,7 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
             (48 + sh, 64 + sh), (65 + sh, 80 + sh), (81 + sh, 96 + sh), (97 + sh, 130 + sh)
         ]
     elif parent_type == "HB":
-        if region in ["BLG"]:
+        if region in ["BLG", "LMC", "SMC"]:
             sh = 0
 
         colspecs = [
