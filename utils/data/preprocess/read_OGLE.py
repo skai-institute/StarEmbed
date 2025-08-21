@@ -230,6 +230,60 @@ def load_catalog(region, parent_type, sub_type):
         extra_features = set(get_period_feature_columns(3)) - set(catalog.columns)
         for feature in extra_features:
             catalog[feature] = np.nan
+    elif parent_type == "ecl":
+        if region in ["blg"]:
+            colspecs = [
+                (0, 19), (21, 27), (28, 34), (35, 47), (49, 58), (60, 65), (66, 71)
+            ]
+        elif region in ["lmc", "smc"]:
+            colspecs = [
+                (0, 18), (20, 26), (27, 33), (34, 46), (48, 60), (62, 67), (68, 73)
+            ]
+        else:
+            raise NotImplementedError(f"ECL {region} not implemented")
+        
+        catalog = pd.read_fwf(
+            region_class_dir + f"{sub_type}.dat", colspecs=colspecs,
+            names=[
+                'sourceid', 'max_mag_I', 'max_mag_V', 'period', 't_p_ecl',
+                'depth_p_ecl', 'depth_s_ecl'
+            ]
+        )
+
+        nonstandard_feat_names = [
+            'max_mag_I', 'max_mag_V', 't_p_ecl', 'depth_p_ecl', 'depth_s_ecl'
+        ]
+        nonstandard_feats = catalog.loc[:, ['sourceid'] + nonstandard_feat_names]
+        catalog.drop(columns=nonstandard_feat_names, inplace=True)
+
+        feat_cols = [col for col in nonstandard_feats.columns if col != 'sourceid']
+        # Create a DataFrame of "colname=val" strings
+        remarks_df = nonstandard_feats[feat_cols].apply(
+            lambda col: f"{col.name}=" + col.astype(str), axis=0
+        )
+
+        # Join all features for each row with " | "
+        remarks_series = remarks_df.agg(" | ".join, axis=1)
+
+        # Assign to catalog['remarks'] by matching sourceid
+        catalog = catalog.merge(
+            nonstandard_feats[['sourceid']].assign(remarks=remarks_series),
+            on='sourceid', how='left', suffixes=('', '_new')
+        )
+        
+        # Handle the case where remarks_new might not exist due to merge suffixes
+        if 'remarks_new' in catalog.columns:
+            catalog['remarks'] = catalog['remarks_new']
+            catalog.drop(columns=['remarks_new'], inplace=True)
+        else:
+            # If no existing remarks column, the merge created 'remarks' directly
+            pass
+
+        # Add empty columns to catalog for extra periods
+        extra_features = set(get_period_feature_columns(3)) - set(catalog.columns)
+        extra_features = list(extra_features) + ['avg_mag_I', 'avg_mag_V']
+        for feature in extra_features:
+            catalog[feature] = np.nan
     else:
         raise NotImplementedError(f"Parent type {parent_type} not implemented")
 
@@ -246,7 +300,7 @@ def load_catalog(region, parent_type, sub_type):
         catalog['parent_type'] = parent_type
         catalog['sub_type'] = sub_type
         catalog['class_str'] = sub_type
-    elif parent_type in ["dsct", "t2cep", "acep", "hb"]:
+    elif parent_type in ["dsct", "t2cep", "acep", "hb", "ecl"]:
         catalog['parent_type'] = parent_type
         # Populated in merge_ident()
         catalog['sub_type'] = ""
@@ -426,6 +480,16 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
             (0      , 16 + sh), (17 + sh, 19 + sh), (20 + sh, 31 + sh), (32 + sh,  43 + sh),
             (44 + sh, 60 + sh), (61 + sh, 76 + sh), (77 + sh, 92 + sh), (93 + sh, 130 + sh)
         ]
+    elif parent_type == "ECL":
+        if region in ["BLG"]:
+            sh = 0
+        elif region in ["LMC", "SMC"]:
+            sh = -1
+
+        colspecs = [
+            (0      , 19 + sh), (21 + sh, 24 + sh), (25 + sh, 36 + sh), (37 + sh,  48 + sh),
+            (50 + sh, 66 + sh), (67 + sh, 82 + sh), (83 + sh, 98 + sh), (99 + sh, 130 + sh)
+        ]
     else:
         raise NotImplementedError(f"Region {region} and parent type {parent_type} not implemented")
 
@@ -446,7 +510,7 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
 
     # Create a mapping from ID to the columns we want to copy
     cols_to_copy = ['ra', 'dec', 'OGLE_IV_id', 'OGLE_III_id', 'OGLE_II_id', 'other_id']
-    if parent_type in ["DSCT", "T2CEP", "ACEP", "HB"]:
+    if parent_type in ["DSCT", "T2CEP", "ACEP", "HB", "ECL"]:
         cols_to_copy.append('type')
     id_to_cols = ident.set_index('sourceid')[cols_to_copy]
     subtype_df[cols_to_copy] = ""
@@ -457,7 +521,7 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
             # Add the new columns into the appropriate row in the dataframe
             subtype_df.loc[idx, cols_to_copy] = id_to_cols.loc[row['sourceid']]
 
-    if parent_type in ["DSCT", "T2CEP", "ACEP", "HB"]:
+    if parent_type in ["DSCT", "T2CEP", "ACEP", "HB", "ECL"]:
         subtype_df['sub_type'] = subtype_df['type']
         subtype_df['class_str'] = parent_type.lower() + "_" + subtype_df['type']
         subtype_df.drop(columns=['type'], inplace=True)
