@@ -6,7 +6,7 @@ import argparse
 import time
 import json
 
-from read_OGLE import (
+from OGLE_reading_utils import (
     load_catalog, merge_remarks, merge_ident, read_light_curve, get_period_feature_columns
 )
 
@@ -52,13 +52,15 @@ schema = Features({
 def create_dataset(num_workers):
     catalogs_to_process = [
         # region, parent_type, sub_type
+        ("blg", "hb", "hb"),
+        # ("BLG", "TRANSITS", "TRANSITS")
     ]
 
-    with open("all_OGLE_collections.json", "r") as f:
-        OGLE_collections = json.load(f)
-    types_to_process = ["CEP", "RRLYR", "DSCT", "T2CEP", "ACEP"]
-    for type in types_to_process:
-        catalogs_to_process.extend(OGLE_collections[type])
+    # with open("all_OGLE_collections.json", "r") as f:
+    #     OGLE_collections = json.load(f)
+    # types_to_process = ["CEP", "RRLYR", "DSCT", "T2CEP", "ACEP"]
+    # for type in types_to_process:
+    #     catalogs_to_process.extend(OGLE_collections[type])
 
     # Create empty lists to store dataset entries
     dataset_entries = []
@@ -154,7 +156,7 @@ if __name__ == "__main__":
     dataset = create_dataset(num_workers)
     dataset.save_to_disk(
         "../../../data/ogle4",
-        num_proc=num_workers,
+        num_proc=num_workers,  # save_to_disk does not support multiprocessing
         max_shard_size="100MB",
     )
     print(f"Done writing OGLE data to HF format ({time.time() - global_start_time:.2f}s)\n")
