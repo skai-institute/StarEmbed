@@ -1,0 +1,44 @@
+/var/spool/slurmd/job4097352/slurm_script: line 19: conda: command not found
+/var/spool/slurmd/job4097352/slurm_script: line 20: conda: command not found
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/random_test_c1_std0_p30.0_seed42
+INFO:__main__:Step 1: Loading dataset...
+Map (num_proc=8):   0%|          | 0/29043 [00:00<?, ? examples/s]Map (num_proc=8):   0%|          | 2/29043 [00:00<54:44,  8.84 examples/s]Map (num_proc=8):   2%|▏         | 600/29043 [00:00<00:12, 2295.22 examples/s]Map (num_proc=8):  10%|█         | 3031/29043 [00:00<00:02, 9984.93 examples/s]Map (num_proc=8):  18%|█▊        | 5119/29043 [00:00<00:01, 13582.55 examples/s]Map (num_proc=8):  24%|██▍       | 7038/29043 [00:00<00:01, 15379.65 examples/s]Map (num_proc=8):  31%|███       | 8910/29043 [00:00<00:01, 15626.42 examples/s]Map (num_proc=8):  37%|███▋      | 10624/29043 [00:00<00:01, 16035.38 examples/s]Map (num_proc=8):  43%|████▎     | 12617/29043 [00:00<00:00, 17144.27 examples/s]Map (num_proc=8):  50%|████▉     | 14498/29043 [00:01<00:00, 17607.37 examples/s]Map (num_proc=8):  57%|█████▋    | 16685/29043 [00:01<00:00, 18855.35 examples/s]Map (num_proc=8):  66%|██████▌   | 19161/29043 [00:01<00:00, 20601.24 examples/s]Map (num_proc=8):  74%|███████▍  | 21562/29043 [00:01<00:00, 20495.18 examples/s]Map (num_proc=8):  83%|████████▎ | 23995/29043 [00:01<00:00, 21587.42 examples/s]Map (num_proc=8):  90%|█████████ | 26203/29043 [00:01<00:00, 19132.81 examples/s]Map (num_proc=8):  98%|█████████▊| 28376/29043 [00:01<00:00, 14387.60 examples/s]Map (num_proc=8): 100%|██████████| 29043/29043 [00:02<00:00, 14068.82 examples/s]
+Map (num_proc=8):   0%|          | 0/4149 [00:00<?, ? examples/s]Map (num_proc=8):   5%|▍         | 192/4149 [00:00<00:03, 1289.03 examples/s]Map (num_proc=8):  42%|████▏     | 1748/4149 [00:00<00:00, 8117.61 examples/s]Map (num_proc=8):  93%|█████████▎| 3839/4149 [00:00<00:00, 13067.95 examples/s]Map (num_proc=8): 100%|██████████| 4149/4149 [00:00<00:00, 7845.31 examples/s] 
+Map (num_proc=8):   0%|          | 0/8300 [00:00<?, ? examples/s]Map (num_proc=8):   0%|          | 1/8300 [00:00<15:30,  8.92 examples/s]Map (num_proc=8):   7%|▋         | 616/8300 [00:00<00:02, 3327.31 examples/s]Map (num_proc=8):  23%|██▎       | 1915/8300 [00:00<00:00, 7432.54 examples/s]Map (num_proc=8):  59%|█████▉    | 4932/8300 [00:00<00:00, 16067.82 examples/s]Map (num_proc=8):  83%|████████▎ | 6911/8300 [00:00<00:00, 17359.44 examples/s]Map (num_proc=8): 100%|██████████| 8300/8300 [00:00<00:00, 10428.79 examples/s]
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+Map (num_proc=8):   0%|          | 0/29043 [00:00<?, ? examples/s]Map (num_proc=8):   3%|▎         | 1000/29043 [00:00<00:03, 8112.00 examples/s]Map (num_proc=8):  59%|█████▊    | 17000/29043 [00:00<00:00, 77829.00 examples/s]Map (num_proc=8): 100%|██████████| 29043/29043 [00:00<00:00, 76153.81 examples/s]
+Map (num_proc=8):   0%|          | 0/4149 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 4149/4149 [00:00<00:00, 24929.40 examples/s]
+Map (num_proc=8):   0%|          | 0/8300 [00:00<?, ? examples/s]Map (num_proc=8):  12%|█▏        | 1000/8300 [00:00<00:00, 8618.52 examples/s]Map (num_proc=8): 100%|██████████| 8300/8300 [00:00<00:00, 39140.00 examples/s]
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Skipping standardization
+INFO:__main__:Test  → K-Means  ARI=-0.0003, NMI=0.0012, F1=0.1021
+INFO:__main__:Test  → Ward      ARI=0.0008, NMI=0.0016, F1=0.1185
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/random_test_c1_std0_p30.0_seed100
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Skipping standardization
+INFO:__main__:Test  → K-Means  ARI=0.0003, NMI=0.0020, F1=0.1066
+INFO:__main__:Test  → Ward      ARI=0.0008, NMI=0.0016, F1=0.1185
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/random_test_c1_std0_p30.0_seed200
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Skipping standardization
+INFO:__main__:Test  → K-Means  ARI=-0.0001, NMI=0.0010, F1=0.1013
+INFO:__main__:Test  → Ward      ARI=0.0008, NMI=0.0016, F1=0.1185
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.

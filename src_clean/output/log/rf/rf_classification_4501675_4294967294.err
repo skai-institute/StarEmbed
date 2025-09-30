@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 508, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 232, in main
+    ds.set_format(type="numpy", columns=["g_embedding","r_embedding","class_str","label_idx"])
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/dataset_dict.py", line 615, in set_format
+    dataset.set_format(
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/fingerprint.py", line 442, in wrapper
+    out = func(dataset, *args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 2617, in set_format
+    raise ValueError(
+ValueError: Columns ['r_embedding', 'label_idx', 'g_embedding'] not in the dataset. Current columns in the dataset: ['sourceid', 'bands_data', 'item_id', 'start', 'freq', 'period', 'objid', 'csdr1_id', 'class_str', 'embeddings_g', 'avg_g', 'embeddings_g', 'avg_r']

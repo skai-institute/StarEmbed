@@ -1,0 +1,9 @@
+Removing outliers from dataset
+selected 28000 train, 3967 val, 7956 test samples
+Train class distribution → Counter({0: 18998, 3: 3233, 1: 2889, 2: 1386, 5: 941, 4: 298, 6: 255})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr_concat

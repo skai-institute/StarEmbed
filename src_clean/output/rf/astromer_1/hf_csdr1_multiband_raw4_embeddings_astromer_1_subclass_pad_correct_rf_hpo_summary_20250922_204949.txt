@@ -1,0 +1,14 @@
+Random Forest Results
+============================================================
+
+Embedding: hf_csdr1_multiband_raw4_embeddings_astromer_1_subclass_pad_correct
+Path: /projects/b1094/StarEmbed/embeddings/embeddings_with_anom/hf_csdr1_multiband_raw4_embeddings_astromer_1_subclass_pad_correct
+Best CV Score: 0.1158
+Best Params: {'max_depth': 10, 'min_samples_split': 2, 'n_estimators': 200}
+Test Metrics (mean ± std):
+  F1:        0.1153 ± 0.0002
+  Accuracy:  0.6756 ± 0.0002
+  Precision: 0.1442 ± 0.0674
+  Recall:    0.1428 ± 0.0001
+----------------------------------------
+

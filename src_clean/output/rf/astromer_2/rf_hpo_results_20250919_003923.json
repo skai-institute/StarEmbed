@@ -1,0 +1,48 @@
+{
+  "hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True": {
+    "embedding_path": "/projects/b1094/StarEmbed/embeddings/embeddings_with_anom/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True",
+    "best_params": {
+      "max_depth": 30,
+      "min_samples_split": 10,
+      "n_estimators": 500
+    },
+    "best_cv_score": 0.6061425098089291,
+    "seeds_used": [
+      42,
+      100,
+      200
+    ],
+    "metrics": {
+      "f1_mean": 0.5815605290817567,
+      "f1_std": 0.003075752350483074,
+      "accuracy_mean": 0.8467596665409912,
+      "accuracy_std": 0.00021360728555958004,
+      "precision_mean": 0.8331115635232927,
+      "precision_std": 0.010587417107576887,
+      "recall_mean": 0.5261462952039406,
+      "recall_std": 0.002385027472752187
+    },
+    "individual_results": {
+      "f1_scores": [
+        0.5851717167174341,
+        0.5776549658171876,
+        0.5818549047106485
+      ],
+      "accuracies": [
+        0.8470529093879603,
+        0.8465502073645846,
+        0.8466758828704286
+      ],
+      "precisions": [
+        0.8453246833421998,
+        0.8195036784154838,
+        0.8345063288121948
+      ],
+      "recalls": [
+        0.5287759639275013,
+        0.5230022080242264,
+        0.5266607136600943
+      ]
+    }
+  }
+}

@@ -1,0 +1,60 @@
+Saving results to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed42
+Step 1: Loading dataset...
+Removing outliers from dataset
+selected 28000 train samples, 3967 validation samples, 7956 test samples
+Step 2: Building label2idx mapping and saving original labels...
+Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+Step 3: Converting embeddings & labels to NumPy arrays...
+Train shape: (28000, 512), Test shape: (7956, 512)
+Step 4: No filtering (using all classes)
+Step 4.5: Skipping standardization
+
+Step 6: Clustering TEST split
+  → K-Means (k=7)
+  → Ward    (k=7)
+Test  → K-Means  ARI=-0.0052, NMI=0.0066, F1=0.1452
+Test  → Ward      ARI=-0.0047, NMI=0.0077, F1=0.1541
+
+Step 8: t-SNE TEST (original labels)
+  → t-SNE (t-SNE on Filtered Test)
+Saving t-SNE plot to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed42/t-SNE-on-Filtered-Test.pdf
+Saving results to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed100
+Step 1: Loading dataset...
+Removing outliers from dataset
+selected 28000 train samples, 3967 validation samples, 7956 test samples
+Step 2: Building label2idx mapping and saving original labels...
+Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+Step 3: Converting embeddings & labels to NumPy arrays...
+Train shape: (28000, 512), Test shape: (7956, 512)
+Step 4: No filtering (using all classes)
+Step 4.5: Skipping standardization
+
+Step 6: Clustering TEST split
+  → K-Means (k=7)
+  → Ward    (k=7)
+Test  → K-Means  ARI=-0.0061, NMI=0.0072, F1=0.1482
+Test  → Ward      ARI=-0.0047, NMI=0.0077, F1=0.1541
+
+Step 8: t-SNE TEST (original labels)
+  → t-SNE (t-SNE on Filtered Test)
+Saving t-SNE plot to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed100/t-SNE-on-Filtered-Test.pdf
+Saving results to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed200
+Step 1: Loading dataset...
+Removing outliers from dataset
+selected 28000 train samples, 3967 validation samples, 7956 test samples
+Step 2: Building label2idx mapping and saving original labels...
+Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+Step 3: Converting embeddings & labels to NumPy arrays...
+Train shape: (28000, 512), Test shape: (7956, 512)
+Step 4: No filtering (using all classes)
+Step 4.5: Skipping standardization
+
+Step 6: Clustering TEST split
+  → K-Means (k=7)
+  → Ward    (k=7)
+Test  → K-Means  ARI=-0.0062, NMI=0.0072, F1=0.1482
+Test  → Ward      ARI=-0.0047, NMI=0.0077, F1=0.1541
+
+Step 8: t-SNE TEST (original labels)
+  → t-SNE (t-SNE on Filtered Test)
+Saving t-SNE plot to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed200/t-SNE-on-Filtered-Test.pdf

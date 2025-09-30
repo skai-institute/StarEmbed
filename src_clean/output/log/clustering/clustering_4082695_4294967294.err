@@ -1,0 +1,74 @@
+/var/spool/slurmd/job4082695/slurm_script: line 19: conda: command not found
+/var/spool/slurmd/job4082695/slurm_script: line 20: conda: command not found
+INFO:__main__:Saving results to /projects/p32795/weijian/skai_universal_forecaster/src/aurora/eval/classification/kmeans/clustering4/s42p30.0mtestc0icsdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr
+INFO:__main__:Step 1: Loading dataset...
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   1%|          | 1/100 [00:00<00:34,  2.89 examples/s]Map (num_proc=8):  26%|██▌       | 26/100 [00:00<00:01, 68.10 examples/s]Map (num_proc=8):  56%|█████▌    | 56/100 [00:00<00:00, 120.55 examples/s]Map (num_proc=8):  88%|████████▊ | 88/100 [00:00<00:00, 159.13 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 107.47 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   1%|          | 1/100 [00:00<00:21,  4.64 examples/s]Map (num_proc=8):  26%|██▌       | 26/100 [00:00<00:00, 88.75 examples/s]Map (num_proc=8):  58%|█████▊    | 58/100 [00:00<00:00, 147.77 examples/s]Map (num_proc=8):  90%|█████████ | 90/100 [00:00<00:00, 177.01 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 123.59 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   1%|          | 1/100 [00:00<00:17,  5.61 examples/s]Map (num_proc=8):  18%|█▊        | 18/100 [00:00<00:01, 67.51 examples/s]Map (num_proc=8):  50%|█████     | 50/100 [00:00<00:00, 139.42 examples/s]Map (num_proc=8):  78%|███████▊  | 78/100 [00:00<00:00, 181.85 examples/s]Map (num_proc=8):  98%|█████████▊| 98/100 [00:00<00:00, 175.11 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 122.04 examples/s]
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 708.17 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 711.02 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 734.84 examples/s]
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Test  → K-Means  ARI=0.2112, NMI=0.3331, F1=0.3712
+INFO:__main__:Test  → Ward      ARI=0.0691, NMI=0.2076, F1=0.3324
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/p32795/weijian/skai_universal_forecaster/src/aurora/eval/classification/kmeans/clustering4/s42p30.0mtestc1icsdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr
+INFO:__main__:Step 1: Loading dataset...
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   2%|▏         | 2/100 [00:00<00:07, 13.03 examples/s]Map (num_proc=8):  34%|███▍      | 34/100 [00:00<00:00, 137.82 examples/s]Map (num_proc=8):  66%|██████▌   | 66/100 [00:00<00:00, 181.54 examples/s]Map (num_proc=8):  96%|█████████▌| 96/100 [00:00<00:00, 195.26 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 147.87 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   2%|▏         | 2/100 [00:00<00:06, 15.14 examples/s]Map (num_proc=8):  33%|███▎      | 33/100 [00:00<00:00, 156.74 examples/s]Map (num_proc=8):  59%|█████▉    | 59/100 [00:00<00:00, 198.10 examples/s]Map (num_proc=8):  81%|████████  | 81/100 [00:00<00:00, 203.41 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 149.82 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   2%|▏         | 2/100 [00:00<00:06, 15.17 examples/s]Map (num_proc=8):  31%|███       | 31/100 [00:00<00:00, 153.77 examples/s]Map (num_proc=8):  53%|█████▎    | 53/100 [00:00<00:00, 179.06 examples/s]Map (num_proc=8):  79%|███████▉  | 79/100 [00:00<00:00, 205.56 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 146.92 examples/s]
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 689.32 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 712.42 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 731.89 examples/s]
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Test  → K-Means  ARI=0.1666, NMI=0.2510, F1=0.3639
+INFO:__main__:Test  → Ward      ARI=0.1074, NMI=0.2212, F1=0.3435
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/p32795/weijian/skai_universal_forecaster/src/aurora/eval/classification/kmeans/clustering4/s100p30.0mtestc0icsdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Test  → K-Means  ARI=0.1036, NMI=0.2886, F1=0.3575
+INFO:__main__:Test  → Ward      ARI=0.0691, NMI=0.2076, F1=0.3324
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/p32795/weijian/skai_universal_forecaster/src/aurora/eval/classification/kmeans/clustering4/s100p30.0mtestc1icsdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Test  → K-Means  ARI=0.1282, NMI=0.2220, F1=0.3569
+INFO:__main__:Test  → Ward      ARI=0.1074, NMI=0.2212, F1=0.3435
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/p32795/weijian/skai_universal_forecaster/src/aurora/eval/classification/kmeans/clustering4/s200p30.0mtestc0icsdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Test  → K-Means  ARI=0.1058, NMI=0.2246, F1=0.3247
+INFO:__main__:Test  → Ward      ARI=0.0691, NMI=0.2076, F1=0.3324
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/p32795/weijian/skai_universal_forecaster/src/aurora/eval/classification/kmeans/clustering4/s200p30.0mtestc1icsdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Test  → K-Means  ARI=0.1756, NMI=0.2777, F1=0.3546
+INFO:__main__:Test  → Ward      ARI=0.1074, NMI=0.2212, F1=0.3435
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.

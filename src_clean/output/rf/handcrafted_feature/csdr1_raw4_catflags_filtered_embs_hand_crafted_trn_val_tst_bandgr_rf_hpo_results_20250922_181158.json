@@ -1,0 +1,50 @@
+{
+  "csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr": {
+    "embedding_path": "/projects/b1094/StarEmbed/embeddings/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr",
+    "best_params": {
+      "n_estimators": 200,
+      "max_depth": 20,
+      "min_samples_split": 2
+    },
+    "best_cv_score": null,
+    "hpo_skipped": true,
+    "seeds_used": [
+      42,
+      100,
+      200
+    ],
+    "main_seed": 42,
+    "metrics": {
+      "f1_mean": 0.8072418364775,
+      "f1_std": 0.0018547576344278066,
+      "accuracy_mean": 0.9210239651416122,
+      "accuracy_std": 0.00042726826827490925,
+      "precision_mean": 0.8647152072463791,
+      "precision_std": 0.001237634681878353,
+      "recall_mean": 0.7768295334726791,
+      "recall_std": 0.002206542414535536
+    },
+    "individual_results": {
+      "f1_scores": [
+        0.8069491571105302,
+        0.8051307566353284,
+        0.8096455956866413
+      ],
+      "accuracies": [
+        0.9211915535444947,
+        0.9204374057315233,
+        0.9214429361488184
+      ],
+      "precisions": [
+        0.865257170301276,
+        0.8630029358646586,
+        0.8658855155732025
+      ],
+      "recalls": [
+        0.7756518389624397,
+        0.7749157779085064,
+        0.7799209835470913
+      ]
+    }
+  }
+}

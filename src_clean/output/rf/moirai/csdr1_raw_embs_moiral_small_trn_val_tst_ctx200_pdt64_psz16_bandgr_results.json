@@ -1,0 +1,48 @@
+{
+  "embedding_path": "/projects/b1094/StarEmbed/embeddings/embeddings_with_anom/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr",
+  "best_params": {
+    "max_depth": null,
+    "min_samples_split": 2,
+    "n_estimators": 500
+  },
+  "best_cv_score": 0.5424965159576524,
+  "hpo_skipped": false,
+  "seeds_used": [
+    42,
+    100,
+    200
+  ],
+  "main_seed": 42,
+  "metrics": {
+    "f1_mean": 0.5537543602835221,
+    "f1_std": 0.0005623436115053724,
+    "accuracy_mean": 0.8216021451315569,
+    "accuracy_std": 0.0008231474235121681,
+    "precision_mean": 0.706028778380352,
+    "precision_std": 0.0022229599238268415,
+    "recall_mean": 0.5119203743227786,
+    "recall_std": 0.0019958500755480994
+  },
+  "individual_results": {
+    "f1_scores": [
+      0.5530419503178191,
+      0.5544166690668673,
+      0.5538044614658797
+    ],
+    "accuracies": [
+      0.8206385118149824,
+      0.8226495726495726,
+      0.8215183509301156
+    ],
+    "precisions": [
+      0.7091720455900533,
+      0.7044099253862373,
+      0.7045043641647653
+    ],
+    "recalls": [
+      0.5091756556493966,
+      0.5138628352636498,
+      0.5127226320552897
+    ]
+  }
+}

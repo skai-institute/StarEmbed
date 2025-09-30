@@ -1,0 +1,29 @@
+# Use PyTorch's CUDA 12.8 wheels channel
+--extra-index-url https://download.pytorch.org/whl/cu128
+
+# Core
+torch==2.7.1+cu128
+torchvision==0.22.1+cu128
+torchaudio==2.7.1+cu128
+pytorch-lightning>=2.4,<2.8
+
+# ML / data
+scikit-learn==1.7.0
+datasets==2.21.0
+pyarrow==19.0.0
+pandas==2.2.3
+numpy==1.26.4
+
+# Plots & utils
+matplotlib==3.10.0
+seaborn==0.13.2
+tqdm==4.67.1
+
+# Needed by accelerate / wandb
+psutil>=5.9
+platformdirs>=3.10
+
+# If you actually use them:
+accelerate>=1.7
+wandb>=0.18
+

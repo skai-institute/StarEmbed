@@ -1,0 +1,8 @@
+Output directory: /projects/b1094/StarEmbed/src/output/rf/handcrafted_feature
+================ input embs: /projects/b1094/StarEmbed/embeddings/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr ================
+Hand-crafted features: True
+Standardization: True
+Skip HPO: True
+Random seed: 42
+Removing outliers from hand-crafted dataset
+selected 27997 train samples, 3967 validation samples, 7956 test samples

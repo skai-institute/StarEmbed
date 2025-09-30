@@ -1,0 +1,20 @@
+usage: rf_hpo.py [-h] --input-embs INPUT_EMBS [INPUT_EMBS ...]
+                 [--standardize STANDARDIZE] [--hand-crafted HAND_CRAFTED]
+                 [--skip-hpo] [--best-params BEST_PARAMS] [--seed SEED]
+                 [--output-dir OUTPUT_DIR]
+rf_hpo.py: error: unrecognized arguments: False
+usage: rf_hpo.py [-h] --input-embs INPUT_EMBS [INPUT_EMBS ...]
+                 [--standardize STANDARDIZE] [--hand-crafted HAND_CRAFTED]
+                 [--skip-hpo] [--best-params BEST_PARAMS] [--seed SEED]
+                 [--output-dir OUTPUT_DIR]
+rf_hpo.py: error: unrecognized arguments: False
+usage: rf_hpo.py [-h] --input-embs INPUT_EMBS [INPUT_EMBS ...]
+                 [--standardize STANDARDIZE] [--hand-crafted HAND_CRAFTED]
+                 [--skip-hpo] [--best-params BEST_PARAMS] [--seed SEED]
+                 [--output-dir OUTPUT_DIR]
+rf_hpo.py: error: unrecognized arguments: False
+usage: rf_hpo.py [-h] --input-embs INPUT_EMBS [INPUT_EMBS ...]
+                 [--standardize STANDARDIZE] [--hand-crafted HAND_CRAFTED]
+                 [--skip-hpo] [--best-params BEST_PARAMS] [--seed SEED]
+                 [--output-dir OUTPUT_DIR]
+rf_hpo.py: error: unrecognized arguments: False

@@ -1,0 +1,9 @@
+embedding,concat,standardize,n_seeds,seeds,kmeans_ari,kmeans_nmi,kmeans_f1,ward_ari,ward_nmi,ward_f1
+csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr,1,0,3,"[42, 100, 200]",0.1355 ± 0.0021,0.2217 ± 0.0093,0.3136 ± 0.0103,0.1399 ± 0.0000,0.2276 ± 0.0000,0.3318 ± 0.0000
+csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr,0,0,3,"[42, 100, 200]",0.1537 ± 0.0230,0.2201 ± 0.0305,0.2923 ± 0.0132,0.1421 ± 0.0000,0.1804 ± 0.0000,0.2686 ± 0.0000
+csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr,1,0,3,"[42, 100, 200]",0.1493 ± 0.0326,0.2152 ± 0.0450,0.2751 ± 0.0249,0.0999 ± 0.0000,0.2121 ± 0.0000,0.2216 ± 0.0000
+csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr,1,1,3,"[42, 100, 200]",0.0654 ± 0.0081,0.2036 ± 0.0098,0.2861 ± 0.0502,0.0374 ± 0.0000,0.1713 ± 0.0000,0.2961 ± 0.0000
+csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr,1,0,3,"[42, 100, 200]",0.0145 ± 0.0023,0.0834 ± 0.0015,0.1660 ± 0.0007,0.0024 ± 0.0000,0.0816 ± 0.0000,0.1611 ± 0.0000
+hf_csdr1_multiband_raw4_embeddings_astromer_1_subclass_pad_correct,1,0,3,"[42, 100, 200]",0.0089 ± 0.0007,0.0045 ± 0.0013,0.1648 ± 0.0088,0.0074 ± 0.0000,0.0034 ± 0.0000,0.1498 ± 0.0000
+hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True,1,0,3,"[42, 100, 200]",-0.0058 ± 0.0006,0.0070 ± 0.0003,0.1472 ± 0.0017,-0.0047 ± 0.0000,0.0077 ± 0.0000,0.1541 ± 0.0000
+random,1,0,3,"[42, 100, 200]",-0.0000 ± 0.0003,0.0014 ± 0.0005,0.1033 ± 0.0029,0.0008 ± 0.0000,0.0016 ± 0.0000,0.1185 ± 0.0000

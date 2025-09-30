@@ -1,0 +1,17 @@
+/var/spool/slurmd/job4097273/slurm_script: line 19: conda: command not found
+/var/spool/slurmd/job4097273/slurm_script: line 20: conda: command not found
+usage: clustering.py [-h] --dataset-dir DATASET_DIR [--perplexity PERPLEXITY]
+                     [--random-state RANDOM_STATE] [--mode {train,test,both}]
+                     [--classes CLASSES] [--concat-embs CONCAT_EMBS]
+                     [--hand_crafted HAND_CRAFTED] [--standardize STANDARDIZE]
+clustering.py: error: unrecognized arguments: --hand-crafted 1
+usage: clustering.py [-h] --dataset-dir DATASET_DIR [--perplexity PERPLEXITY]
+                     [--random-state RANDOM_STATE] [--mode {train,test,both}]
+                     [--classes CLASSES] [--concat-embs CONCAT_EMBS]
+                     [--hand_crafted HAND_CRAFTED] [--standardize STANDARDIZE]
+clustering.py: error: unrecognized arguments: --hand-crafted 1
+usage: clustering.py [-h] --dataset-dir DATASET_DIR [--perplexity PERPLEXITY]
+                     [--random-state RANDOM_STATE] [--mode {train,test,both}]
+                     [--classes CLASSES] [--concat-embs CONCAT_EMBS]
+                     [--hand_crafted HAND_CRAFTED] [--standardize STANDARDIZE]
+clustering.py: error: unrecognized arguments: --hand-crafted 1

@@ -1,0 +1,27 @@
+Output directory: /projects/b1094/StarEmbed/src/output/rf/handcrafted_feature
+================ input embs: /projects/b1094/StarEmbed/embeddings/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr ================
+Hand-crafted features: True
+Standardization: True
+Skip HPO: True
+Random seed: 42
+Removing outliers from hand-crafted dataset
+selected 27997 train samples, 3967 validation samples, 7956 test samples
+Applying StandardScaler to features...
+Features standardized
+Error: Invalid JSON format for best_params. Using default parameters.
+Training model with seed 42...
+Seed 42 - F1: 0.8069, Acc: 0.9212, Precision: 0.8653, Recall: 0.7757
+Training model with seed 100...
+Seed 100 - F1: 0.8051, Acc: 0.9204, Precision: 0.8630, Recall: 0.7749
+Training model with seed 200...
+Seed 200 - F1: 0.8096, Acc: 0.9214, Precision: 0.8659, Recall: 0.7799
+Saved individual reports for seeds: [42, 100, 200]
+Saved mean classification report to: /projects/b1094/StarEmbed/src/output/rf/handcrafted_feature/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr_rf_classification_report_mean.csv
+Saved std classification report to: /projects/b1094/StarEmbed/src/output/rf/handcrafted_feature/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr_rf_classification_report_std.csv
+Saved mean confusion matrix plot to: /projects/b1094/StarEmbed/src/output/rf/handcrafted_feature/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr_rf_confusion_matrix_mean.pdf
+Overall Results across 3 seeds:
+f1:  0.8072418364775 | 0.0018547576344278066
+acc:  0.9210239651416122 | 0.00042726826827490925
+precision:  0.8647152072463791 | 0.001237634681878353
+recall:  0.7768295334726791 | 0.002206542414535536
+-------------------------------

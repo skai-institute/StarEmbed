@@ -1,0 +1,48 @@
+{
+  "embedding_path": "/projects/b1094/StarEmbed/embeddings/embeddings_with_anom/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr",
+  "best_params": {
+    "max_depth": 30,
+    "min_samples_split": 2,
+    "n_estimators": 500
+  },
+  "best_cv_score": 0.5676781143177781,
+  "hpo_skipped": false,
+  "seeds_used": [
+    42,
+    100,
+    200
+  ],
+  "main_seed": 42,
+  "metrics": {
+    "f1_mean": 0.5817770956460286,
+    "f1_std": 0.001789419480363528,
+    "accuracy_mean": 0.8265460030165913,
+    "accuracy_std": 0.00010262651846753685,
+    "precision_mean": 0.7049643052689026,
+    "precision_std": 0.0029168891179613527,
+    "recall_mean": 0.5480223518798025,
+    "recall_std": 0.001910131629812456
+  },
+  "individual_results": {
+    "f1_scores": [
+      0.5841966803722612,
+      0.5812093628046802,
+      0.5799252437611443
+    ],
+    "accuracies": [
+      0.8265460030165912,
+      0.8266716943187531,
+      0.8264203117144293
+    ],
+    "precisions": [
+      0.7089020048578821,
+      0.7040599998135247,
+      0.701930911135301
+    ],
+    "recalls": [
+      0.5505778182690888,
+      0.5459862665804376,
+      0.547502970789881
+    ]
+  }
+}

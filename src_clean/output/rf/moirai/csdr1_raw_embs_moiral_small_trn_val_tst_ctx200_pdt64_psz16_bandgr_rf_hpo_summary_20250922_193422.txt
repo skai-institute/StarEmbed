@@ -1,0 +1,14 @@
+Random Forest Results
+============================================================
+
+Embedding: csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr
+Path: /projects/b1094/StarEmbed/embeddings/embeddings_with_anom/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr
+Best CV Score: 0.5425
+Best Params: {'max_depth': None, 'min_samples_split': 2, 'n_estimators': 500}
+Test Metrics (mean ± std):
+  F1:        0.5538 ± 0.0006
+  Accuracy:  0.8216 ± 0.0008
+  Precision: 0.7060 ± 0.0022
+  Recall:    0.5119 ± 0.0020
+----------------------------------------
+

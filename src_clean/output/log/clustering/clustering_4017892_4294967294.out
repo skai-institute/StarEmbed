@@ -1,0 +1,72 @@
+Saving results to /projects/b1094/StarEmbed/src/output/clustering/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr_test_c1_std1_p30.0_seed42
+Step 1: Loading dataset...
+Removing outliers from dataset
+selected 28000 train samples, 3967 validation samples, 7956 test samples
+Step 2: Building label2idx mapping and saving original labels...
+Step 3: Converting embeddings & labels to NumPy arrays...
+Step 4: No filtering (using all classes)
+Step 4.5: Applying StandardScaler to features...
+Features standardized. Train shape: (100, 138), Test shape: (100, 138)
+
+Step 6: Clustering TEST split
+  → K-Means (k=6)
+  → Ward    (k=6)
+Test  → K-Means  ARI=0.0668, NMI=0.1923, F1=0.3110
+Test  → Ward      ARI=0.0374, NMI=0.1713, F1=0.2961
+
+Step 8: t-SNE TEST (original labels)
+  → t-SNE (t-SNE on Filtered Test)
+Saving t-SNE plot to /projects/b1094/StarEmbed/src/output/clustering/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr_test_c1_std1_p30.0_seed42/t-SNE-on-Filtered-Test.pdf
+Saving results to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed42
+Step 1: Loading dataset...
+Removing outliers from dataset
+selected 28000 train samples, 3967 validation samples, 7956 test samples
+Step 2: Building label2idx mapping and saving original labels...
+Saving results to /projects/b1094/StarEmbed/src/output/clustering/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr_test_c1_std1_p30.0_seed100
+Step 1: Loading dataset...
+Removing outliers from dataset
+selected 28000 train samples, 3967 validation samples, 7956 test samples
+Step 2: Building label2idx mapping and saving original labels...
+Step 3: Converting embeddings & labels to NumPy arrays...
+Step 4: No filtering (using all classes)
+Step 4.5: Applying StandardScaler to features...
+Features standardized. Train shape: (100, 138), Test shape: (100, 138)
+
+Step 6: Clustering TEST split
+  → K-Means (k=6)
+  → Ward    (k=6)
+Test  → K-Means  ARI=0.0727, NMI=0.2092, F1=0.3189
+Test  → Ward      ARI=0.0374, NMI=0.1713, F1=0.2961
+
+Step 8: t-SNE TEST (original labels)
+  → t-SNE (t-SNE on Filtered Test)
+Saving t-SNE plot to /projects/b1094/StarEmbed/src/output/clustering/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr_test_c1_std1_p30.0_seed100/t-SNE-on-Filtered-Test.pdf
+Saving results to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed100
+Step 1: Loading dataset...
+Removing outliers from dataset
+selected 28000 train samples, 3967 validation samples, 7956 test samples
+Step 2: Building label2idx mapping and saving original labels...
+Saving results to /projects/b1094/StarEmbed/src/output/clustering/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr_test_c1_std1_p30.0_seed200
+Step 1: Loading dataset...
+Removing outliers from dataset
+selected 28000 train samples, 3967 validation samples, 7956 test samples
+Step 2: Building label2idx mapping and saving original labels...
+Step 3: Converting embeddings & labels to NumPy arrays...
+Step 4: No filtering (using all classes)
+Step 4.5: Applying StandardScaler to features...
+Features standardized. Train shape: (100, 138), Test shape: (100, 138)
+
+Step 6: Clustering TEST split
+  → K-Means (k=6)
+  → Ward    (k=6)
+Test  → K-Means  ARI=0.0567, NMI=0.2094, F1=0.2283
+Test  → Ward      ARI=0.0374, NMI=0.1713, F1=0.2961
+
+Step 8: t-SNE TEST (original labels)
+  → t-SNE (t-SNE on Filtered Test)
+Saving t-SNE plot to /projects/b1094/StarEmbed/src/output/clustering/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr_test_c1_std1_p30.0_seed200/t-SNE-on-Filtered-Test.pdf
+Saving results to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed200
+Step 1: Loading dataset...
+Removing outliers from dataset
+selected 28000 train samples, 3967 validation samples, 7956 test samples
+Step 2: Building label2idx mapping and saving original labels...

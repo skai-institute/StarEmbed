@@ -1,0 +1,14 @@
+Random Forest Results
+============================================================
+
+Embedding: random
+Path: /projects/p32795/dennis/random
+Best CV Score: 0.1152
+Best Params: {'max_depth': None, 'min_samples_split': 2, 'n_estimators': 100}
+Test Metrics (mean ± std):
+  F1:        0.1152 ± 0.0000
+  Accuracy:  0.6759 ± 0.0000
+  Precision: 0.0966 ± 0.0000
+  Recall:    0.1429 ± 0.0000
+----------------------------------------
+

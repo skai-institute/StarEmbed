@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 512, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 236, in main
+    ds[split].set_format(type="numpy", columns=format_columns)
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/fingerprint.py", line 442, in wrapper
+    out = func(dataset, *args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 2617, in set_format
+    raise ValueError(
+ValueError: Columns ['avg_g', 'avg_r'] not in the dataset. Current columns in the dataset: ['sourceid', 'bands_data', 'item_id', 'start', 'freq', 'period', 'objid', 'csdr1_id', 'class_str', 'g_embedding', 'r_embedding', 'label_idx']

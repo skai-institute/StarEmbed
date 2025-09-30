@@ -1,0 +1,38 @@
+/var/spool/slurmd/job4097489/slurm_script: line 19: conda: command not found
+/var/spool/slurmd/job4097489/slurm_script: line 20: conda: command not found
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/random_test_c1_std0_p30.0_seed42
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Skipping standardization
+INFO:__main__:Test  → K-Means  ARI=-0.0003, NMI=0.0012, F1=0.1021
+INFO:__main__:Test  → Ward      ARI=0.0008, NMI=0.0016, F1=0.1185
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/random_test_c1_std0_p30.0_seed100
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Skipping standardization
+INFO:__main__:Test  → K-Means  ARI=0.0003, NMI=0.0020, F1=0.1066
+INFO:__main__:Test  → Ward      ARI=0.0008, NMI=0.0016, F1=0.1185
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/random_test_c1_std0_p30.0_seed200
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Skipping standardization
+INFO:__main__:Test  → K-Means  ARI=-0.0001, NMI=0.0010, F1=0.1013
+INFO:__main__:Test  → Ward      ARI=0.0008, NMI=0.0016, F1=0.1185
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.

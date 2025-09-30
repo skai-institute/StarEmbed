@@ -1,0 +1,44 @@
+/var/spool/slurmd/job4090663/slurm_script: line 19: conda: command not found
+/var/spool/slurmd/job4090663/slurm_script: line 20: conda: command not found
+INFO:__main__:Saving results to /projects/p32795/weijian/skai_universal_forecaster/src/aurora/eval/classification/kmeans/clustering4/s42p30.0mtestc1icsdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr
+INFO:__main__:Step 1: Loading dataset...
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):  12%|█▏        | 12/100 [00:00<00:01, 44.93 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 279.10 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   1%|          | 1/100 [00:00<00:23,  4.24 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 316.81 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   1%|          | 1/100 [00:00<00:14,  6.89 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 446.71 examples/s]
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 812.05 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 828.41 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 809.07 examples/s]
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Applying StandardScaler to features...
+INFO:__main__:Features standardized. Train shape: (100, 138), Test shape: (100, 138)
+INFO:__main__:Test  → K-Means  ARI=0.0668, NMI=0.1923, F1=0.3110
+INFO:__main__:Test  → Ward      ARI=0.0374, NMI=0.1713, F1=0.2961
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/p32795/weijian/skai_universal_forecaster/src/aurora/eval/classification/kmeans/clustering4/s100p30.0mtestc1icsdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Applying StandardScaler to features...
+INFO:__main__:Features standardized. Train shape: (100, 138), Test shape: (100, 138)
+INFO:__main__:Test  → K-Means  ARI=0.0727, NMI=0.2092, F1=0.3189
+INFO:__main__:Test  → Ward      ARI=0.0374, NMI=0.1713, F1=0.2961
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/p32795/weijian/skai_universal_forecaster/src/aurora/eval/classification/kmeans/clustering4/s200p30.0mtestc1icsdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Applying StandardScaler to features...
+INFO:__main__:Features standardized. Train shape: (100, 138), Test shape: (100, 138)
+INFO:__main__:Test  → K-Means  ARI=0.0567, NMI=0.2094, F1=0.2283
+INFO:__main__:Test  → Ward      ARI=0.0374, NMI=0.1713, F1=0.2961
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.

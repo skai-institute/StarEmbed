@@ -1,0 +1,42 @@
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/all_split/random_all_c1_std0_p30.0_seed42
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Skipping standardization
+INFO:__main__:Step 4.6: Combining all splits (train+validation+test) for clustering...
+INFO:__main__:Combined dataset shape: (41492, 512)
+INFO:__main__:Step 5: Clustering ALL splits combined (train+validation+test)
+INFO:__main__:All   → K-Means  ARI=-0.0000, NMI=0.0002, F1=0.0964
+INFO:__main__:All   → Ward      ARI=-0.0004, NMI=0.0003, F1=0.1042
+INFO:__main__:Step 9: t-SNE ALL splits combined (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/all_split/random_all_c1_std0_p30.0_seed100
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Skipping standardization
+INFO:__main__:Step 4.6: Combining all splits (train+validation+test) for clustering...
+INFO:__main__:Combined dataset shape: (41492, 512)
+INFO:__main__:Step 5: Clustering ALL splits combined (train+validation+test)
+INFO:__main__:All   → K-Means  ARI=-0.0001, NMI=0.0002, F1=0.0956
+INFO:__main__:All   → Ward      ARI=-0.0004, NMI=0.0003, F1=0.1042
+INFO:__main__:Step 9: t-SNE ALL splits combined (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/all_split/random_all_c1_std0_p30.0_seed200
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Skipping standardization
+INFO:__main__:Step 4.6: Combining all splits (train+validation+test) for clustering...
+INFO:__main__:Combined dataset shape: (41492, 512)
+INFO:__main__:Step 5: Clustering ALL splits combined (train+validation+test)
+INFO:__main__:All   → K-Means  ARI=0.0000, NMI=0.0003, F1=0.0982
+INFO:__main__:All   → Ward      ARI=-0.0004, NMI=0.0003, F1=0.1042
+INFO:__main__:Step 9: t-SNE ALL splits combined (original labels)
+INFO:__main__:Clustering pipeline completed successfully.

@@ -1,0 +1,268 @@
+Output directory: /projects/b1094/StarEmbed/src/output/rf/astromer_2
+================ input embs: /projects/b1094/StarEmbed/embeddings/embeddings_with_anom/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr ================
+Hand-crafted features: False
+Standardization: False
+Skip HPO: False
+Random seed: 42
+Removing outliers from dataset
+selected 28000 train samples, 3967 validation samples, 7956 test samples
+Running hyperparameter optimization...
+Fitting 1 folds for each of 36 candidates, totalling 36 fits
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=100;, score=0.507 total time=  44.0s
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=200;, score=0.518 total time= 1.5min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=200;, score=0.553 total time= 2.4min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=100;, score=0.567 total time= 2.0min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=100;, score=0.556 total time= 1.2min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=100;, score=0.551 total time= 1.5min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=200;, score=0.509 total time= 1.5min
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=200;, score=0.563 total time= 2.4min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=100;, score=0.561 total time= 1.5min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=200;, score=0.564 total time= 4.0min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=100;, score=0.561 total time= 1.5min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=500;, score=0.516 total time= 3.7min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=200;, score=0.559 total time= 3.2min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=200;, score=0.563 total time= 3.9min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=200;, score=0.567 total time= 3.0min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=100;, score=0.509 total time=  44.3s
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=100;, score=0.564 total time= 1.2min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=200;, score=0.557 total time= 2.4min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=200;, score=0.556 total time= 3.0min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=200;, score=0.515 total time= 1.5min
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=500;, score=0.562 total time= 6.1min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=100;, score=0.559 total time= 2.0min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=500;, score=0.565 total time= 6.1min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=100;, score=0.559 total time= 1.9min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=100;, score=0.556 total time= 1.2min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=500;, score=0.558 total time= 6.0min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=500;, score=0.567 total time= 9.7min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=500;, score=0.561 total time= 9.8min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=500;, score=0.566 total time= 9.8min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=500;, score=0.512 total time= 3.7min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=500;, score=0.568 total time= 7.5min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=200;, score=0.564 total time= 3.9min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=500;, score=0.568 total time= 7.5min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=100;, score=0.512 total time=  44.2s
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=500;, score=0.515 total time= 3.7min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=500;, score=0.561 total time= 7.7min
+Best params: {'max_depth': 30, 'min_samples_split': 2, 'n_estimators': 500}
+Best CV score: 0.5676781143177781
+Training model with seed 42...
+Seed 42 - F1: 0.5842, Acc: 0.8265, Precision: 0.7089, Recall: 0.5506
+Training model with seed 100...
+Seed 100 - F1: 0.5812, Acc: 0.8267, Precision: 0.7041, Recall: 0.5460
+Training model with seed 200...
+Seed 200 - F1: 0.5799, Acc: 0.8264, Precision: 0.7019, Recall: 0.5475
+Saved individual reports for seeds: [42, 100, 200]
+Saved mean classification report to: /projects/b1094/StarEmbed/src/output/rf/astromer_2/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr_rf_classification_report_mean.csv
+Saved std classification report to: /projects/b1094/StarEmbed/src/output/rf/astromer_2/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr_rf_classification_report_std.csv
+Saved mean confusion matrix plot to: /projects/b1094/StarEmbed/src/output/rf/astromer_2/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr_rf_confusion_matrix_mean.pdf
+Overall Results across 3 seeds:
+f1:  0.5817770956460286 | 0.001789419480363528
+acc:  0.8265460030165913 | 0.00010262651846753685
+precision:  0.7049643052689026 | 0.0029168891179613527
+recall:  0.5480223518798025 | 0.001910131629812456
+-------------------------------
+Saved individual results to: /projects/b1094/StarEmbed/src/output/rf/astromer_2/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr_results.json
+Saved combined results to: /projects/b1094/StarEmbed/src/output/rf/astromer_2/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr_rf_hpo_results_20250922_184550.json
+Saved summary to: /projects/b1094/StarEmbed/src/output/rf/astromer_2/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr_rf_hpo_summary_20250922_184550.txt
+Output directory: /projects/b1094/StarEmbed/src/output/rf/moirai
+================ input embs: /projects/b1094/StarEmbed/embeddings/embeddings_with_anom/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr ================
+Hand-crafted features: False
+Standardization: False
+Skip HPO: False
+Random seed: 42
+Removing outliers from dataset
+selected 28000 train samples, 3967 validation samples, 7956 test samples
+Running hyperparameter optimization...
+Fitting 1 folds for each of 36 candidates, totalling 36 fits
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=200;, score=0.493 total time= 1.9min
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=500;, score=0.528 total time= 7.7min
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=100;, score=0.491 total time=  56.1s
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=200;, score=0.492 total time= 1.9min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=200;, score=0.523 total time= 3.0min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=100;, score=0.530 total time= 2.5min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=100;, score=0.527 total time= 1.5min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=100;, score=0.531 total time= 1.9min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=200;, score=0.494 total time= 1.9min
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=200;, score=0.521 total time= 3.1min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=100;, score=0.525 total time= 1.9min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=200;, score=0.531 total time= 5.0min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=100;, score=0.530 total time= 1.9min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=500;, score=0.491 total time= 4.7min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=200;, score=0.538 total time= 3.8min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=200;, score=0.537 total time= 4.9min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=200;, score=0.530 total time= 3.7min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=100;, score=0.492 total time=  56.2s
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=100;, score=0.532 total time= 1.5min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=200;, score=0.531 total time= 3.0min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=200;, score=0.531 total time= 3.7min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=500;, score=0.490 total time= 4.9min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=500;, score=0.540 total time= 9.4min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=100;, score=0.530 total time= 2.5min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=500;, score=0.530 total time= 7.6min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=100;, score=0.531 total time= 2.5min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=100;, score=0.534 total time= 1.5min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=500;, score=0.525 total time= 7.5min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=500;, score=0.533 total time=12.2min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=500;, score=0.541 total time=12.2min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=500;, score=0.542 total time=12.3min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=200;, score=0.534 total time= 4.9min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=500;, score=0.536 total time= 9.4min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=100;, score=0.494 total time=  56.1s
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=500;, score=0.489 total time= 4.7min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=500;, score=0.529 total time= 9.3min
+Best params: {'max_depth': None, 'min_samples_split': 2, 'n_estimators': 500}
+Best CV score: 0.5424965159576524
+Training model with seed 42...
+Seed 42 - F1: 0.5530, Acc: 0.8206, Precision: 0.7092, Recall: 0.5092
+Training model with seed 100...
+Seed 100 - F1: 0.5544, Acc: 0.8226, Precision: 0.7044, Recall: 0.5139
+Training model with seed 200...
+Seed 200 - F1: 0.5538, Acc: 0.8215, Precision: 0.7045, Recall: 0.5127
+Saved individual reports for seeds: [42, 100, 200]
+Saved mean classification report to: /projects/b1094/StarEmbed/src/output/rf/moirai/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr_rf_classification_report_mean.csv
+Saved std classification report to: /projects/b1094/StarEmbed/src/output/rf/moirai/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr_rf_classification_report_std.csv
+Saved mean confusion matrix plot to: /projects/b1094/StarEmbed/src/output/rf/moirai/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr_rf_confusion_matrix_mean.pdf
+Overall Results across 3 seeds:
+f1:  0.5537543602835221 | 0.0005623436115053724
+acc:  0.8216021451315569 | 0.0008231474235121681
+precision:  0.706028778380352 | 0.0022229599238268415
+recall:  0.5119203743227786 | 0.0019958500755480994
+-------------------------------
+Saved individual results to: /projects/b1094/StarEmbed/src/output/rf/moirai/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr_results.json
+Saved combined results to: /projects/b1094/StarEmbed/src/output/rf/moirai/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr_rf_hpo_results_20250922_193422.json
+Saved summary to: /projects/b1094/StarEmbed/src/output/rf/moirai/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr_rf_hpo_summary_20250922_193422.txt
+Output directory: /projects/b1094/StarEmbed/src/output/rf/astromer_1
+================ input embs: /projects/b1094/StarEmbed/embeddings/embeddings_with_anom/hf_csdr1_multiband_raw4_embeddings_astromer_1_subclass_pad_correct ================
+Hand-crafted features: False
+Standardization: False
+Skip HPO: False
+Random seed: 42
+Removing outliers from dataset
+selected 29046 train samples, 4149 validation samples, 8300 test samples
+Running hyperparameter optimization...
+Fitting 1 folds for each of 36 candidates, totalling 36 fits
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=100;, score=0.116 total time= 2.5min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=200;, score=0.115 total time= 2.7min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=500;, score=0.115 total time= 3.6min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=100;, score=0.116 total time= 1.8min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=200;, score=0.116 total time= 1.4min
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=200;, score=0.116 total time= 2.7min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=100;, score=0.116 total time= 1.8min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=200;, score=0.115 total time= 4.7min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=100;, score=0.115 total time= 1.8min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=500;, score=0.116 total time= 3.6min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=200;, score=0.116 total time= 3.7min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=100;, score=0.115 total time= 2.4min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=100;, score=0.115 total time= 1.3min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=500;, score=0.116 total time= 9.2min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=100;, score=0.116 total time=  43.2s
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=500;, score=0.115 total time= 3.6min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=200;, score=0.116 total time= 3.6min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=200;, score=0.115 total time= 1.4min
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=500;, score=0.116 total time= 6.7min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=100;, score=0.115 total time=  42.9s
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=200;, score=0.115 total time= 1.4min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=200;, score=0.116 total time= 2.7min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=200;, score=0.115 total time= 3.6min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=100;, score=0.116 total time= 2.4min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=500;, score=0.116 total time= 6.7min
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=100;, score=0.115 total time=  43.3s
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=100;, score=0.116 total time= 1.3min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=100;, score=0.116 total time= 1.3min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=500;, score=0.116 total time= 6.7min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=500;, score=0.116 total time=11.7min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=500;, score=0.116 total time=11.9min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=500;, score=0.116 total time=12.4min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=200;, score=0.116 total time= 4.7min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=500;, score=0.116 total time= 9.1min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=200;, score=0.116 total time= 5.0min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=500;, score=0.116 total time= 9.0min
+Best params: {'max_depth': 10, 'min_samples_split': 2, 'n_estimators': 200}
+Best CV score: 0.11583195941618128
+Training model with seed 42...
+Seed 42 - F1: 0.1152, Acc: 0.6757, Precision: 0.0965, Recall: 0.1428
+Training model with seed 100...
+Seed 100 - F1: 0.1152, Acc: 0.6754, Precision: 0.0965, Recall: 0.1428
+Training model with seed 200...
+Seed 200 - F1: 0.1156, Acc: 0.6758, Precision: 0.2394, Recall: 0.1430
+Saved individual reports for seeds: [42, 100, 200]
+Saved mean classification report to: /projects/b1094/StarEmbed/src/output/rf/astromer_1/hf_csdr1_multiband_raw4_embeddings_astromer_1_subclass_pad_correct_rf_classification_report_mean.csv
+Saved std classification report to: /projects/b1094/StarEmbed/src/output/rf/astromer_1/hf_csdr1_multiband_raw4_embeddings_astromer_1_subclass_pad_correct_rf_classification_report_std.csv
+Saved mean confusion matrix plot to: /projects/b1094/StarEmbed/src/output/rf/astromer_1/hf_csdr1_multiband_raw4_embeddings_astromer_1_subclass_pad_correct_rf_confusion_matrix_mean.pdf
+Overall Results across 3 seeds:
+f1:  0.11531491668570602 | 0.0001715963638000655
+acc:  0.6756224899598392 | 0.0001502673649306494
+precision:  0.14416958459039217 | 0.06735710678389996
+recall:  0.14284506228510088 | 9.329944075067187e-05
+-------------------------------
+Saved individual results to: /projects/b1094/StarEmbed/src/output/rf/astromer_1/hf_csdr1_multiband_raw4_embeddings_astromer_1_subclass_pad_correct_results.json
+Saved combined results to: /projects/b1094/StarEmbed/src/output/rf/astromer_1/hf_csdr1_multiband_raw4_embeddings_astromer_1_subclass_pad_correct_rf_hpo_results_20250922_204949.json
+Saved summary to: /projects/b1094/StarEmbed/src/output/rf/astromer_1/hf_csdr1_multiband_raw4_embeddings_astromer_1_subclass_pad_correct_rf_hpo_summary_20250922_204949.txt
+Output directory: /projects/b1094/StarEmbed/src/output/rf/chronos_tiny
+================ input embs: /projects/b1094/StarEmbed/embeddings/embeddings_with_anom/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr ================
+Hand-crafted features: False
+Standardization: False
+Skip HPO: False
+Random seed: 42
+Removing outliers from dataset
+selected 28000 train samples, 3967 validation samples, 7956 test samples
+Running hyperparameter optimization...
+Fitting 1 folds for each of 36 candidates, totalling 36 fits
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=100;, score=0.586 total time=  45.7s
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=200;, score=0.586 total time= 1.5min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=100;, score=0.630 total time= 1.3min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=100;, score=0.630 total time= 1.6min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=100;, score=0.620 total time= 2.5min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=200;, score=0.626 total time= 2.7min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=200;, score=0.592 total time= 1.5min
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=200;, score=0.623 total time= 2.5min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=100;, score=0.629 total time= 1.6min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=200;, score=0.622 total time= 4.5min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=100;, score=0.622 total time= 1.6min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=500;, score=0.587 total time= 3.8min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=200;, score=0.636 total time= 3.2min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=200;, score=0.632 total time= 4.3min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=200;, score=0.624 total time= 3.3min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=100;, score=0.591 total time=  46.1s
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=500;, score=0.584 total time= 3.8min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=200;, score=0.624 total time= 3.2min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=200;, score=0.590 total time= 1.5min
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=500;, score=0.616 total time= 6.4min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=100;, score=0.633 total time= 2.2min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=500;, score=0.631 total time= 6.3min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=100;, score=0.589 total time=  46.4s
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=100;, score=0.617 total time= 1.3min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=100;, score=0.624 total time= 1.3min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=500;, score=0.623 total time= 6.6min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=500;, score=0.631 total time=11.0min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=500;, score=0.625 total time=11.0min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=500;, score=0.623 total time=11.1min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=500;, score=0.588 total time= 3.9min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=500;, score=0.631 total time= 8.1min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=200;, score=0.625 total time= 4.5min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=500;, score=0.623 total time= 8.0min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=100;, score=0.640 total time= 2.1min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=200;, score=0.622 total time= 2.5min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=500;, score=0.630 total time= 7.9min
+Best params: {'max_depth': None, 'min_samples_split': 5, 'n_estimators': 100}
+Best CV score: 0.6399660530710883
+Training model with seed 42...
+Seed 42 - F1: 0.6418, Acc: 0.8625, Precision: 0.8681, Recall: 0.5991
+Training model with seed 100...
+Seed 100 - F1: 0.6395, Acc: 0.8631, Precision: 0.7231, Recall: 0.5996
+Training model with seed 200...
+Seed 200 - F1: 0.6395, Acc: 0.8621, Precision: 0.7203, Recall: 0.5986
+Saved individual reports for seeds: [42, 100, 200]
+Saved mean classification report to: /projects/b1094/StarEmbed/src/output/rf/chronos_tiny/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr_rf_classification_report_mean.csv
+Saved std classification report to: /projects/b1094/StarEmbed/src/output/rf/chronos_tiny/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr_rf_classification_report_std.csv
+Saved mean confusion matrix plot to: /projects/b1094/StarEmbed/src/output/rf/chronos_tiny/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr_rf_confusion_matrix_mean.pdf
+Overall Results across 3 seeds:
+f1:  0.6402675611266729 | 0.0010678066697500932
+acc:  0.8625775096363332 | 0.0004147601364425855
+precision:  0.7705162605486225 | 0.06903351908468083
+recall:  0.599065529583609 | 0.00040525750355733647
+-------------------------------
+Saved individual results to: /projects/b1094/StarEmbed/src/output/rf/chronos_tiny/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr_results.json
+Saved combined results to: /projects/b1094/StarEmbed/src/output/rf/chronos_tiny/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr_rf_hpo_results_20250922_211722.json
+Saved summary to: /projects/b1094/StarEmbed/src/output/rf/chronos_tiny/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr_rf_hpo_summary_20250922_211722.txt

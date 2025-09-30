@@ -1,0 +1,14 @@
+Random Forest Results
+============================================================
+
+Embedding: csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr
+Path: /projects/b1094/StarEmbed/embeddings/embeddings_with_anom/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr
+Best CV Score: 0.5677
+Best Params: {'max_depth': 30, 'min_samples_split': 2, 'n_estimators': 500}
+Test Metrics (mean ± std):
+  F1:        0.5818 ± 0.0018
+  Accuracy:  0.8265 ± 0.0001
+  Precision: 0.7050 ± 0.0029
+  Recall:    0.5480 ± 0.0019
+----------------------------------------
+
