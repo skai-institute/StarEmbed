@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 518, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 190, in main
+    ds = load_from_disk(f)
+         ^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/load.py", line 1466, in load_from_disk
+    raise FileNotFoundError(f"Directory {dataset_path} not found")
+FileNotFoundError: Directory /projects/b1094/StarEmbed/embeddings/embeddings_with_anom//projects/p32795/dennis/random not found

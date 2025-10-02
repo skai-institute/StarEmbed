@@ -1,0 +1,9 @@
+Output directory: /projects/b1094/StarEmbed/src/output/rf/astromer_2
+================ input embs: /projects/b1094/StarEmbed/embeddings/embeddings_with_anom/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True ================
+Hand-crafted features: False
+Standardization: True
+Skip HPO: True
+Random seed: 42
+Removing outliers from dataset
+selected 28000 train samples, 3967 validation samples, 7956 test samples
+Applying StandardScaler to features...

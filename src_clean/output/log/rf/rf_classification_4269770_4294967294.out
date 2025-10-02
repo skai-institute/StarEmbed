@@ -1,0 +1,47 @@
+================ input embs: /projects/b1094/StarEmbed/embeddings/embeddings_with_anom/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True ================
+Fitting 1 folds for each of 36 candidates, totalling 36 fits
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=100;, score=0.561 total time=  45.2s
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=200;, score=0.570 total time= 1.5min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=200;, score=0.586 total time= 2.5min
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=100;, score=0.556 total time=  45.2s
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=100;, score=0.585 total time= 1.3min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=100;, score=0.592 total time= 1.2min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=100;, score=0.594 total time= 1.5min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=200;, score=0.591 total time= 3.4min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=100;, score=0.589 total time= 1.5min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=200;, score=0.564 total time= 1.5min
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=200;, score=0.604 total time= 2.5min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=100;, score=0.578 total time= 1.5min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=200;, score=0.593 total time= 3.4min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=200;, score=0.590 total time= 3.2min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=500;, score=0.566 total time= 3.7min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=200;, score=0.601 total time= 3.0min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=100;, score=0.583 total time= 1.7min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=200;, score=0.597 total time= 2.5min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=200;, score=0.594 total time= 3.0min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=200;, score=0.562 total time= 1.5min
+[CV 1/1] END max_depth=20, min_samples_split=2, n_estimators=500;, score=0.599 total time= 6.2min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=100;, score=0.591 total time= 1.8min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=500;, score=0.592 total time= 6.2min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=500;, score=0.595 total time= 8.5min
+[CV 1/1] END max_depth=None, min_samples_split=5, n_estimators=500;, score=0.601 total time= 8.6min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=500;, score=0.590 total time= 8.6min
+[CV 1/1] END max_depth=None, min_samples_split=10, n_estimators=100;, score=0.577 total time= 1.7min
+[CV 1/1] END max_depth=20, min_samples_split=5, n_estimators=100;, score=0.592 total time= 1.2min
+[CV 1/1] END max_depth=20, min_samples_split=10, n_estimators=500;, score=0.584 total time= 6.2min
+[CV 1/1] END max_depth=None, min_samples_split=2, n_estimators=200;, score=0.604 total time= 3.4min
+[CV 1/1] END max_depth=30, min_samples_split=2, n_estimators=500;, score=0.600 total time= 7.7min
+[CV 1/1] END max_depth=10, min_samples_split=2, n_estimators=500;, score=0.569 total time= 3.8min
+[CV 1/1] END max_depth=30, min_samples_split=5, n_estimators=500;, score=0.598 total time= 7.8min
+[CV 1/1] END max_depth=10, min_samples_split=5, n_estimators=100;, score=0.570 total time=  45.2s
+[CV 1/1] END max_depth=10, min_samples_split=10, n_estimators=500;, score=0.567 total time= 3.7min
+[CV 1/1] END max_depth=30, min_samples_split=10, n_estimators=500;, score=0.606 total time= 7.6min
+seed: 200
+f1:  0.5815605290817567 | 0.003075752350483074
+acc:  0.8467596665409912 | 0.00021360728555958004
+precision:  0.8331115635232927 | 0.010587417107576887
+recall:  0.5261462952039406 | 0.002385027472752187
+-------------------------------
+Saved individual results to: /projects/b1094/StarEmbed/src/output/rf/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_results.json
+Saved combined results to: /projects/b1094/StarEmbed/src/output/rf/rf_hpo_results_20250919_003923.json
+Saved summary to: /projects/b1094/StarEmbed/src/output/rf/rf_hpo_summary_20250919_003923.txt

@@ -1,0 +1,50 @@
+{
+  "random": {
+    "embedding_path": "/projects/p32795/dennis/random",
+    "best_params": {
+      "max_depth": null,
+      "min_samples_split": 2,
+      "n_estimators": 100
+    },
+    "best_cv_score": 0.1152226171642251,
+    "hpo_skipped": false,
+    "seeds_used": [
+      42,
+      100,
+      200
+    ],
+    "main_seed": 42,
+    "metrics": {
+      "f1_mean": 0.11523056382869468,
+      "f1_std": 0.0,
+      "accuracy_mean": 0.6759036144578313,
+      "accuracy_std": 0.0,
+      "precision_mean": 0.0965576592082616,
+      "precision_std": 1.3877787807814457e-17,
+      "recall_mean": 0.14285714285714285,
+      "recall_std": 0.0
+    },
+    "individual_results": {
+      "f1_scores": [
+        0.11523056382869468,
+        0.11523056382869468,
+        0.11523056382869468
+      ],
+      "accuracies": [
+        0.6759036144578313,
+        0.6759036144578313,
+        0.6759036144578313
+      ],
+      "precisions": [
+        0.09655765920826162,
+        0.09655765920826162,
+        0.09655765920826162
+      ],
+      "recalls": [
+        0.14285714285714285,
+        0.14285714285714285,
+        0.14285714285714285
+      ]
+    }
+  }
+}

@@ -1,0 +1,153 @@
+Removing outliers from dataset
+selected 28000 train, 3967 val, 7956 test samples
+Train class distribution → Counter({0: 18998, 3: 3233, 1: 2889, 2: 1386, 5: 941, 4: 298, 6: 255})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr_concat_seed42
+Removing outliers from dataset
+selected 28000 train, 3967 val, 7956 test samples
+Train class distribution → Counter({0: 18998, 3: 3233, 1: 2889, 2: 1386, 5: 941, 4: 298, 6: 255})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr_concat_seed42
+Removing outliers from dataset
+selected 29046 train, 4149 val, 8300 test samples
+Train class distribution → Counter({0: 19633, 3: 3368, 1: 2983, 2: 1451, 5: 982, 6: 321, 4: 308})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/hf_csdr1_multiband_raw4_embeddings_astromer_1_subclass_pad_correct_concat_seed42
+Removing outliers from dataset
+selected 28000 train, 3967 val, 7956 test samples
+Train class distribution → Counter({0: 18998, 3: 3233, 1: 2889, 2: 1386, 5: 941, 4: 298, 6: 255})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_concat_seed42
+Removing outliers from dataset
+selected 29046 train, 4149 val, 8300 test samples
+Train class distribution → Counter({0: 19633, 3: 3368, 1: 2983, 2: 1451, 5: 982, 6: 321, 4: 308})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/random_concat_seed42
+Removing outliers from dataset
+selected 28000 train, 3967 val, 7956 test samples
+Train class distribution → Counter({0: 18998, 3: 3233, 1: 2889, 2: 1386, 5: 941, 4: 298, 6: 255})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr_concat_seed100
+Removing outliers from dataset
+selected 28000 train, 3967 val, 7956 test samples
+Train class distribution → Counter({0: 18998, 3: 3233, 1: 2889, 2: 1386, 5: 941, 4: 298, 6: 255})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr_concat_seed100
+Removing outliers from dataset
+selected 29046 train, 4149 val, 8300 test samples
+Train class distribution → Counter({0: 19633, 3: 3368, 1: 2983, 2: 1451, 5: 982, 6: 321, 4: 308})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/hf_csdr1_multiband_raw4_embeddings_astromer_1_subclass_pad_correct_concat_seed100
+Removing outliers from dataset
+selected 28000 train, 3967 val, 7956 test samples
+Train class distribution → Counter({0: 18998, 3: 3233, 1: 2889, 2: 1386, 5: 941, 4: 298, 6: 255})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_concat_seed100
+Removing outliers from dataset
+selected 29046 train, 4149 val, 8300 test samples
+Train class distribution → Counter({0: 19633, 3: 3368, 1: 2983, 2: 1451, 5: 982, 6: 321, 4: 308})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/random_concat_seed100
+Removing outliers from dataset
+selected 28000 train, 3967 val, 7956 test samples
+Train class distribution → Counter({0: 18998, 3: 3233, 1: 2889, 2: 1386, 5: 941, 4: 298, 6: 255})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr_concat_seed200
+Removing outliers from dataset
+selected 28000 train, 3967 val, 7956 test samples
+Train class distribution → Counter({0: 18998, 3: 3233, 1: 2889, 2: 1386, 5: 941, 4: 298, 6: 255})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr_concat_seed200
+Removing outliers from dataset
+selected 29046 train, 4149 val, 8300 test samples
+Train class distribution → Counter({0: 19633, 3: 3368, 1: 2983, 2: 1451, 5: 982, 6: 321, 4: 308})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/hf_csdr1_multiband_raw4_embeddings_astromer_1_subclass_pad_correct_concat_seed200
+Removing outliers from dataset
+selected 28000 train, 3967 val, 7956 test samples
+Train class distribution → Counter({0: 18998, 3: 3233, 1: 2889, 2: 1386, 5: 941, 4: 298, 6: 255})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_concat_seed200
+Removing outliers from dataset
+selected 29046 train, 4149 val, 8300 test samples
+Train class distribution → Counter({0: 19633, 3: 3368, 1: 2983, 2: 1451, 5: 982, 6: 321, 4: 308})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/random_concat_seed200
+Removing outliers from dataset
+selected 28000 train, 3967 val, 7956 test samples
+Train class distribution → Counter({0: 18998, 3: 3233, 1: 2889, 2: 1386, 5: 941, 4: 298, 6: 255})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr_concat_seed100
+Removing outliers from dataset
+selected 28000 train, 3967 val, 7956 test samples
+Train class distribution → Counter({0: 18998, 3: 3233, 1: 2889, 2: 1386, 5: 941, 4: 298, 6: 255})
+
+=== Training Logistic Regression ===
+
+=== Training kNN (k=5) ===
+
+Done. Results saved in: /projects/b1094/StarEmbed/src/output/linear_classification/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr_concat_seed200

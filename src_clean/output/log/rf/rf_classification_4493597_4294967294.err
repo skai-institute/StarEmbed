@@ -1,0 +1,50 @@
+Map (num_proc=4):   0%|          | 0/28000 [00:00<?, ? examples/s]Map (num_proc=4):   0%|          | 1/28000 [00:00<2:06:53,  3.68 examples/s]Map (num_proc=4):  11%|█         | 3112/28000 [00:01<00:13, 1797.70 examples/s]Map (num_proc=4):  15%|█▍        | 4198/28000 [00:02<00:10, 2241.19 examples/s]Map (num_proc=4):  19%|█▉        | 5256/28000 [00:02<00:09, 2340.10 examples/s]Map (num_proc=4):  23%|██▎       | 6304/28000 [00:02<00:07, 3057.39 examples/s]Map (num_proc=4):  26%|██▌       | 7306/28000 [00:03<00:11, 1863.13 examples/s]Map (num_proc=4):  29%|██▉       | 8220/28000 [00:04<00:10, 1954.43 examples/s]Map (num_proc=4):  33%|███▎      | 9148/28000 [00:04<00:08, 2278.43 examples/s]Map (num_proc=4):  36%|███▌      | 10068/28000 [00:04<00:06, 2830.61 examples/s]Map (num_proc=4):  40%|███▉      | 11074/28000 [00:05<00:12, 1352.41 examples/s]Map (num_proc=4):  43%|████▎     | 12054/28000 [00:06<00:09, 1705.81 examples/s]Map (num_proc=4):  47%|████▋     | 13098/28000 [00:06<00:06, 2209.19 examples/s]Map (num_proc=4):  53%|█████▎    | 14747/28000 [00:06<00:03, 3407.04 examples/s]Map (num_proc=4):  56%|█████▋    | 15791/28000 [00:08<00:10, 1195.41 examples/s]Map (num_proc=4):  60%|█████▉    | 16778/28000 [00:09<00:07, 1507.50 examples/s]Map (num_proc=4):  63%|██████▎   | 17776/28000 [00:09<00:05, 1864.10 examples/s]Map (num_proc=4):  67%|██████▋   | 18774/28000 [00:09<00:04, 2152.24 examples/s]Map (num_proc=4):  70%|███████   | 19718/28000 [00:10<00:05, 1475.65 examples/s]Map (num_proc=4):  75%|███████▍  | 20945/28000 [00:11<00:03, 1781.85 examples/s]Map (num_proc=4):  78%|███████▊  | 21956/28000 [00:11<00:02, 2187.02 examples/s]Map (num_proc=4):  82%|████████▏ | 22953/28000 [00:12<00:03, 1516.94 examples/s]Map (num_proc=4):  85%|████████▌ | 23855/28000 [00:12<00:02, 1882.53 examples/s]Map (num_proc=4):  89%|████████▉ | 24877/28000 [00:12<00:01, 2426.07 examples/s]Map (num_proc=4):  91%|█████████ | 25447/28000 [00:13<00:01, 2390.40 examples/s]Map (num_proc=4):  95%|█████████▍| 26466/28000 [00:13<00:00, 3172.42 examples/s]Map (num_proc=4):  99%|█████████▊| 27608/28000 [00:13<00:00, 3909.56 examples/s]Map (num_proc=4): 100%|██████████| 28000/28000 [00:17<00:00, 1569.96 examples/s]
+Map (num_proc=4):   0%|          | 0/3967 [00:00<?, ? examples/s]Map (num_proc=4):   0%|          | 1/3967 [00:00<13:20,  4.95 examples/s]Map (num_proc=4):  66%|██████▌   | 2605/3967 [00:02<00:01, 1149.07 examples/s]Map (num_proc=4):  80%|████████  | 3191/3967 [00:02<00:00, 1184.33 examples/s]Map (num_proc=4): 100%|██████████| 3967/3967 [00:02<00:00, 1503.56 examples/s]Map (num_proc=4): 100%|██████████| 3967/3967 [00:03<00:00, 1287.43 examples/s]
+Map (num_proc=4):   0%|          | 0/7956 [00:00<?, ? examples/s]Map (num_proc=4):   0%|          | 1/7956 [00:00<24:52,  5.33 examples/s]Map (num_proc=4):  40%|███▉      | 3166/7956 [00:00<00:00, 12148.55 examples/s]Map (num_proc=4):  61%|██████    | 4848/7956 [00:02<00:01, 1623.04 examples/s] Map (num_proc=4):  77%|███████▋  | 6124/7956 [00:04<00:01, 1255.62 examples/s]Map (num_proc=4):  88%|████████▊ | 7040/7956 [00:04<00:00, 1281.23 examples/s]Map (num_proc=4):  94%|█████████▍| 7498/7956 [00:05<00:00, 980.02 examples/s] Map (num_proc=4): 100%|██████████| 7956/7956 [00:08<00:00, 573.24 examples/s]Map (num_proc=4): 100%|██████████| 7956/7956 [00:08<00:00, 962.93 examples/s]
+Map (num_proc=4):   0%|          | 0/1039 [00:00<?, ? examples/s]Map (num_proc=4):   0%|          | 0/1039 [00:00<?, ? examples/s]
+multiprocess.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/multiprocess/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 586, in _write_generator_to_queue
+    for i, result in enumerate(func(**kwargs)):
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3650, in _map_single
+    for i, example in iter_outputs(shard_iterable):
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3624, in iter_outputs
+    yield i, apply_function(example, i, offset=offset)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3547, in apply_function
+    processed_inputs = function(*fn_args, *additional_args, **fn_kwargs)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 225, in add_label_idx
+    return {"label_idx": label2idx[example["class_str"]]}
+                         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: '9'
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 452, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 228, in main
+    ds = ds.map(add_label_idx, num_proc=4)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/dataset_dict.py", line 946, in map
+    dataset_dict[split] = dataset.map(
+                          ^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 560, in wrapper
+    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3309, in map
+    for rank, done, content in iflatmap_unordered(
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 626, in iflatmap_unordered
+    [async_result.get(timeout=0.05) for async_result in async_results]
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 626, in <listcomp>
+    [async_result.get(timeout=0.05) for async_result in async_results]
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/multiprocess/pool.py", line 774, in get
+    raise self._value
+KeyError: '9'

@@ -1,0 +1,2 @@
+/var/spool/slurmd/job4501511/slurm_script: line 35: syntax error near unexpected token `python'
+/var/spool/slurmd/job4501511/slurm_script: line 35: `python /projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py \'

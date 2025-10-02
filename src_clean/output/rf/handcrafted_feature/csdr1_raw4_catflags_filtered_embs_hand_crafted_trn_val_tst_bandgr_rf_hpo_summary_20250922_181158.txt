@@ -1,0 +1,14 @@
+zRandom Forest Results
+============================================================
+
+Embedding: csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr
+Path: /projects/b1094/StarEmbed/embeddings/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr
+HPO: Skipped (used provided/default parameters)
+Best Params: {'n_estimators': 200, 'max_depth': 20, 'min_samples_split': 2}
+Test Metrics (mean ± std):
+  F1:        0.8072 ± 0.0019
+  Accuracy:  0.9210 ± 0.0004
+  Precision: 0.8647 ± 0.0012
+  Recall:    0.7768 ± 0.0022
+----------------------------------------
+

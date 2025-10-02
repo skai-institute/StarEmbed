@@ -1,0 +1,12 @@
+tensorflow==2.14
+scikit-learn
+notebook
+seaborn
+PyDrive
+joblib
+polars==0.20.10
+pandas
+mlflow
+gdown
+tqdm
+toml

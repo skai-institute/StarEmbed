@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 512, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 255, in main
+    X_train = scaler.fit_transform(X_train)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/sklearn/utils/_set_output.py", line 316, in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/sklearn/base.py", line 894, in fit_transform
+    return self.fit(X, **fit_params).transform(X)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/sklearn/preprocessing/_data.py", line 907, in fit
+    return self.partial_fit(X, y, sample_weight)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/sklearn/base.py", line 1365, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/sklearn/preprocessing/_data.py", line 943, in partial_fit
+    X = validate_data(
+        ^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/sklearn/utils/validation.py", line 2954, in validate_data
+    out = check_array(X, input_name="X", **check_params)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/sklearn/utils/validation.py", line 1099, in check_array
+    raise ValueError(
+ValueError: Found array with dim 3, while dim <= 2 is required by StandardScaler.

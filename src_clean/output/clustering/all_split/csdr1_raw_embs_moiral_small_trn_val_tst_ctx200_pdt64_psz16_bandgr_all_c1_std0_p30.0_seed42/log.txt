@@ -1,0 +1,14 @@
+Saving results to /projects/b1094/StarEmbed/src/output/clustering/all_split/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr_all_c1_std0_p30.0_seed42
+Step 1: Loading dataset...
+Step 2: Building label2idx mapping and saving original labels...
+Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+Step 3: Converting embeddings & labels to NumPy arrays...
+Step 4: No filtering (using all classes)
+Step 4.5: Skipping standardization
+Step 4.6: Combining all splits (train+validation+test) for clustering...
+Combined dataset shape: (39923, 768)
+Step 5: Clustering ALL splits combined (train+validation+test)
+All   → K-Means  ARI=0.0144, NMI=0.0811, F1=0.1565
+All   → Ward      ARI=0.0112, NMI=0.0759, F1=0.1506
+Step 9: t-SNE ALL splits combined (original labels)
+Clustering pipeline completed successfully.

@@ -1,0 +1,16 @@
+Map (num_proc=12):   0%|          | 0/28000 [00:00<?, ? examples/s]Map (num_proc=12):   4%|▎         | 1000/28000 [00:45<20:28, 21.98 examples/s]Map (num_proc=12):   7%|▋         | 2000/28000 [00:45<08:12, 52.77 examples/s]Map (num_proc=12):  29%|██▊       | 8000/28000 [00:46<01:03, 314.32 examples/s]Map (num_proc=12):  43%|████▎     | 12000/28000 [00:56<00:50, 314.32 examples/s]Map (num_proc=12):  43%|████▎     | 12000/28000 [04:44<06:19, 42.13 examples/s] 
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 512, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 219, in main
+    ds[split] = ds[split].map(
+                ^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 560, in wrapper
+    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3309, in map
+    for rank, done, content in iflatmap_unordered(
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 619, in iflatmap_unordered
+    raise RuntimeError(
+RuntimeError: One of the subprocesses has abruptly died during map operation.To debug the error, disable multiprocessing.
+slurmstepd: error: Detected 1 oom_kill event in StepId=4507799.batch. Some of the step tasks have been OOM Killed.

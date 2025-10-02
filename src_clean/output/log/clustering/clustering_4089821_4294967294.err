@@ -1,0 +1,26 @@
+/var/spool/slurmd/job4089821/slurm_script: line 19: conda: command not found
+/var/spool/slurmd/job4089821/slurm_script: line 20: conda: command not found
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering_orin.py", line 340, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering_orin.py", line 204, in main
+    file_handler = logging.FileHandler(os.path.join(result_dir, 'log.txt'))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen posixpath>", line 76, in join
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering_orin.py", line 340, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering_orin.py", line 204, in main
+    file_handler = logging.FileHandler(os.path.join(result_dir, 'log.txt'))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen posixpath>", line 76, in join
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering_orin.py", line 340, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering_orin.py", line 204, in main
+    file_handler = logging.FileHandler(os.path.join(result_dir, 'log.txt'))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen posixpath>", line 76, in join
+TypeError: expected str, bytes or os.PathLike object, not NoneType

@@ -1,0 +1,18 @@
+usage: clustering.py [-h] --dataset-dir DATASET_DIR [--perplexity PERPLEXITY]
+                     [--random-state RANDOM_STATE]
+                     [--mode {train,test,validation,both,all}]
+                     [--classes CLASSES] [--concat-embs CONCAT_EMBS]
+                     [--hand-crafted HAND_CRAFTED] [--standardize STANDARDIZE]
+clustering.py: error: unrecognized arguments: --save-dir 
+usage: clustering.py [-h] --dataset-dir DATASET_DIR [--perplexity PERPLEXITY]
+                     [--random-state RANDOM_STATE]
+                     [--mode {train,test,validation,both,all}]
+                     [--classes CLASSES] [--concat-embs CONCAT_EMBS]
+                     [--hand-crafted HAND_CRAFTED] [--standardize STANDARDIZE]
+clustering.py: error: unrecognized arguments: --save-dir 
+usage: clustering.py [-h] --dataset-dir DATASET_DIR [--perplexity PERPLEXITY]
+                     [--random-state RANDOM_STATE]
+                     [--mode {train,test,validation,both,all}]
+                     [--classes CLASSES] [--concat-embs CONCAT_EMBS]
+                     [--hand-crafted HAND_CRAFTED] [--standardize STANDARDIZE]
+clustering.py: error: unrecognized arguments: --save-dir 

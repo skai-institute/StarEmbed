@@ -1,0 +1,41 @@
+/var/spool/slurmd/job4097740/slurm_script: line 19: conda: command not found
+/var/spool/slurmd/job4097740/slurm_script: line 20: conda: command not found
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed42
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Train shape: (28000, 512), Test shape: (7956, 512)
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Skipping standardization
+INFO:__main__:Test  → K-Means  ARI=-0.0052, NMI=0.0066, F1=0.1452
+INFO:__main__:Test  → Ward      ARI=-0.0047, NMI=0.0077, F1=0.1541
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed100
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Train shape: (28000, 512), Test shape: (7956, 512)
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Skipping standardization
+INFO:__main__:Test  → K-Means  ARI=-0.0061, NMI=0.0072, F1=0.1482
+INFO:__main__:Test  → Ward      ARI=-0.0047, NMI=0.0077, F1=0.1541
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed200
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Using original label order: ['1', '13', '2', '4', '5', '6', '8']
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Train shape: (28000, 512), Test shape: (7956, 512)
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Skipping standardization
+INFO:__main__:Test  → K-Means  ARI=-0.0062, NMI=0.0072, F1=0.1482
+INFO:__main__:Test  → Ward      ARI=-0.0047, NMI=0.0077, F1=0.1541
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.

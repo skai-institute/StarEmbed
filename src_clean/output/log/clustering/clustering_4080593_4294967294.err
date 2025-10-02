@@ -1,0 +1,35 @@
+/var/spool/slurmd/job4080593/slurm_script: line 19: conda: command not found
+/var/spool/slurmd/job4080593/slurm_script: line 20: conda: command not found
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr_test_c1_std0_p30.0_seed42
+INFO:__main__:Step 1: Loading dataset...
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 342, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 212, in main
+    ds = load_from_disk(args.dataset_dir)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/load.py", line 1474, in load_from_disk
+    raise FileNotFoundError(
+FileNotFoundError: Directory /projects/p32795/weijian/embs/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr is neither a `Dataset` directory nor a `DatasetDict` directory.
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr_test_c1_std0_p30.0_seed100
+INFO:__main__:Step 1: Loading dataset...
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 342, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 212, in main
+    ds = load_from_disk(args.dataset_dir)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/load.py", line 1474, in load_from_disk
+    raise FileNotFoundError(
+FileNotFoundError: Directory /projects/p32795/weijian/embs/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr is neither a `Dataset` directory nor a `DatasetDict` directory.
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr_test_c1_std0_p30.0_seed200
+INFO:__main__:Step 1: Loading dataset...
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 342, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 212, in main
+    ds = load_from_disk(args.dataset_dir)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/load.py", line 1474, in load_from_disk
+    raise FileNotFoundError(
+FileNotFoundError: Directory /projects/p32795/weijian/embs/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr is neither a `Dataset` directory nor a `DatasetDict` directory.

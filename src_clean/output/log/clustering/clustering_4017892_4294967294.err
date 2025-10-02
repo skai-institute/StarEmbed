@@ -1,0 +1,199 @@
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr_test_c1_std1_p30.0_seed42
+INFO:__main__:Step 1: Loading dataset...
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):  12%|█▏        | 12/100 [00:00<00:01, 57.56 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 349.07 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   1%|          | 1/100 [00:00<00:10,  9.16 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 462.98 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   1%|          | 1/100 [00:00<00:13,  7.37 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 458.72 examples/s]
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 757.83 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 788.81 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 794.39 examples/s]
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Applying StandardScaler to features...
+INFO:__main__:Features standardized. Train shape: (100, 138), Test shape: (100, 138)
+INFO:__main__:Test  → K-Means  ARI=0.0668, NMI=0.1923, F1=0.3110
+INFO:__main__:Test  → Ward      ARI=0.0374, NMI=0.1713, F1=0.2961
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed42
+INFO:__main__:Step 1: Loading dataset...
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   1%|          | 1/100 [00:00<00:22,  4.42 examples/s]Map (num_proc=8):  13%|█▎        | 13/100 [00:00<00:01, 47.87 examples/s]Map (num_proc=8):  34%|███▍      | 34/100 [00:00<00:00, 104.23 examples/s]Map (num_proc=8):  53%|█████▎    | 53/100 [00:00<00:00, 123.05 examples/s]Map (num_proc=8):  82%|████████▏ | 82/100 [00:00<00:00, 166.60 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 103.26 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   1%|          | 1/100 [00:00<00:20,  4.83 examples/s]Map (num_proc=8):  13%|█▎        | 13/100 [00:00<00:01, 47.22 examples/s]Map (num_proc=8):  40%|████      | 40/100 [00:00<00:00, 120.57 examples/s]Map (num_proc=8):  62%|██████▏   | 62/100 [00:00<00:00, 144.73 examples/s]Map (num_proc=8):  90%|█████████ | 90/100 [00:00<00:00, 177.98 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 106.47 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   1%|          | 1/100 [00:00<00:16,  6.13 examples/s]Map (num_proc=8):  14%|█▍        | 14/100 [00:00<00:01, 61.22 examples/s]Map (num_proc=8):  40%|████      | 40/100 [00:00<00:00, 138.28 examples/s]Map (num_proc=8):  60%|██████    | 60/100 [00:00<00:00, 156.60 examples/s]Map (num_proc=8):  86%|████████▌ | 86/100 [00:00<00:00, 187.71 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 123.11 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   1%|          | 1/100 [00:00<00:15,  6.58 examples/s]Map (num_proc=8):  10%|█         | 10/100 [00:00<00:01, 46.25 examples/s]Map (num_proc=8):  30%|███       | 30/100 [00:00<00:00, 107.52 examples/s]Map (num_proc=8):  51%|█████     | 51/100 [00:00<00:00, 140.82 examples/s]Map (num_proc=8):  71%|███████   | 71/100 [00:00<00:00, 158.41 examples/s]Map (num_proc=8):  91%|█████████ | 91/100 [00:00<00:00, 168.13 examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 109.97 examples/s]
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 679.45 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 664.50 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8): 100%|██████████| 100/100 [00:00<00:00, 667.59 examples/s]
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]
+multiprocess.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/multiprocess/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 586, in _write_generator_to_queue
+    for i, result in enumerate(func(**kwargs)):
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3650, in _map_single
+    for i, example in iter_outputs(shard_iterable):
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3624, in iter_outputs
+    yield i, apply_function(example, i, offset=offset)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3547, in apply_function
+    processed_inputs = function(*fn_args, *additional_args, **fn_kwargs)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 230, in remap
+    ex['label_idx'] = label2idx[ex['class_str']]
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: '9'
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 334, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 232, in main
+    ds = ds.map(remap, num_proc=8)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/dataset_dict.py", line 946, in map
+    dataset_dict[split] = dataset.map(
+                          ^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 560, in wrapper
+    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3309, in map
+    for rank, done, content in iflatmap_unordered(
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 626, in iflatmap_unordered
+    [async_result.get(timeout=0.05) for async_result in async_results]
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 626, in <listcomp>
+    [async_result.get(timeout=0.05) for async_result in async_results]
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/multiprocess/pool.py", line 774, in get
+    raise self._value
+KeyError: '9'
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr_test_c1_std1_p30.0_seed100
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Applying StandardScaler to features...
+INFO:__main__:Features standardized. Train shape: (100, 138), Test shape: (100, 138)
+INFO:__main__:Test  → K-Means  ARI=0.0727, NMI=0.2092, F1=0.3189
+INFO:__main__:Test  → Ward      ARI=0.0374, NMI=0.1713, F1=0.2961
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed100
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]
+multiprocess.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/multiprocess/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 586, in _write_generator_to_queue
+    for i, result in enumerate(func(**kwargs)):
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3650, in _map_single
+    for i, example in iter_outputs(shard_iterable):
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3624, in iter_outputs
+    yield i, apply_function(example, i, offset=offset)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3547, in apply_function
+    processed_inputs = function(*fn_args, *additional_args, **fn_kwargs)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 230, in remap
+    ex['label_idx'] = label2idx[ex['class_str']]
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: '9'
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 334, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 232, in main
+    ds = ds.map(remap, num_proc=8)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/dataset_dict.py", line 946, in map
+    dataset_dict[split] = dataset.map(
+                          ^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 560, in wrapper
+    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3309, in map
+    for rank, done, content in iflatmap_unordered(
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 626, in iflatmap_unordered
+    [async_result.get(timeout=0.05) for async_result in async_results]
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 626, in <listcomp>
+    [async_result.get(timeout=0.05) for async_result in async_results]
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/multiprocess/pool.py", line 774, in get
+    raise self._value
+KeyError: '9'
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr_test_c1_std1_p30.0_seed200
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+INFO:__main__:Step 3: Converting embeddings & labels to NumPy arrays...
+INFO:__main__:Step 4: No filtering (using all classes)
+INFO:__main__:Step 4.5: Applying StandardScaler to features...
+INFO:__main__:Features standardized. Train shape: (100, 138), Test shape: (100, 138)
+INFO:__main__:Test  → K-Means  ARI=0.0567, NMI=0.2094, F1=0.2283
+INFO:__main__:Test  → Ward      ARI=0.0374, NMI=0.1713, F1=0.2961
+INFO:__main__:
+Step 8: t-SNE TEST (original labels)
+INFO:__main__:Clustering pipeline completed successfully.
+INFO:__main__:Saving results to /projects/b1094/StarEmbed/src/output/clustering/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True_test_c1_std0_p30.0_seed200
+INFO:__main__:Step 1: Loading dataset...
+INFO:__main__:Step 2: Building label2idx mapping and saving original labels...
+Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]Map (num_proc=8):   0%|          | 0/100 [00:00<?, ? examples/s]
+multiprocess.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/multiprocess/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 586, in _write_generator_to_queue
+    for i, result in enumerate(func(**kwargs)):
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3650, in _map_single
+    for i, example in iter_outputs(shard_iterable):
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3624, in iter_outputs
+    yield i, apply_function(example, i, offset=offset)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3547, in apply_function
+    processed_inputs = function(*fn_args, *additional_args, **fn_kwargs)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 230, in remap
+    ex['label_idx'] = label2idx[ex['class_str']]
+                      ~~~~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: '9'
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 334, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py", line 232, in main
+    ds = ds.map(remap, num_proc=8)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/dataset_dict.py", line 946, in map
+    dataset_dict[split] = dataset.map(
+                          ^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 560, in wrapper
+    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3309, in map
+    for rank, done, content in iflatmap_unordered(
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 626, in iflatmap_unordered
+    [async_result.get(timeout=0.05) for async_result in async_results]
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 626, in <listcomp>
+    [async_result.get(timeout=0.05) for async_result in async_results]
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/multiprocess/pool.py", line 774, in get
+    raise self._value
+KeyError: '9'

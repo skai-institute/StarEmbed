@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 254, in <module>
+    main()
+  File "/projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py", line 93, in main
+    ds = load_from_disk(f, keep_in_memory=True)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/bgz1526/.conda/envs/ag/lib/python3.11/site-packages/datasets/load.py", line 1474, in load_from_disk
+    raise FileNotFoundError(
+FileNotFoundError: Directory / is neither a `Dataset` directory nor a `DatasetDict` directory.

@@ -1,0 +1,14 @@
+Random Forest Results
+============================================================
+
+Embedding: hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True
+Path: /projects/b1094/StarEmbed/embeddings/embeddings_with_anom/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True
+HPO: Skipped (used provided/default parameters)
+Best Params: {'max_depth': 30, 'min_samples_split': 10, 'n_estimators': 500}
+Test Metrics (mean ± std):
+  F1:        0.5802 ± 0.0034
+  Accuracy:  0.8462 ± 0.0002
+  Precision: 0.7941 ± 0.0054
+  Recall:    0.5248 ± 0.0026
+----------------------------------------
+
