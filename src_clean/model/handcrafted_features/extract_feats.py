@@ -8,12 +8,9 @@ import argparse
 import time
 import os
 
-# The master branch of the FATS package is still on Python 2, so I've
-# checked out a version of the repo from a not-yet merged PR (#13) which
-# migrates everything to Python 3. Here, I'm importing that version of the package
-# with a couple spot fixes for remaining old syntax
-import sys
-sys.path.append("/projects/b1094/rehemtulla/SkAI/FATS")
+# Install FATS package NOT via pip, but rather via cloning and installing
+# https://github.com/nabeelre/FATS.git
+# This fork migrates everything to Python 3.
 import FATS
 
 # Suppress mathematical warnings from FATS
@@ -37,9 +34,6 @@ FATS_feature_names = [
     'Freq3_harmonics_rel_phase_2', 'Freq3_harmonics_rel_phase_3',
     'CAR_sigma', 'CAR_tau', 'CAR_mean', 'Con', 'PairSlopeTrend',
 ]
-# Prepare column names for g and r band FATS features
-FATS_columns = ['g_'+feat_name for feat_name in FATS_feature_names] +\
-        ['r_'+feat_name for feat_name in FATS_feature_names]
 
 LC_extractor = light_curve.Extractor(
     light_curve.Amplitude(),
@@ -69,9 +63,6 @@ LC_extractor = light_curve.Extractor(
     light_curve.StetsonK(),
     light_curve.WeightedMean(),
 )
-# Prepare column names for g and r band light_curve features
-LC_columns = ['g_'+feat_name for feat_name in LC_extractor.names] +\
-        ['r_'+feat_name for feat_name in LC_extractor.names]
 
 
 def calc_FATS_features(lc):
@@ -114,7 +105,7 @@ def calc_LC_features(lc):
     return LC_features
 
 
-def process_batch(batch_data, batch_idx, batch_size):
+def process_batch(batch_data, batch_idx, batch_size, bands_present, FATS_columns, LC_columns):
     """Process a batch of astronomical objects and return their features."""
     batch_FATS_features = pd.DataFrame(columns=FATS_columns)
     batch_LC_features = pd.DataFrame(columns=LC_columns)
@@ -128,37 +119,34 @@ def process_batch(batch_data, batch_idx, batch_size):
 
         # Calculate FATS features for both bands
         start_time = time.time()
-        try:
-            g_FATS_feats = calc_FATS_features(star['g'])
-        except ValueError:
-            g_FATS_feats = np.full(len(FATS_feature_names), -2)
-
-        try:
-            r_FATS_feats = calc_FATS_features(star['r'])
-        except ValueError:
-            r_FATS_feats = np.full(len(FATS_feature_names), -2)
+        # Generalize to any number of bands present
+        band_FATS_feats = []
+        for band in bands_present:
+            try:
+                feats = calc_FATS_features(star[band])
+            except ValueError:
+                feats = np.full(len(FATS_feature_names), -2)
+            band_FATS_feats.append(feats)
         batch_fats_time += time.time() - start_time
-        batch_FATS_features.loc[star_idx, :] = np.concatenate((g_FATS_feats, r_FATS_feats))
+        batch_FATS_features.loc[star_idx, :] = np.concatenate(band_FATS_feats)
 
         # Calculate light_curve features for both bands
         start_time = time.time()
-        try:
-            g_LC_feats = calc_LC_features(star['g'])
-        except ValueError:
-            g_LC_feats = np.full(len(LC_extractor.names), -2)
-
-        try:
-            r_LC_feats = calc_LC_features(star['r'])
-        except ValueError:
-            r_LC_feats = np.full(len(LC_extractor.names), -2)
+        band_LC_feats = []
+        for band in bands_present:
+            try:
+                feats = calc_LC_features(star[band])
+            except ValueError:
+                feats = np.full(len(LC_extractor.names), -2)
+            band_LC_feats.append(feats)
         batch_lc_time += time.time() - start_time
-        batch_LC_features.loc[star_idx, :] = np.concatenate((g_LC_feats, r_LC_feats))
+        batch_LC_features.loc[star_idx, :] = np.concatenate(band_LC_feats)
 
     print("Finished", batch_idx)
     return batch_FATS_features, batch_LC_features, batch_fats_time, batch_lc_time
 
 
-def compile_handcrafted_features(data):
+def compile_handcrafted_features(data, bands_present, FATS_columns, LC_columns, num_workers):
     """Compile all handcrafted features for a dataset of astronomical objects."""
     FATS_features = pd.DataFrame(columns=FATS_columns)
     LC_features = pd.DataFrame(columns=LC_columns)
@@ -168,14 +156,17 @@ def compile_handcrafted_features(data):
     total_lc_time = 0
 
     # Set up multiprocessing parameters
-    num_workers = 14 - 1  # Leave one CPU free
+    num_workers = num_workers - 1  # Leave one CPU free
     batch_size = max(1, len(data) // (num_workers * 2))  # make 2*num_workers batches
 
     # Create batches
     batches = []
     for i in range(0, len(data), batch_size):
-        batch = data[i:i+batch_size]
-        batches.append((batch, i // batch_size, batch_size))
+        batch = data[i:i + batch_size]
+        batches.append((
+            batch, i // batch_size, batch_size,
+            bands_present, FATS_columns, LC_columns
+        ))
 
     # Set up progress reporting
     print(f"Processing {len(data)} objects with {num_workers} workers in {len(batches)} batches")
@@ -214,22 +205,50 @@ def compile_handcrafted_features(data):
 
 if __name__ == "__main__":
     # Setup command line argument parsing
-    parser = argparse.ArgumentParser(description="Extract handcrafted features from CSDR1")
+    parser = argparse.ArgumentParser(description="Extract handcrafted features from dataset")
     parser.add_argument(
-        '--split', type=str, choices=['train', 'validation', 'test'],
-        required=True, help='Dataset split to process (train, validation, or test)'
+        '--split', type=str, choices=['train', 'validation', 'test', 'anom'],
+        required=True, help='Dataset split to process (train, validation, test, or anom)'
+    )
+    parser.add_argument(
+        "--dataset_path", type=str,
+        required=True, help='Path to dataset on disk'
+    )
+    parser.add_argument(
+        "--num_workers", type=int, default=4,
+        help="Number of worker processes to use for parallel feature extraction"
     )
     args = parser.parse_args()
 
+    dataset_path = args.dataset_path
+    split = args.split
+    num_workers = args.num_workers
+
     # Load dataset
-    dataset_path = "/projects/p32795/hongyu/hf_csdr1_multiband_raw_lc_subclass_class_str_v2"
     dataset = load_from_disk(dataset_path)
 
+    # Determine which bands are present in the dataset's light curves
+    first_example = dataset[split][0]
+    if "bands_data" not in first_example:
+        raise ValueError("Expected 'bands_data' key in dataset example, but not found.")
+    bands_present = list(first_example["bands_data"].keys())
+    print(f"Bands present in the dataset: {bands_present}")
+
+    # Prepare column names for FATS and LC features
+    FATS_columns = [
+        band + '_' + feat_name for band in bands_present for feat_name in FATS_feature_names
+    ]
+    LC_columns = [
+        band + '_' + feat_name for band in bands_present for feat_name in LC_extractor.names
+    ]
+
     # Process the specified split
-    print(f"Processing {args.split} split...")
-    hc_feats = compile_handcrafted_features(dataset[args.split])
+    print(f"Processing {split} split...")
+    hc_feats = compile_handcrafted_features(
+        dataset[split], bands_present, FATS_columns, LC_columns, num_workers
+    )
 
     # Save results
-    output_file = f"../../data/hc_feats_{args.split}_{os.path.basename(dataset_path)}_mp.csv"
+    output_file = f"../../data/hc_feats_{split}_{os.path.basename(dataset_path)}.csv"
     hc_feats.to_csv(output_file, index=None)
     print(f"Features saved to {output_file}")
