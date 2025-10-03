@@ -6,8 +6,9 @@ import argparse
 import time
 import json
 
-from OGLE_reading_utils import (
-    load_catalog, merge_remarks, merge_ident, read_light_curve, get_period_feature_columns
+from read_OGLE import (
+    load_catalog, merge_remarks, merge_ident, read_light_curve, get_period_feature_columns,
+    base_dir
 )
 
 # Standardized StarEmbed schema with some columns unique to OGLE
@@ -52,15 +53,14 @@ schema = Features({
 def create_dataset(num_workers):
     catalogs_to_process = [
         # region, parent_type, sub_type
-        ("blg", "hb", "hb"),
-        # ("BLG", "TRANSITS", "TRANSITS")
+        # ("blg", "hb", "hb")
     ]
 
-    # with open("all_OGLE_collections.json", "r") as f:
-    #     OGLE_collections = json.load(f)
-    # types_to_process = ["CEP", "RRLYR", "DSCT", "T2CEP", "ACEP"]
-    # for type in types_to_process:
-    #     catalogs_to_process.extend(OGLE_collections[type])
+    with open("all_OGLE_collections.json", "r") as f:
+        OGLE_collections = json.load(f)
+    types_to_process = ["CEP", "RRLYR", "DSCT", "T2CEP", "ACEP", "LPV", "ECL", "HB", "ROT"]
+    for collec in types_to_process:
+        catalogs_to_process.extend(OGLE_collections[collec])
 
     # Create empty lists to store dataset entries
     dataset_entries = []
@@ -82,7 +82,7 @@ def create_dataset(num_workers):
         duration = time.time() - start_time
         print(f"  Loaded catalog ({duration:.2f}s; {len(cat) / duration:.0f} stars/s)")
         start_time = time.time()
-        
+
         cat = merge_remarks(*catalog_to_process, cat)
         duration = time.time() - start_time
         print(f"  Merged remarks ({duration:.2f}s; {len(cat) / duration:.0f} stars/s)")
@@ -92,9 +92,9 @@ def create_dataset(num_workers):
         cat.reset_index(drop=True, inplace=True)
         duration = time.time() - start_time
         print(f"  Merged ident ({duration:.2f}s; {len(cat) / duration:.0f} stars/s)")
-        print(f"  Finished catalog-level data")
+        print("  Finished catalog-level data")
 
-        lc_base_dir = f"../../../data/ogle4_raw/OCVS/{region}/{parent_type}/"
+        lc_base_dir = f"{base_dir}/ogle4_raw/OCVS/{region}/{parent_type}/"
         template_lc_glob_path = [
             lc_base_dir + f"*phot*/BAND/{star_ID}.dat"
             for star_ID in cat['sourceid']
@@ -121,6 +121,10 @@ def create_dataset(num_workers):
         valid_star_ids = cat['sourceid'][valid_mask]
         valid_multiband_lcs = [lc for lc in multiband_lcs if lc is not None]
 
+        print(f"    Total stars: {len(cat)}")
+        print(f"    Stars with light curves: {len(valid_star_ids)}")
+        print(f"    Stars without light curves: {len(cat) - len(valid_star_ids)}")
+
         dataset_entries.extend([
             star_info_map[star_id] | {"bands_data": lc} | {"sourceid": star_id}
             for star_id, lc in zip(valid_star_ids, valid_multiband_lcs)
@@ -136,11 +140,6 @@ def create_dataset(num_workers):
     dataset = Dataset.from_list(dataset_entries, features=schema)
     print(f"Created dataset with {len(dataset_entries)} entries ({time.time() - start_time:.2f}s)")
 
-    if len(no_lc_ids) > 0:
-        print(f"No lightcurve data found for {len(no_lc_ids)} IDs")
-    else:
-        print("Found lightcurve data for all stars")
-
     return dataset
 
 
@@ -154,9 +153,10 @@ if __name__ == "__main__":
     num_workers = args.num_workers
 
     dataset = create_dataset(num_workers)
+
     dataset.save_to_disk(
-        "../../../data/ogle4",
-        num_proc=num_workers,  # save_to_disk does not support multiprocessing
+        "../../../../../../StarEmbed/data/ogle4",
+        num_proc=num_workers,
         max_shard_size="100MB",
     )
     print(f"Done writing OGLE data to HF format ({time.time() - global_start_time:.2f}s)\n")

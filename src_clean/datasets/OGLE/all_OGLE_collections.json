@@ -76,5 +76,33 @@
     ["lmc", "acep", "acep1O"],
     ["smc", "acep", "acepF"],
     ["smc", "acep", "acep1O"]
+  ],
+
+  "LPV": [
+    ["blg", "lpv", "Mira"],
+    ["gd", "lpv", "Mira"]
+  ],
+
+  "ECL": [
+    ["blg", "ecl", "ecl"],
+    ["blg", "ecl", "ell"],
+    ["lmc", "ecl", "ecl"],
+    ["lmc", "ecl", "ell"],
+    ["smc", "ecl", "ecl"],
+    ["smc", "ecl", "ell"]
+  ],
+
+  "HB": [
+    ["blg", "hb", "hb"],
+    ["lmc", "hb", "hb"],
+    ["smc", "hb", "hb"]
+  ],
+
+  "ROT": [
+    ["blg", "rot", "rot"]
+  ],
+
+  "TRANSITS": [
+    ["blg", "transits", "transits"]
   ]
 }

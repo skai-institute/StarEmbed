@@ -5,6 +5,9 @@ import re
 import os
 
 
+base_dir = "/projects/b1094/StarEmbed/data"
+
+
 def get_period_feature_columns(num_periods):
     """
     Return the column names for the period features in the catalog repeated num_periods times.
@@ -26,14 +29,14 @@ def get_period_feature_columns(num_periods):
 def format_coordinate(coord_str, is_dec=False):
     """
     Reformat coordinates from space-separated to colon-separated format.
-    
+
     Parameters
     ----------
     coord_str : str
         The coordinate string in space-separated format
     is_dec : bool, default False
         Whether the coordinate is declination (True) or right ascension (False)
-    
+
     Returns
     -------
     str
@@ -41,11 +44,11 @@ def format_coordinate(coord_str, is_dec=False):
     """
     if pd.isna(coord_str) or coord_str == "":
         return coord_str
-    
+
     parts = coord_str.split()
     if len(parts) != 3:
         return coord_str
-    
+
     if is_dec:
         # Format: ±dd:mm:ss.s with leading zeros for declination
         sign = "-" if parts[0].startswith("-") else "+"
@@ -62,7 +65,7 @@ def format_coordinate(coord_str, is_dec=False):
             parts[1].zfill(2),
             parts[2].zfill(5)
         ]
-    
+
     return ':'.join(formatted_parts)
 
 
@@ -151,7 +154,7 @@ def load_catalog(region, parent_type, sub_type):
     """
     region = region.lower()
     parent_type = parent_type.lower()
-    region_class_dir = f"../../../data/ogle4_raw/OCVS/{region}/{parent_type}/"
+    region_class_dir = f"{base_dir}/ogle4_raw/OCVS/{region}/{parent_type}/"
 
     if parent_type in ["cep", "rrlyr", "t2cep", "acep"]:
         if sub_type in ["cepF", "cep1O", "cep2O", "RRab", "RRc", "t2cep", "acepF", "acep1O"]:
@@ -231,14 +234,14 @@ def load_catalog(region, parent_type, sub_type):
             sh = 0
         else:
             raise NotImplementedError(f"HB {region} not implemented")
-        
+
         colspecs = [
-            ( 0     , 16 + sh), (17 + sh, 23 + sh), (24 + sh, 30 + sh),
+            (0      , 16 + sh), (17 + sh, 23 + sh), (24 + sh, 30 + sh),
             (31 + sh, 44 + sh), (45 + sh, 55 + sh), (56 + sh, 61 + sh),
             (62 + sh, 68 + sh), (69 + sh, 74 + sh), (75 + sh, 81 + sh),
             (82 + sh, 91 + sh), (92 + sh, 94 + sh),
         ]
-        
+
         catalog = pd.read_fwf(
             region_class_dir + f"{sub_type}.dat", colspecs=colspecs,
             names=[
@@ -268,7 +271,7 @@ def load_catalog(region, parent_type, sub_type):
             ]
         else:
             raise NotImplementedError(f"ECL {region} not implemented")
-        
+
         catalog = pd.read_fwf(
             region_class_dir + f"{sub_type}.dat", colspecs=colspecs,
             names=[
@@ -276,7 +279,7 @@ def load_catalog(region, parent_type, sub_type):
                 'depth_p_ecl', 'depth_s_ecl'
             ]
         )
-        
+
         # Add non-standard features into remarks column
         nonstandard_feat_names = [
             'max_mag_I', 'max_mag_V', 't_p_ecl', 'depth_p_ecl', 'depth_s_ecl'
@@ -290,12 +293,12 @@ def load_catalog(region, parent_type, sub_type):
             catalog[feature] = np.nan
     elif parent_type == "rot":
         catalog = pd.read_csv(
-            region_class_dir + f"{sub_type}.dat", delimiter=r'\s+',
+            region_class_dir + f"{sub_type.lower()}.dat", delimiter=r'\s+',
             names=[
                 'sourceid', 'avg_mag_V', 'p_amp_V', 'avg_mag_I', 'p_amp_I', 'period'
             ]
         )
-        
+
         # Add non-standard features into remarks column
         nonstandard_feat_names = ['p_amp_V', 'p_amp_I']
         catalog = add_nonstandard_feats_to_remarks(catalog, nonstandard_feat_names)
@@ -326,7 +329,7 @@ def load_catalog(region, parent_type, sub_type):
     # Replace any "-" in any column with NaN
     catalog = catalog.mask((catalog == "-") | (catalog == ""), np.nan)
 
-    # Certain classes create the remarks column earlier, but create it now for the rest 
+    # Certain classes create the remarks column earlier, but create it now for the rest
     if 'remarks' not in catalog.columns:
         catalog['remarks'] = ""
     catalog['region'] = region
@@ -372,7 +375,7 @@ def merge_remarks(region, parent_type, sub_type, subtype_df):
     """
     region = region.upper()
     parent_type = parent_type.upper()
-    region_class_dir = f"../../../data/ogle4_raw/OCVS/{region.lower()}/{parent_type.lower()}/"
+    region_class_dir = f"{base_dir}/ogle4_raw/OCVS/{region.lower()}/{parent_type.lower()}/"
 
     # If remarks file does not exist, return the dataframe with empty remarks
     remarks_file = region_class_dir + "remarks.txt"
@@ -437,7 +440,7 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
     """
     region = region.upper()
     parent_type = parent_type.upper()
-    region_class_dir = f"../../../data/ogle4_raw/OCVS/{region.lower()}/{parent_type.lower()}/"
+    region_class_dir = f"{base_dir}/ogle4_raw/OCVS/{region.lower()}/{parent_type.lower()}/"
 
     # Define the column widths based on the data format
     # Differences come from regions names and ID numbers having different numbers of digits
@@ -549,7 +552,7 @@ def merge_ident(region, parent_type, sub_type, subtype_df):
             names=['sourceid', 'ra', 'dec',
                    'OGLE_IV_id', 'OGLE_III_id', 'OGLE_II_id', 'other_id']
         )
-    
+
     # HB stars have RA and Dec terms separated by spaces instead of colons
     if parent_type in ["HB"]:
         ident['ra'] = ident['ra'].apply(format_coordinate)
