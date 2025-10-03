@@ -215,6 +215,10 @@ if __name__ == "__main__":
         required=True, help='Path to dataset on disk'
     )
     parser.add_argument(
+        "--output_path", type=str, required=True,
+        help="Path to save the extracted features as a HF dataset"
+    )
+    parser.add_argument(
         "--num_workers", type=int, default=4,
         help="Number of worker processes to use for parallel feature extraction"
     )
@@ -228,6 +232,7 @@ if __name__ == "__main__":
     split = args.split
     num_workers = args.num_workers
     bands_to_process = args.bands_to_process
+    output_path = args.output_path
 
     # Load dataset
     dataset = load_from_disk(dataset_path)
@@ -257,6 +262,6 @@ if __name__ == "__main__":
     )
 
     # Save results
-    output_file = f"../../data/hc_feats_{split}_{os.path.basename(dataset_path)}.csv"
+    output_file = f"{output_path}/{split}_{os.path.basename(dataset_path)}.csv"
     hc_feats.to_csv(output_file, index=None)
     print(f"Features saved to {output_file}")
