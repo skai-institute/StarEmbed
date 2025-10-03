@@ -14,6 +14,8 @@ Usage:
 """
 import argparse
 import numpy as np
+import sys
+import os
 from datasets import load_from_disk
 from sklearn.cluster import KMeans
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
@@ -29,10 +31,18 @@ from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import random
 import pathlib
-import os
 from functools import partial
 import logging
 import traceback
+
+# Add src_clean to path for importing benchmark.utils  
+script_dir = os.path.dirname(os.path.abspath(__file__))
+benchmark_dir = os.path.dirname(script_dir)
+src_clean_dir = os.path.dirname(benchmark_dir)
+sys.path.append(src_clean_dir)
+
+from benchmark.utils import remove_outliers, add_label_indices, cal_avg_embedding
+
 # logger to save results to file
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -211,28 +221,6 @@ split: test, Number of examples with nan: 1
 [7880]
 """
 
-def remove_outlier(dataset, hand_crafted=False):
-    if not hand_crafted:
-        print("Removing outliers from dataset")
-        bad_idx_trn, bad_idx_val, bad_idx_tst = 23082, 473, 7880
-        trn_idx_to_select = list(range(bad_idx_trn)) + list(range(bad_idx_trn+1,len(dataset["train"]))) 
-        val_idx_to_select = list(range(bad_idx_val)) + list(range(bad_idx_val+1,len(dataset["validation"]))) 
-        tst_idx_to_select = list(range(bad_idx_tst)) + list(range(bad_idx_tst+1,len(dataset["test"])))
-    else:
-        print("Removing outliers from hand-crafted dataset")
-        bad_idx_trn, bad_idx_val, bad_idx_tst = [3010, 9693, 16524, 22151], [449], [1158]
-        trn_idx_to_select = list(sorted(set(range(len(dataset["train"]))) - set(bad_idx_trn)))
-        val_idx_to_select = list(sorted(set(range(len(dataset["validation"]))) - set(bad_idx_val)))
-        tst_idx_to_select = list(sorted(set(range(len(dataset["test"]))) - set(bad_idx_tst)))
-
-    dataset["train"]      = dataset["train"].select(trn_idx_to_select)
-    dataset["validation"] = dataset["validation"].select(val_idx_to_select)
-    dataset["test"]       = dataset["test"].select(tst_idx_to_select)
-    print(f"selected {len(dataset['train'])} train samples, {len(dataset['validation'])} validation samples, {len(dataset['test'])} test samples")
-    return dataset
-
-
-
 def main():
     """
     Load dataset, remap labels, filter class subset, cluster splits, and plot t-SNE.
@@ -264,29 +252,20 @@ def main():
     logger.info("Step 1: Loading dataset...")
 
     ds = load_from_disk(args.dataset_dir)
-    ds = remove_outlier(ds, args.hand_crafted)
+    ds = remove_outliers(ds, hand_crafted=bool(args.hand_crafted))
 
     # calculate the average embedding for clustering
     for split in ds.keys():
         ds[split] = ds[split].map(partial(cal_avg_embedding, concat=bool(args.concat_embs), hand_crafted=bool(args.hand_crafted)), remove_columns=["bands_data"], num_proc=8)
 
-    # Step 2: Remap labels and keep originals
+    # Step 2: Add label indices using unified utility
     print("Step 2: Building label2idx mapping and saving original labels...")
     logger.info("Step 2: Building label2idx mapping and saving original labels...")
     
-    # Use the original hardcoded order to maintain consistency
-    orig_labels = ['1', '13', '2', '4', '5', '6', '8']
-    print(f"Using original label order: {orig_labels}")
-    logger.info(f"Using original label order: {orig_labels}")
-    label2idx   = {lab: i for i, lab in enumerate(orig_labels)}
-    def remap(ex):
-        ex['label_idx'] = label2idx[ex['class_str']]
-        return ex
-    
-    # Only remap standard splits (exclude 'anom' split if it exists)
-    standard_splits = [split for split in ds.keys() if split in ['train', 'validation', 'test']]
-    for split in standard_splits:
-        ds[split] = ds[split].map(remap, num_proc=8)
+    # Use unified label mapping utility
+    ds, label2idx, orig_labels = add_label_indices(ds, num_proc=8, sort_labels=True)
+    print(f"Automatic label order: {orig_labels}")
+    logger.info(f"Automatic label order: {orig_labels}")
 
     y_train_orig = np.array(ds['train']['class_str'])
     y_test_orig  = np.array(ds['test']['class_str'])

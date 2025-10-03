@@ -4,6 +4,7 @@ import os
 import json
 import pathlib
 import argparse
+import sys
 from datetime import datetime
 from functools import partial
 
@@ -18,6 +19,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import pickle
+
+# Add src_clean to path for importing benchmark.utils
+script_dir = os.path.dirname(os.path.abspath(__file__))
+benchmark_dir = os.path.dirname(script_dir)
+src_clean_dir = os.path.dirname(benchmark_dir)
+sys.path.append(src_clean_dir)
+
+from benchmark.utils import remove_outliers, add_label_indices, process_embeddings_batch
 
 
 def parse_args():
@@ -59,30 +68,6 @@ def plot_confusion_matrix(cm, text_labels, out_path):
     plt.close()
 
 
-def remove_outlier(dataset, hand_crafted=False):
-    """
-    Remove outlier examples from the dataset based on predefined indices.
-    """
-    if not hand_crafted:
-        print("Removing outliers from dataset")
-        bad_idx_trn, bad_idx_val, bad_idx_tst = 23082, 473, 7880
-        trn_idx_to_select = list(range(bad_idx_trn)) + list(range(bad_idx_trn+1,len(dataset["train"]))) 
-        val_idx_to_select = list(range(bad_idx_val)) + list(range(bad_idx_val+1,len(dataset["validation"]))) 
-        tst_idx_to_select = list(range(bad_idx_tst)) + list(range(bad_idx_tst+1,len(dataset["test"])))
-    else:
-        print("Removing outliers from hand-crafted dataset")
-        bad_idx_trn, bad_idx_val, bad_idx_tst = [3010, 9693, 16524, 22151], [449], [1158]
-        trn_idx_to_select = list(sorted(set(range(len(dataset["train"]))) - set(bad_idx_trn)))
-        val_idx_to_select = list(sorted(set(range(len(dataset["validation"]))) - set(bad_idx_val)))
-        tst_idx_to_select = list(sorted(set(range(len(dataset["test"]))) - set(bad_idx_tst)))
-
-    dataset["train"]      = dataset["train"].select(trn_idx_to_select)
-    dataset["validation"] = dataset["validation"].select(val_idx_to_select)
-    dataset["test"]       = dataset["test"].select(tst_idx_to_select)
-    print(f"selected {len(dataset['train'])} train samples, {len(dataset['validation'])} validation samples, {len(dataset['test'])} test samples")
-    return dataset
-
-
 # input_embs = [
 # "/projects/b1094/StarEmbed/embeddings/embeddings_with_anom/hf_csdr1_multiband_raw4_embeddings_astromer_2_gr_sampling_True"
 # # "/projects/b1094/StarEmbed/embeddings/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr",
@@ -112,53 +97,7 @@ def train_model(X_train, y_train, seed, params):
 
 
 
-def add_embedding_batch(batch, hand_crafted=False):
-    """
-    Batch version of add_embedding for faster processing.
-    Processes multiple examples at once instead of one by one.
-    """
-    g_embeddings = []
-    r_embeddings = []
-    
-    for emb_g_raw, emb_r_raw in zip(batch["embeddings_g"], batch["embeddings_r"]):
-        emb_g = np.squeeze(np.array(emb_g_raw, dtype=np.float32))
-        emb_r = np.squeeze(np.array(emb_r_raw, dtype=np.float32))
-        
-        if hand_crafted:
-            # For hand-crafted features, use them directly
-            avg_g, avg_r = emb_g, emb_r
-        else:
-            # For learned embeddings, compute average if multi-dimensional
-            if emb_g.ndim > 1:
-                avg_g, avg_r = emb_g.mean(0), emb_r.mean(0)
-            else:
-                avg_g, avg_r = emb_g, emb_r
-            
-        g_embeddings.append(avg_g)
-        r_embeddings.append(avg_r)
-    
-    batch['g_embedding'] = g_embeddings
-    batch['r_embedding'] = r_embeddings
-    
-    return batch
 
-def add_embedding(example):
-    """
-    Single example version (kept for compatibility).
-    Use add_embedding_batch for better performance.
-    """
-    emb_g = np.squeeze(np.array(example["embeddings_g"], dtype=np.float32))
-    emb_r = np.squeeze(np.array(example["embeddings_r"], dtype=np.float32))
-
-    if emb_g.ndim > 1:
-        avg_g, avg_r = emb_g.mean(0), emb_r.mean(0)
-    else:
-        avg_g, avg_r = emb_g, emb_r
-
-    example['g_embedding'] = avg_g
-    example['r_embedding'] = avg_r
-
-    return example
 
 def main():
 
@@ -190,49 +129,26 @@ def main():
         ds = load_from_disk(f)
         
         # Remove outliers
-        ds = remove_outlier(ds, bool(args.hand_crafted))
+        ds = remove_outliers(ds, hand_crafted=bool(args.hand_crafted))
 
-        # Label mapping similar to linear classifier
-        orig_labels = sorted(set(ds["train"]["class_str"]), key=lambda s: int(s))
-        label2idx = {lab: i for i, lab in enumerate(orig_labels)}
-        class_name_map = {
-            "1": "EW",
-            "2": "EA", 
-            "4": "RRab",
-            "5": "RRc",
-            "6": "RRd",
-            "8": "RS CVn",
-            "13": "LPV"
-        }
+        # Add label indices using unified utility
+        ds, label2idx, text_labels = add_label_indices(ds, num_proc=8, sort_labels=True)
         
-        def add_label_idx(example):
-            return {"label_idx": label2idx[example["class_str"]]}
-        
-        text_labels = [class_name_map[c] for c in orig_labels]
-        
-        # Convenient arrow -> NumPy view (avoids a full copy)
+        # Process embeddings using unified utility function
         if 'embeddings_g' in ds['train'].features:
             # Apply embedding processing only to standard splits
             standard_splits = ['train', 'validation', 'test']
             for split in standard_splits:
                 if split in ds:
-                    if bool(args.hand_crafted):
-                        # For handcrafted features, use the simpler single-example processing
-                        ds[split] = ds[split].map(add_embedding, num_proc=8)
-                    else:
-                        # For learned embeddings, use batch processing with averaging
-                        ds[split] = ds[split].map(
-                            partial(add_embedding_batch, hand_crafted=False), 
-                            batched=True,
-                            batch_size=1000,  # Process 1000 examples at a time
-                            num_proc=6,
-                        )
+                    # Use batch processing for all types of embeddings
+                    ds[split] = ds[split].map(
+                        partial(process_embeddings_batch, hand_crafted=bool(args.hand_crafted)), 
+                        batched=True,
+                        batch_size=1000,  # Process 1000 examples at a time
+                        num_proc=6,
+                    )
 
-        # Apply label mapping AFTER embedding processing, only to standard splits
-        standard_splits = ['train', 'validation', 'test']
-        for split in standard_splits:
-            if split in ds:
-                ds[split] = ds[split].map(add_label_idx, num_proc=8)
+        # Label mapping is already applied by add_label_indices()
 
         # Set format - now both handcrafted and learned embeddings use same column names
         format_columns = ["g_embedding", "r_embedding", "class_str", "label_idx"]

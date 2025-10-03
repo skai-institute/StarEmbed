@@ -1,5 +1,6 @@
 # linear_models.py
 import os
+import sys
 import argparse
 import numpy as np
 import pandas as pd
@@ -15,6 +16,15 @@ from sklearn.metrics import confusion_matrix, classification_report
 import pickle
 import random
 
+# Add src_clean directory to path to find benchmark.utils
+script_dir = os.path.dirname(os.path.abspath(__file__))  # /path/to/benchmark/classification/
+benchmark_dir = os.path.dirname(script_dir)              # /path/to/benchmark/
+src_clean_dir = os.path.dirname(benchmark_dir)           # /path/to/src_clean/
+sys.path.append(src_clean_dir)
+
+# Import unified utilities
+from benchmark.utils import remove_outliers, add_label_indices
+
 def check_nan_stats(X, name="dataset"):
     total_points = X.shape[0]
     nan_mask = ~np.isfinite(X)
@@ -23,24 +33,7 @@ def check_nan_stats(X, name="dataset"):
     print(f"[NaN Check] {name}: {n_bad}/{total_points} samples contain NaN/Inf ({(n_bad/total_points)*100:.2f}%).")
     return n_bad
 
-def remove_outlier(dataset, hand_crafted=False):
-    if not hand_crafted:
-        print("Removing outliers from dataset")
-        bad_idx_trn, bad_idx_val, bad_idx_tst = 23082, 473, 7880
-        trn_idx_to_select = list(range(bad_idx_trn)) + list(range(bad_idx_trn+1,len(dataset["train"]))) 
-        val_idx_to_select = list(range(bad_idx_val)) + list(range(bad_idx_val+1,len(dataset["validation"]))) 
-        tst_idx_to_select = list(range(bad_idx_tst)) + list(range(bad_idx_tst+1,len(dataset["test"])))
-    else:
-        print("Removing outliers from hand-crafted dataset")
-        bad_idx_trn, bad_idx_val, bad_idx_tst = [3010, 9693, 16524, 22151], [449], [1158]
-        trn_idx_to_select = list(sorted(set(range(len(dataset["train"]))) - set(bad_idx_trn)))
-        val_idx_to_select = list(sorted(set(range(len(dataset["validation"]))) - set(bad_idx_val)))
-        tst_idx_to_select = list(sorted(set(range(len(dataset["test"]))) - set(bad_idx_tst)))
-    dataset["train"]      = dataset["train"].select(trn_idx_to_select)
-    dataset["validation"] = dataset["validation"].select(val_idx_to_select)
-    dataset["test"]       = dataset["test"].select(tst_idx_to_select)
-    print(f"selected {len(dataset['train'])} train, {len(dataset['validation'])} val, {len(dataset['test'])} test samples")
-    return dataset
+# Removed duplicate function - now using unified remove_outliers from utils
 
 class ScenarioDataset:
     def __init__(self, hf_ds, scenario="avg", label_key="label_idx"):
@@ -137,7 +130,7 @@ if __name__ == "__main__":
     parser.add_argument("--scenario", type=str, default="avg")
     parser.add_argument("--input_embs", type=str, default="/projects/p32795/weijian/embs/csdr1_raw_embs_moiral_small_trn_val_tst_ctx200_pdt64_psz16_bandgr")
     parser.add_argument("--out_dir", type=str, default=f"linear_results")
-    parser.add_argument("--hand_crafted", type=int, default=0)
+    parser.add_argument("--hand_crafted", type=bool, default=False)
     parser.add_argument("--k", type=int, default=5, help="k for kNN")
     parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility")
     args = parser.parse_args()
@@ -152,27 +145,19 @@ if __name__ == "__main__":
     args.out_dir = os.path.join(base_output_dir, experiment_name)
 
     os.makedirs(args.out_dir, exist_ok=True)
-    ds = remove_outlier(load_from_disk(args.input_embs), args.hand_crafted)
-    train_ds, val_ds, test_ds = ds["train"], ds["validation"], ds["test"]
+    
+    # Load and clean dataset using unified utilities
+    ds = load_from_disk(args.input_embs)
+    ds = remove_outliers(ds, hand_crafted=args.hand_crafted)
 
-    # label remap
-    orig_labels   = sorted(set(train_ds["class_str"]), key=lambda s: int(s))
-    label2idx     = {lab: i for i, lab in enumerate(orig_labels)}
-    class_name_map = {
-        "1":  "EW",
-        "2":  "EA",
-        "4":  "RRab",
-        "5":  "RRc",
-        "6":  "RRd",
-        "8":  "RS CVn",
-        "13": "LPV"
-    }
-    def add_label(example, mapping): return {"label_idx": mapping[example["class_str"]]}
-    text_labels = [ class_name_map[c] for c in orig_labels ]
-    train_ds = train_ds.map(partial(add_label, mapping=label2idx), num_proc=4)
-    val_ds   = val_ds.map  (partial(add_label, mapping=label2idx), num_proc=2)
-    test_ds  = test_ds.map (partial(add_label, mapping=label2idx), num_proc=2)
-    print("Train class distribution →", Counter(train_ds["label_idx"]))
+    # Add label indices using unified utilities (works with any descriptive class names)
+    ds, label2idx, text_labels = add_label_indices(ds, num_proc=4, sort_labels=True)
+    
+    print(f"Found classes: {text_labels}")
+    print(f"Label mapping: {label2idx}")
+    print("Train class distribution →", Counter(ds["train"]["label_idx"]))
+    
+    train_ds, val_ds, test_ds = ds["train"], ds["validation"], ds["test"]
 
     # Prepare data
     X_train, y_train, X_val, y_val, X_test, y_test = prepare_numpy_data(train_ds, val_ds, test_ds, args.scenario)
