@@ -36,16 +36,18 @@ def check_nan_stats(X, name="dataset"):
 
 # Removed duplicate function - now using unified remove_outliers from utils
 
-class ScenarioDataset:
-    def __init__(self, hf_ds, scenario="avg", label_key="label_idx"):
-        assert scenario in ("concat", "avg", "g", "r", "i", "z")  # Added more bands
-        self.ds, self.scenario, self.lkey = hf_ds, scenario, label_key
-    def __len__(self): return len(self.ds)
-    def __getitem__(self, idx):
-        rec = self.ds[idx]
-        # Use main unified embedding function - now handles pre-computed avg_embedding!
-        x_np = compute_embedding(rec, band_combination=self.scenario, hand_crafted=False, return_format="combined")
-        return x_np, rec[self.lkey]
+
+# old way to compute avg on the fly
+# class ScenarioDataset:
+#     def __init__(self, hf_ds, scenario="avg", label_key="label_idx"):
+#         assert scenario in ("concat", "avg", "g", "r", "i", "z")  # Added more bands
+#         self.ds, self.scenario, self.lkey = hf_ds, scenario, label_key
+#     def __len__(self): return len(self.ds)
+#     def __getitem__(self, idx):
+#         rec = self.ds[idx]
+#         # Use main unified embedding function - now handles pre-computed avg_embedding!
+#         x_np = compute_embedding(rec, band_combination=self.scenario, hand_crafted=False, return_format="combined")
+#         return x_np, rec[self.lkey]
 
 def prepare_numpy_data(hf_train, hf_val, hf_test, scenario):
     """Prepare numpy arrays - ULTRA FAST with pre-computed combined_embedding!"""
@@ -54,10 +56,19 @@ def prepare_numpy_data(hf_train, hf_val, hf_test, scenario):
         
         # Check if we have pre-computed combined_embedding
         if len(hf_ds) > 0 and "combined_embedding" in hf_ds[0]:
-            print(f"[ULTRA FAST] {name}: Using pre-computed combined_embedding (no compute_embedding calls!)")
-            # Direct extraction - no compute_embedding calls needed!
-            X = np.array([rec["combined_embedding"] for rec in hf_ds], dtype=np.float32)
-            y = np.array([rec["label_idx"] for rec in hf_ds])
+            print(f"{name}: Using pre-computed combined_embedding")
+
+            # Pull the whole column at once (fast path)
+            col = hf_ds["combined_embedding"]            # list (or np array) of vectors
+            # If HF stored fixed-size lists, this may already be an ndarray
+            if isinstance(col, np.ndarray):
+                print("combined_embedding is np array") # is not
+                X = col.astype(np.float32, copy=False)   # shape: (N, D)
+            else:
+                # Avoid slow Python loop; np.asarray stacks in one go when shapes match
+                X = np.asarray(col, dtype=np.float32)    # shape: (N, D)
+
+            y = np.asarray(hf_ds["label_idx"])
             
         else:
             # Fallback to old method if combined_embedding not available

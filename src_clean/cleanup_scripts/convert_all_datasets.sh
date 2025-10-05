@@ -2,7 +2,7 @@
 
 # Simple script to convert datasets from numeric class IDs to descriptive names
 
-CONVERSION_SCRIPT="/projects/b1094/StarEmbed/skai_universal_forecaster/src_clean/benchmark/dataset/convert_class_names.py"
+CONVERSION_SCRIPT="/projects/b1094/StarEmbed/skai_universal_forecaster/src_clean/cleanup_scripts/convert_class_names.py"
 OUTPUT_BASE_DIR="/projects/b1094/StarEmbed/embeddings/descriptive_name_embeddings"
 
 # List of input paths to convert

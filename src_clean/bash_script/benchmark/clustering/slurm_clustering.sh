@@ -2,8 +2,8 @@
 #SBATCH --account=p32626
 #SBATCH --job-name=clustering
 #SBATCH --nodes=1
-#SBATCH --output=/projects/b1094/StarEmbed/src/output/log/%x_%A_%a.out
-#SBATCH --error=/projects/b1094/StarEmbed/src/output/log/%x_%A_%a.err
+#SBATCH --output=/projects/b1094/StarEmbed/src/output/log/clustering/%x_%A_%a.out
+#SBATCH --error=/projects/b1094/StarEmbed/src/output/log/clustering/%x_%A_%a.err
 #SBATCH --time=01:00:00      
 #SBATCH --partition=gengpu   
 #SBATCH --gres=gpu:h100:1      
@@ -22,32 +22,29 @@ cd /projects/b1094/StarEmbed/src/benchmark/clustering
 
 
 
-CLUSTERING_SCRIPT="/projects/b1094/StarEmbed/src/benchmark/clustering/clustering.py"
+CLUSTERING_SCRIPT="/projects/b1094/StarEmbed/skai_universal_forecaster/src_clean/benchmark/clustering/clustering.py"
 # OUTPUT_DIR="/projects/p32795/weijian/skai_universal_forecaster/src/aurora/eval/classification/kmeans/clustering4"
 
 for SEED in 42; do
     for CONCAT_EMBS in 1; do
+        python /projects/b1094/StarEmbed/skai_universal_forecaster/src_clean/benchmark/clustering/clustering.py \
+            --dataset-dir "/projects/b1094/StarEmbed/embeddings/descriptive_name_embeddings/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr" \
+            --mode all \
+            --perplexity 30 \
+            --random-state 42 \
+            --standardize 1 \
+            --output-dir "/projects/b1094/StarEmbed/src/output/clustering/all_split_all_standardize/test_new_avg"
+            # --clustering-method kmeans \
+            # --save-dendrogram
+
         python $CLUSTERING_SCRIPT \
-            --dataset-dir "/projects/b1094/StarEmbed/embeddings/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr" \
+            --dataset-dir "/projects/b1094/StarEmbed/embeddings/embeddings_with_anom/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr" \
             --mode all \
             --perplexity 30 \
             --random-state $SEED \
             --concat-embs $CONCAT_EMBS \
             --standardize 1 \
-            --output-dir "/projects/b1094/StarEmbed/src/output/clustering/all_split_all_standardize/test_new_avg" \
-            --clustering-method hierarchical \
-            # --save-dendrogram
-
-        # python $CLUSTERING_SCRIPT \
-        #     --dataset-dir "/projects/b1094/StarEmbed/embeddings/embeddings_with_anom/csdr1_raw4_catflags_filtered_embs_chronos_bolt_tiny_trn_val_tst_ctx200_bandgr" \
-        #     --mode all \
-        #     --perplexity 30 \
-        #     --random-state $SEED \
-        #     --concat-embs $CONCAT_EMBS \
-        #     --standardize 1 \
-        #     --output-dir "/projects/b1094/StarEmbed/src/output/clustering/all_split_all_standardize" \
-        #     --clustering-method hierarchical \
-        #     --save-dendrogram
+            --output-dir "/projects/b1094/StarEmbed/src/output/clustering/all_split_all_standardize"
 
 
         # python $CLUSTERING_SCRIPT \
