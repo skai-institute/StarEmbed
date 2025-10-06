@@ -22,14 +22,23 @@ conda activate ag
 cd /projects/b1094/StarEmbed/src/benchmark/classification
 
 
-# python /projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py \
-#  --input-embs /projects/b1094/StarEmbed/embeddings/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr \
-#  --standardize 1 \
-#  --hand-crafted 1 \
-#  --seed 42 \
-#  --skip-hpo \
-#  --best-params '{"max_depth": None, "min_samples_split": 10, "n_estimators": 100}' \
-#  --output-dir /projects/b1094/StarEmbed/src/output/rf/handcrafted_feature
+python /projects/b1094/StarEmbed/skai_universal_forecaster/src_clean/benchmark/classification/rf_hpo.py \
+ --input-embs /projects/b1094/StarEmbed/embeddings/descriptive_name_embeddings/csdr1_raw4_catflags_filtered_embs_hand_crafted_trn_val_tst_bandgr \
+ --standardize 1 \
+ --hand-crafted 1 \
+ --seed 42 \
+ --skip-hpo \
+ --best-params '{"max_depth": None, "min_samples_split": 10, "n_estimators": 100}' \
+ --output-dir /projects/b1094/StarEmbed/src/output/rf/handcrafted_feature/new_avg
+
+
+python /projects/b1094/StarEmbed/skai_universal_forecaster/src_clean/benchmark/classification/rf_hpo.py \
+ --input-embs /projects/b1094/StarEmbed/embeddings/descriptive_name_embeddings/csdr1_raw4_catflags_filtered_embs_chronos_t5_tiny_trn_val_tst_ctx200_bandgr \
+ --hand-crafted 0 \
+ --seed 42 \
+ --skip-hpo \
+ --best-params '{"max_depth": None, "min_samples_split": 5, "n_estimators": 100}' \
+ --output-dir /projects/b1094/StarEmbed/src/output/rf/handcrafted_feature/new_avg_default
 
 
 # python /projects/b1094/StarEmbed/src/benchmark/classification/rf_hpo.py \

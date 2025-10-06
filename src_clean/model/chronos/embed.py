@@ -81,7 +81,7 @@ def add_embeddings(example, pipeline, ctx=64, band='r'):
         embeddings, tokenizer_state = pipeline.embed(context)
         
         # Add embeddings to the example (convert tensor to numpy for storage)
-        example[f"embeddings_{band}"] = embeddings.to(torch.float32).cpu().numpy()
+        example[f"embeddings_{band}"] = embeddings.to(torch.float32).cpu().numpy() # maybe need to squeeze here
     
     return example
 

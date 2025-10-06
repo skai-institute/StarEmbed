@@ -1,23 +1,30 @@
-import torch
 import numpy as np
 import os
 import json
 import pathlib
 import argparse
+import sys
+import time
 from datetime import datetime
 from functools import partial
 
 from datasets import load_from_disk
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import ParameterGrid, GridSearchCV
+from sklearn.model_selection import ParameterGrid, GridSearchCV, PredefinedSplit
 from sklearn.metrics import f1_score, accuracy_score, precision_recall_fscore_support, confusion_matrix, classification_report
 from sklearn.preprocessing import StandardScaler
-from torch.utils.data import DataLoader, Dataset
-from sklearn.model_selection import PredefinedSplit, GridSearchCV
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import pickle
+
+# Add src_clean to path for importing benchmark.utils
+script_dir = os.path.dirname(os.path.abspath(__file__))
+benchmark_dir = os.path.dirname(script_dir)
+src_clean_dir = os.path.dirname(benchmark_dir)
+sys.path.append(src_clean_dir)
+
+from benchmark.utils import remove_outliers, add_label_indices
 
 
 def parse_args():
@@ -39,6 +46,9 @@ def parse_args():
                    help="Random seed for reproducibility")
     p.add_argument("--output-dir", type=str, default="/projects/b1094/StarEmbed/src/output/rf",
                    help="Output directory for results (will be created if it doesn't exist)")
+    p.add_argument("--scenario", type=str, default="concat", 
+                   choices=["concat", "avg", "g", "r", "i", "z"],
+                   help="How to combine multi-band embeddings (default: concat)")
     return p.parse_args()
 
 
@@ -57,30 +67,6 @@ def plot_confusion_matrix(cm, text_labels, out_path):
     plt.tight_layout()
     plt.savefig(out_path)
     plt.close()
-
-
-def remove_outlier(dataset, hand_crafted=False):
-    """
-    Remove outlier examples from the dataset based on predefined indices.
-    """
-    if not hand_crafted:
-        print("Removing outliers from dataset")
-        bad_idx_trn, bad_idx_val, bad_idx_tst = 23082, 473, 7880
-        trn_idx_to_select = list(range(bad_idx_trn)) + list(range(bad_idx_trn+1,len(dataset["train"]))) 
-        val_idx_to_select = list(range(bad_idx_val)) + list(range(bad_idx_val+1,len(dataset["validation"]))) 
-        tst_idx_to_select = list(range(bad_idx_tst)) + list(range(bad_idx_tst+1,len(dataset["test"])))
-    else:
-        print("Removing outliers from hand-crafted dataset")
-        bad_idx_trn, bad_idx_val, bad_idx_tst = [3010, 9693, 16524, 22151], [449], [1158]
-        trn_idx_to_select = list(sorted(set(range(len(dataset["train"]))) - set(bad_idx_trn)))
-        val_idx_to_select = list(sorted(set(range(len(dataset["validation"]))) - set(bad_idx_val)))
-        tst_idx_to_select = list(sorted(set(range(len(dataset["test"]))) - set(bad_idx_tst)))
-
-    dataset["train"]      = dataset["train"].select(trn_idx_to_select)
-    dataset["validation"] = dataset["validation"].select(val_idx_to_select)
-    dataset["test"]       = dataset["test"].select(tst_idx_to_select)
-    print(f"selected {len(dataset['train'])} train samples, {len(dataset['validation'])} validation samples, {len(dataset['test'])} test samples")
-    return dataset
 
 
 # input_embs = [
@@ -112,53 +98,7 @@ def train_model(X_train, y_train, seed, params):
 
 
 
-def add_embedding_batch(batch, hand_crafted=False):
-    """
-    Batch version of add_embedding for faster processing.
-    Processes multiple examples at once instead of one by one.
-    """
-    g_embeddings = []
-    r_embeddings = []
-    
-    for emb_g_raw, emb_r_raw in zip(batch["embeddings_g"], batch["embeddings_r"]):
-        emb_g = np.squeeze(np.array(emb_g_raw, dtype=np.float32))
-        emb_r = np.squeeze(np.array(emb_r_raw, dtype=np.float32))
-        
-        if hand_crafted:
-            # For hand-crafted features, use them directly
-            avg_g, avg_r = emb_g, emb_r
-        else:
-            # For learned embeddings, compute average if multi-dimensional
-            if emb_g.ndim > 1:
-                avg_g, avg_r = emb_g.mean(0), emb_r.mean(0)
-            else:
-                avg_g, avg_r = emb_g, emb_r
-            
-        g_embeddings.append(avg_g)
-        r_embeddings.append(avg_r)
-    
-    batch['g_embedding'] = g_embeddings
-    batch['r_embedding'] = r_embeddings
-    
-    return batch
 
-def add_embedding(example):
-    """
-    Single example version (kept for compatibility).
-    Use add_embedding_batch for better performance.
-    """
-    emb_g = np.squeeze(np.array(example["embeddings_g"], dtype=np.float32))
-    emb_r = np.squeeze(np.array(example["embeddings_r"], dtype=np.float32))
-
-    if emb_g.ndim > 1:
-        avg_g, avg_r = emb_g.mean(0), emb_r.mean(0)
-    else:
-        avg_g, avg_r = emb_g, emb_r
-
-    example['g_embedding'] = avg_g
-    example['r_embedding'] = avg_r
-
-    return example
 
 def main():
 
@@ -190,52 +130,21 @@ def main():
         ds = load_from_disk(f)
         
         # Remove outliers
-        ds = remove_outlier(ds, bool(args.hand_crafted))
+        ds = remove_outliers(ds, hand_crafted=bool(args.hand_crafted))
 
-        # Label mapping similar to linear classifier
-        orig_labels = sorted(set(ds["train"]["class_str"]), key=lambda s: int(s))
-        label2idx = {lab: i for i, lab in enumerate(orig_labels)}
-        class_name_map = {
-            "1": "EW",
-            "2": "EA", 
-            "4": "RRab",
-            "5": "RRc",
-            "6": "RRd",
-            "8": "RS CVn",
-            "13": "LPV"
-        }
+        # Add label indices using unified utility
+        ds, label2idx, text_labels = add_label_indices(ds, num_proc=8, sort_labels=True)
         
-        def add_label_idx(example):
-            return {"label_idx": label2idx[example["class_str"]]}
-        
-        text_labels = [class_name_map[c] for c in orig_labels]
-        
-        # Convenient arrow -> NumPy view (avoids a full copy)
-        if 'embeddings_g' in ds['train'].features:
-            # Apply embedding processing only to standard splits
-            standard_splits = ['train', 'validation', 'test']
-            for split in standard_splits:
-                if split in ds:
-                    if bool(args.hand_crafted):
-                        # For handcrafted features, use the simpler single-example processing
-                        ds[split] = ds[split].map(add_embedding, num_proc=8)
-                    else:
-                        # For learned embeddings, use batch processing with averaging
-                        ds[split] = ds[split].map(
-                            partial(add_embedding_batch, hand_crafted=False), 
-                            batched=True,
-                            batch_size=1000,  # Process 1000 examples at a time
-                            num_proc=6,
-                        )
+        # Check for pre-computed combined_embedding
+        if len(ds['train']) > 0 and "combined_embedding" in ds['train'][0]:
+            print("✓ Found pre-computed combined_embedding - using ULTRA FAST mode!")
+        else:
+            print(f"⚠ No combined_embedding found - script requires pre-computed embeddings")
+            print(f"  → Run compute_avg_embeddings.py --dataset {os.path.basename(f)} --band_combination {args.scenario} first")
+            continue  # Skip this dataset
 
-        # Apply label mapping AFTER embedding processing, only to standard splits
-        standard_splits = ['train', 'validation', 'test']
-        for split in standard_splits:
-            if split in ds:
-                ds[split] = ds[split].map(add_label_idx, num_proc=8)
-
-        # Set format - now both handcrafted and learned embeddings use same column names
-        format_columns = ["g_embedding", "r_embedding", "class_str", "label_idx"]
+        # Set format for fast access
+        format_columns = ["combined_embedding", "class_str", "label_idx"]  
         for split in ['train', 'validation', 'test']:
             if split in ds:
                 ds[split].set_format(type="numpy", columns=format_columns)
@@ -243,11 +152,17 @@ def main():
         def batched_xy(split):
             """
             Returns X, y as 2-D (n_samples, dim) and 1-D (n_samples,) NumPy arrays.
-            Uses g_embedding and r_embedding columns for both handcrafted and learned embeddings.
+            Uses pre-computed combined_embedding for maximum speed.
             """
-            # Both handcrafted and learned embeddings now use the same column names
-            X = np.concatenate([ds[split]["g_embedding"], ds[split]["r_embedding"]], axis=1)
+            import time
+            start_time = time.time()
+            
+            # Direct access to pre-computed combined embeddings
+            X = np.array(ds[split]["combined_embedding"], dtype=np.float32)
             y = ds[split]["label_idx"]
+            
+            elapsed = time.time() - start_time
+            print(f"Split '{split}': Loaded {X.shape} in {elapsed:.2f}s ({len(X)/elapsed:.1f} samples/sec)")
             return X, y
 
         X_train, y_train = batched_xy("train")
@@ -272,11 +187,15 @@ def main():
             # Use provided best parameters
             if args.best_params:
                 try:
-                    best_params = json.loads(args.best_params)
+                    # Handle Python None vs JSON null
+                    json_str = args.best_params.replace('None', 'null')
+                    best_params = json.loads(json_str)
                     print(f"Using provided best parameters: {best_params}")
                     best_cv_score = None  # No CV score available
-                except json.JSONDecodeError:
-                    print("Error: Invalid JSON format for best_params. Using default parameters.")
+                except json.JSONDecodeError as e:
+                    print(f"Error: Invalid JSON format for best_params: {e}")
+                    print(f"Provided: {args.best_params}")
+                    print("Using default parameters.")
                     best_params = {'n_estimators': 200, 'max_depth': 20, 'min_samples_split': 2}
                     best_cv_score = None
             else:
