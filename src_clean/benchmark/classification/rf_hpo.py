@@ -1,20 +1,18 @@
-import torch
 import numpy as np
 import os
 import json
 import pathlib
 import argparse
 import sys
+import time
 from datetime import datetime
 from functools import partial
 
 from datasets import load_from_disk
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import ParameterGrid, GridSearchCV
+from sklearn.model_selection import ParameterGrid, GridSearchCV, PredefinedSplit
 from sklearn.metrics import f1_score, accuracy_score, precision_recall_fscore_support, confusion_matrix, classification_report
 from sklearn.preprocessing import StandardScaler
-from torch.utils.data import DataLoader, Dataset
-from sklearn.model_selection import PredefinedSplit, GridSearchCV
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -26,7 +24,7 @@ benchmark_dir = os.path.dirname(script_dir)
 src_clean_dir = os.path.dirname(benchmark_dir)
 sys.path.append(src_clean_dir)
 
-from benchmark.utils import remove_outliers, add_label_indices, compute_embedding_batch, get_available_bands
+from benchmark.utils import remove_outliers, add_label_indices
 
 
 def parse_args():
@@ -137,25 +135,15 @@ def main():
         # Add label indices using unified utility
         ds, label2idx, text_labels = add_label_indices(ds, num_proc=8, sort_labels=True)
         
-        # Process embeddings using unified utility function
-        if 'embeddings_g' in ds['train'].features:
-            # Apply embedding processing only to standard splits
-            standard_splits = ['train', 'validation', 'test']
-            for split in standard_splits:
-                if split in ds:
-                    # Use main batch function directly (no wrapper needed!)
-                    ds[split] = ds[split].map(
-                        partial(compute_embedding_batch, 
-                               band_combination=args.scenario,
-                               hand_crafted=bool(args.hand_crafted)), 
-                        batched=True,
-                        batch_size=1000,  # Process 1000 examples at a time
-                        num_proc=6,
-                    ) # after this the batch will have column "combined_embedding"
+        # Check for pre-computed combined_embedding
+        if len(ds['train']) > 0 and "combined_embedding" in ds['train'][0]:
+            print("✓ Found pre-computed combined_embedding - using ULTRA FAST mode!")
+        else:
+            print(f"⚠ No combined_embedding found - script requires pre-computed embeddings")
+            print(f"  → Run compute_avg_embeddings.py --dataset {os.path.basename(f)} --band_combination {args.scenario} first")
+            continue  # Skip this dataset
 
-        # Label mapping is already applied by add_label_indices()
-
-        # Set format - now using unified combined embeddings like other scripts
+        # Set format for fast access
         format_columns = ["combined_embedding", "class_str", "label_idx"]  
         for split in ['train', 'validation', 'test']:
             if split in ds:
@@ -164,12 +152,17 @@ def main():
         def batched_xy(split):
             """
             Returns X, y as 2-D (n_samples, dim) and 1-D (n_samples,) NumPy arrays.
-            Uses the unified combined_embedding that respects the band_combination strategy.
+            Uses pre-computed combined_embedding for maximum speed.
             """
-            # Use the pre-computed combined embeddings (much simpler!)
-            X = np.vstack(ds[split]["combined_embedding"])
+            import time
+            start_time = time.time()
+            
+            # Direct access to pre-computed combined embeddings
+            X = np.array(ds[split]["combined_embedding"], dtype=np.float32)
             y = ds[split]["label_idx"]
-            print(f"Split '{split}': Using scenario '{args.scenario}' → shape {X.shape}")
+            
+            elapsed = time.time() - start_time
+            print(f"Split '{split}': Loaded {X.shape} in {elapsed:.2f}s ({len(X)/elapsed:.1f} samples/sec)")
             return X, y
 
         X_train, y_train = batched_xy("train")
@@ -194,11 +187,15 @@ def main():
             # Use provided best parameters
             if args.best_params:
                 try:
-                    best_params = json.loads(args.best_params)
+                    # Handle Python None vs JSON null
+                    json_str = args.best_params.replace('None', 'null')
+                    best_params = json.loads(json_str)
                     print(f"Using provided best parameters: {best_params}")
                     best_cv_score = None  # No CV score available
-                except json.JSONDecodeError:
-                    print("Error: Invalid JSON format for best_params. Using default parameters.")
+                except json.JSONDecodeError as e:
+                    print(f"Error: Invalid JSON format for best_params: {e}")
+                    print(f"Provided: {args.best_params}")
+                    print("Using default parameters.")
                     best_params = {'n_estimators': 200, 'max_depth': 20, 'min_samples_split': 2}
                     best_cv_score = None
             else:

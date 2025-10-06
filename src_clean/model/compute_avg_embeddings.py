@@ -94,7 +94,7 @@ def avg_batch_columns(*cols, column_names=None, band_combination="avg", add_comb
         arr = np.asarray(values, dtype=np.float32)     # (B,T,D) or (B,1,T,D)
         if arr.ndim == 4 and arr.shape[1] == 1:
             arr = arr[:, 0]                             # -> (B,T,D)
-        assert arr.ndim == 3, f"Unexpected shape for {name}: {arr.shape}"
+        # assert arr.ndim == 3, f"Unexpected shape for {name}: {arr.shape}"
         
         if arr.ndim == 3:
             # Time-average each band: (B,T,D) -> (B,D)
@@ -102,6 +102,7 @@ def avg_batch_columns(*cols, column_names=None, band_combination="avg", add_comb
             out[f"avg_embedding_{band}"] = avg_emb
             band_arrays[band] = avg_emb
         elif arr.ndim == 2:
+            # print("already 1d for each data")
             # Already (B,D), just store directly, this happens for handcrafted feature and random embedding
             out[f"avg_embedding_{band}"] = arr
             band_arrays[band] = arr
