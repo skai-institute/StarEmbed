@@ -42,4 +42,8 @@ job scripts for evaluation with hyperparameter search and multi-run script
 
 ---
 
+## **License**
+
+All the code are under [MIT](https://opensource.org/licenses/MIT) license.
+
 
