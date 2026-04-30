@@ -4,7 +4,7 @@
 
 A complete benchmark framework for astronomical time series. This repository includes tools for **(1)** preprocessing raw light curves, **(2)** generating embeddings (with TSFMs and Astromer), **(3)** engineering handcrafted features, and **(4)** comprehensive evaluations on clustering, classification, and out-of-distribution detection.
 
-| 🏠[**Benchmark Page**](https://hibb-bb.github.io/star-embed.github.io/) | [**🤗Huggingface Dataset**](https://huggingface.co/datasets/123anonymous123/StarEmbed) | [**📖Paper**](https://arxiv.org/abs/2406.19392) |
+| 🏠[**Benchmark Page**](https://hibb-bb.github.io/star-embed.github.io/) | [**🤗Huggingface Dataset**](https://huggingface.co/datasets/123anonymous123/StarEmbed) | [**📖Paper**](https://arxiv.org/abs/2510.06200) |
 ---
 
 ## **Directory Overview**
